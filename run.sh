@@ -6,7 +6,9 @@ cd /var/www
 
 echo "🚀 Checking NestJS project..."
 
-# Nếu chưa có project → tạo mới
+# ======================
+# CREATE PROJECT IF NOT EXISTS
+# ======================
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
@@ -21,10 +23,11 @@ if [ ! -f app/package.json ]; then
   npm install @nestjs/mongoose mongoose
   npm install @nestjs/jwt passport-jwt bcrypt
   npm install @nestjs/swagger swagger-ui-express
+  npm install @nestjs/config
   npm install
   npm install @types/bcrypt --save-dev
 
-  echo "📦 Setup swagger..."
+  echo "📄 Creating Swagger main.ts..."
 
   cat > src/main.ts << 'EOF'
 import { NestFactory } from '@nestjs/core';
@@ -48,12 +51,49 @@ async function bootstrap() {
 bootstrap();
 EOF
 
+  echo "📄 Creating AppModule with MongoDB fix..."
+
+  cat > src/app.module.ts << 'EOF'
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+
+    MongooseModule.forRoot(
+      process.env.MONGO_URI ||
+      'mongodb://admin:123456@mongo:27017/nestdb?authSource=admin'
+    ),
+  ],
+})
+export class AppModule {}
+EOF
+
+  echo "📄 Creating .env..."
+
+  cat > .env << 'EOF'
+MONGO_URI=mongodb://admin:123456@mongo:27017/nestdb?authSource=admin
+EOF
+
   echo "✅ Project created"
 fi
 
+# ======================
+# SAFETY STEP (ALWAYS RUN)
+# ======================
 cd /var/www/app
 
-echo "📦 Installing dependencies (safety step)..."
+echo "🔧 Fixing environment..."
+
+if [ ! -f .env ]; then
+  cat > .env << 'EOF'
+MONGO_URI=mongodb://admin:123456@mongo:27017/nestdb?authSource=admin
+EOF
+fi
+
+echo "📦 Installing dependencies..."
 npm install
 
 echo "📦 Building project..."

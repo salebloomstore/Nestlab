@@ -6,9 +6,9 @@ cd /var/www
 
 echo "🚀 Checking NestJS project..."
 
-# ========================
-# CREATE PROJECT FIRST TIME ONLY
-# ========================
+# =========================
+# CREATE PROJECT FIRST TIME
+# =========================
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
@@ -27,7 +27,7 @@ if [ ! -f app/package.json ]; then
   npm install
   npm install @types/bcrypt --save-dev
 
-  echo "📄 Creating AppModule (Mongo FIXED)"
+  echo "📄 Creating AppModule Mongo config..."
 
   cat > src/app.module.ts << 'EOF'
 import { Module } from '@nestjs/common';
@@ -37,7 +37,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-
     MongooseModule.forRoot(
       process.env.MONGO_URI ||
       'mongodb://admin:123456@mongo:27017/nestdb?authSource=admin'
@@ -47,7 +46,7 @@ import { ConfigModule } from '@nestjs/config';
 export class AppModule {}
 EOF
 
-  echo "📄 Creating Swagger setup"
+  echo "📄 Creating main.ts with AUTO ROOT FIX"
 
   cat > src/main.ts << 'EOF'
 import { NestFactory } from '@nestjs/core';
@@ -66,6 +65,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
+  // ✅ AUTO FIX: root route
+  app.getHttpAdapter().get('/', (req, res) => {
+    res.redirect('/swagger');
+  });
+
   await app.listen(3000);
 }
 bootstrap();
@@ -80,12 +84,12 @@ EOF
   echo "✅ Project created"
 fi
 
-# ========================
-# ALWAYS SAFE RUN
-# ========================
+# =========================
+# SAFE RUN EVERY TIME
+# =========================
 cd /var/www/app
 
-echo "🔧 Ensuring environment..."
+echo "🔧 Ensuring .env exists..."
 
 if [ ! -f .env ]; then
   cat > .env << 'EOF'

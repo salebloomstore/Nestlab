@@ -22,15 +22,13 @@ if [ ! -f app/package.json ]; then
 
   npm install @nestjs/mongoose mongoose
   npm install @nestjs/config
-  npm install @nestjs/jwt passport-jwt bcrypt
   npm install @nestjs/swagger swagger-ui-express
   npm install
-  npm install @types/bcrypt --save-dev
 
   # =========================
-  # FIX APP MODULE (MONGO STABLE CONNECT)
+  # APP MODULE (MONGO ONLY)
   # =========================
-  echo "📄 Injecting stable MongoDB config..."
+  echo "📄 Injecting MongoDB config..."
 
   cat > src/app.module.ts << 'EOF'
 import { Module } from '@nestjs/common';
@@ -51,9 +49,9 @@ export class AppModule {}
 EOF
 
   # =========================
-  # FIX MAIN (NO SIDE EFFECT)
+  # MAIN (SWAGGER + ROOT ROUTE)
   # =========================
-  echo "📄 Setup main.ts..."
+  echo "📄 Setup main.ts (Swagger + Root route)..."
 
   cat > src/main.ts << 'EOF'
 import { NestFactory } from '@nestjs/core';
@@ -63,9 +61,23 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // =========================
+  // ROOT ROUTE (/)
+  // =========================
+  app.getHttpAdapter().get('/', (req, res) => {
+    res.json({
+      status: 'ok',
+      message: 'NestJS API is running',
+      swagger: '/swagger'
+    });
+  });
+
+  // =========================
+  // SWAGGER
+  // =========================
   const config = new DocumentBuilder()
-    .setTitle('Auth API')
-    .setDescription('Auth API documentation')
+    .setTitle('NestJS API')
+    .setDescription('API Documentation')
     .setVersion('1.0')
     .build();
 
@@ -78,7 +90,7 @@ bootstrap();
 EOF
 
   # =========================
-  # ENV FILE (ALWAYS SAFE)
+  # ENV FILE
   # =========================
   echo "📄 Creating .env..."
 
@@ -90,18 +102,18 @@ EOF
 fi
 
 # =========================
-# ALWAYS ENSURE CORRECT ENV
+# ALWAYS ENSURE ENV
 # =========================
 cd /var/www/app
 
-echo "🔧 Ensuring correct .env..."
+echo "🔧 Ensuring .env..."
 
 cat > .env << 'EOF'
 MONGO_URI=mongodb://admin:password@mongo:27017/nestdb?authSource=admin
 EOF
 
 # =========================
-# FIX: CLEAN INSTALL SAFE
+# BUILD + RUN
 # =========================
 echo "📦 Installing dependencies..."
 npm install

@@ -11,8 +11,6 @@ services:
       - mongo
     environment:
       MONGO_URI: mongodb://admin:123456@mongo:27017/nestdb?authSource=admin
-    volumes:
-      - ./app:/var/www/app
 
   nginx:
     image: nginx:alpine

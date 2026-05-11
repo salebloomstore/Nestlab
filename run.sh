@@ -6,6 +6,7 @@ cd /var/www
 
 echo "🚀 Checking NestJS project..."
 
+# Nếu chưa có project → tạo mới
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
@@ -20,7 +21,7 @@ if [ ! -f app/package.json ]; then
   npm install @nestjs/mongoose mongoose
   npm install @nestjs/jwt passport-jwt bcrypt
   npm install @nestjs/swagger swagger-ui-express
-  npm install bcrypt
+  npm install
   npm install @types/bcrypt --save-dev
 
   echo "📦 Setup swagger..."
@@ -51,6 +52,9 @@ EOF
 fi
 
 cd /var/www/app
+
+echo "📦 Installing dependencies (safety step)..."
+npm install
 
 echo "📦 Building project..."
 npm run build

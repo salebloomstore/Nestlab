@@ -46,37 +46,25 @@ For stack: NestJS + Node.js + JavaScript + Docker + MongoDB + Nginx + Swagger
 - 🧩 JavaScript (ES6) code snippets
 - 🧠 TypeScript Importer
 
-----
-
 ### 🧩 NestJS / Backend
 - 🏗️ NestJS Snippets
 - 🌐 REST Client
 - 🚀 Thunder Client
-
-----
 
 ### 🐳 Docker / DevOps
 - 🐳 Docker (VS Code extension)
 - 📦 Remote - Containers
 - 🧾 YAML
 
-----
-
 ### 🗄️ Database Tools
 - 🍃 MongoDB for VS Code
-
-----
 
 ### 🧪 Debug / API Tools
 - ❗ Error Lens
 
-----
-
 ### ⚙️ Git / Version Control
 - 🔥 GitLens
 - 🌳 Git Graph
-
-----
 
 ### 🎯 Frontend / UI Helpers
 - 🏷️ Auto Rename Tag

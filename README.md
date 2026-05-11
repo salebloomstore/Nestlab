@@ -33,6 +33,57 @@ This project is **backend API only** (no frontend UI), designed for:
 - Microservices architecture
 - API integrations
 
+---
+
+## 🚀 VS Code Extensions (Recommended Setup)
+
+For stack: NestJS + Node.js + JavaScript + Docker + MongoDB + Nginx + Swagger
+
+### 🚀 Core Development
+- ⚡ ESLint
+- 🎨 Prettier
+- 📁 Path Intellisense
+- 🧩 JavaScript (ES6) code snippets
+- 🧠 TypeScript Importer
+
+---
+
+### 🧩 NestJS / Backend
+- 🏗️ NestJS Snippets
+- 🌐 REST Client
+- 🚀 Thunder Client
+
+---
+
+### 🐳 Docker / DevOps
+- 🐳 Docker (VS Code extension)
+- 📦 Remote - Containers
+- 🧾 YAML
+
+---
+
+### 🗄️ Database Tools
+- 🍃 MongoDB for VS Code
+
+---
+
+### 🧪 Debug / API Tools
+- ❗ Error Lens
+
+---
+
+### ⚙️ Git / Version Control
+- 🔥 GitLens
+- 🌳 Git Graph
+
+---
+
+### 🎯 Frontend / UI Helpers
+- 🏷️ Auto Rename Tag
+- 🎨 Bracket Pair Colorizer 2
+
+---
+
 ```bash
 docker compose up -d --build
 sudo chown 1000:1000 -R . | sudo chmod 777 -R .

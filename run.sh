@@ -18,17 +18,19 @@ if [ ! -f app/package.json ]; then
 
   cd app
 
-  echo "📦 Installing only required dependencies..."
+  echo "📦 Installing dependencies..."
 
   npm install @nestjs/mongoose mongoose
   npm install @nestjs/config
+  npm install @nestjs/jwt passport-jwt bcrypt
   npm install @nestjs/swagger swagger-ui-express
   npm install
+  npm install @types/bcrypt --save-dev
 
   # =========================
-  # APP MODULE (ONLY MONGODB)
+  # FIX APP MODULE (MONGO STABLE CONNECT)
   # =========================
-  echo "📄 Injecting MongoDB config..."
+  echo "📄 Injecting stable MongoDB config..."
 
   cat > src/app.module.ts << 'EOF'
 import { Module } from '@nestjs/common';
@@ -49,9 +51,9 @@ export class AppModule {}
 EOF
 
   # =========================
-  # MAIN (KEEP SWAGGER ONLY)
+  # FIX MAIN (NO SIDE EFFECT)
   # =========================
-  echo "📄 Setup main.ts with Swagger..."
+  echo "📄 Setup main.ts..."
 
   cat > src/main.ts << 'EOF'
 import { NestFactory } from '@nestjs/core';
@@ -62,8 +64,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
-    .setDescription('API Documentation')
+    .setTitle('Auth API')
+    .setDescription('Auth API documentation')
     .setVersion('1.0')
     .build();
 
@@ -76,7 +78,7 @@ bootstrap();
 EOF
 
   # =========================
-  # ENV FILE
+  # ENV FILE (ALWAYS SAFE)
   # =========================
   echo "📄 Creating .env..."
 
@@ -88,18 +90,18 @@ EOF
 fi
 
 # =========================
-# ALWAYS ENSURE ENV
+# ALWAYS ENSURE CORRECT ENV
 # =========================
 cd /var/www/app
 
-echo "🔧 Ensuring .env..."
+echo "🔧 Ensuring correct .env..."
 
 cat > .env << 'EOF'
 MONGO_URI=mongodb://admin:password@mongo:27017/nestdb?authSource=admin
 EOF
 
 # =========================
-# BUILD + RUN
+# FIX: CLEAN INSTALL SAFE
 # =========================
 echo "📦 Installing dependencies..."
 npm install

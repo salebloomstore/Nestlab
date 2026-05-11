@@ -6,7 +6,9 @@ cd /var/www
 
 echo "🚀 Checking NestJS project..."
 
-# Nếu chưa có project → tạo mới
+# =========================
+# CREATE PROJECT FIRST TIME
+# =========================
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
@@ -19,12 +21,39 @@ if [ ! -f app/package.json ]; then
   echo "📦 Installing dependencies..."
 
   npm install @nestjs/mongoose mongoose
+  npm install @nestjs/config
   npm install @nestjs/jwt passport-jwt bcrypt
   npm install @nestjs/swagger swagger-ui-express
   npm install
   npm install @types/bcrypt --save-dev
 
-  echo "📦 Setup swagger..."
+  # =========================
+  # FIX APP MODULE (MONGO STABLE CONNECT)
+  # =========================
+  echo "📄 Injecting stable MongoDB config..."
+
+  cat > src/app.module.ts << 'EOF'
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+
+    MongooseModule.forRoot(
+      process.env.MONGO_URI ||
+      'mongodb://admin:password@mongo:27017/nestdb?authSource=admin'
+    ),
+  ],
+})
+export class AppModule {}
+EOF
+
+  # =========================
+  # FIX MAIN (NO SIDE EFFECT)
+  # =========================
+  echo "📄 Setup main.ts..."
 
   cat > src/main.ts << 'EOF'
 import { NestFactory } from '@nestjs/core';
@@ -48,12 +77,33 @@ async function bootstrap() {
 bootstrap();
 EOF
 
+  # =========================
+  # ENV FILE (ALWAYS SAFE)
+  # =========================
+  echo "📄 Creating .env..."
+
+  cat > .env << 'EOF'
+MONGO_URI=mongodb://admin:password@mongo:27017/nestdb?authSource=admin
+EOF
+
   echo "✅ Project created"
 fi
 
+# =========================
+# ALWAYS ENSURE CORRECT ENV
+# =========================
 cd /var/www/app
 
-echo "📦 Installing dependencies (safety step)..."
+echo "🔧 Ensuring correct .env..."
+
+cat > .env << 'EOF'
+MONGO_URI=mongodb://admin:password@mongo:27017/nestdb?authSource=admin
+EOF
+
+# =========================
+# FIX: CLEAN INSTALL SAFE
+# =========================
+echo "📦 Installing dependencies..."
 npm install
 
 echo "📦 Building project..."

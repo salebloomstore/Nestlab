@@ -1,71 +1,84 @@
-# 🚀 Frontend UI Stack - Docker Enterprise Frontend
+# 🚀 Full Stack Enterprise System (Frontend + Backend + Docker)
 
 ![Docker](https://img.shields.io/badge/Docker-Enterprise-blue)
 ![Frontend](https://img.shields.io/badge/Frontend-HTML%2FCSS%2FJS-orange)
+![Backend](https://img.shields.io/badge/Backend-NestJS-red)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-green)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
 ![jQuery](https://img.shields.io/badge/jQuery-AJAX-blue)
 ![OpenLayers](https://img.shields.io/badge/OpenLayers-GIS-green)
 ![TinyMCE](https://img.shields.io/badge/TinyMCE-Editor-red)
-![Nginx](https://img.shields.io/badge/Nginx-Static%20Server-brightgreen)
+![Nginx](https://img.shields.io/badge/Nginx-ReverseProxy-brightgreen)
+![API](https://img.shields.io/badge/Type-REST%20API-orange)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
-## 📌 Overview
+# 📌 Overview
 
-This is a **lightweight enterprise frontend system** built with static web technologies and deployed using Docker + Nginx.
+This is a **full stack enterprise system** built using Docker architecture.
 
-It provides:
+It includes:
 
-- 🎨 Responsive UI with Bootstrap 5
-- ⚡ AJAX communication using jQuery
-- 🗺 GIS mapping with OpenLayers
-- 📝 Rich text editor using TinyMCE
-- 🌐 Static server via Nginx
-- 🐳 Fully containerized deployment (Docker)
+## 🖥️ Frontend
+- HTML5 / CSS3 / Bootstrap 5 UI
+- jQuery AJAX communication
+- OpenLayers GIS mapping
+- TinyMCE rich text editor
+- Static hosting via Nginx
 
----
-
-## ⚠️ Note
-
-This project is **frontend-only** and is designed to integrate with backend APIs such as:
-
+## ⚙️ Backend
 - NestJS REST API
-- Node.js / Express API
-- Laravel API
-- Microservices architecture
+- Authentication (Register / Login)
+- MongoDB database integration
+- Swagger API documentation
+- Mongo Express admin tool
 
-No backend logic or database is included.
+## 🌐 Infrastructure
+- Nginx reverse proxy
+- Docker containerization
+- Multi-service orchestration (frontend + backend + database)
 
 ---
 
-## 🧱 Tech Stack
+# ⚠️ System Architecture
 
-### 🎨 UI Layer
+This project is designed for:
+
+- 🧩 Microservices architecture
+- 📱 Mobile + Web API integration
+- 🧠 GIS + CMS systems
+- 🏢 Enterprise internal systems
+
+---
+
+# 🧱 Tech Stack
+
+## 🎨 Frontend
 - HTML5
 - CSS3
 - Bootstrap 5
-
-### ⚡ Client Logic
 - JavaScript (Vanilla)
-- jQuery (AJAX, DOM handling)
+- jQuery (AJAX)
+- OpenLayers (GIS Maps)
+- TinyMCE (Editor)
 
-### 🗺 Mapping / GIS
-- OpenLayers (OSM maps, GIS rendering)
+## ⚙️ Backend
+- NestJS
+- TypeScript
+- MongoDB
+- Mongoose
+- Swagger (API Docs)
+- JWT Authentication
 
-### 📝 Rich Text Editor
-- TinyMCE (WYSIWYG editor)
-
-### 🌐 Web Server
-- Nginx (Static file serving)
-
-### 🐳 DevOps
+## 🌐 DevOps / Infrastructure
 - Docker
 - Docker Compose
+- Nginx (Reverse Proxy + Static Server)
 
 ---
 
-## 📁 Project Structure
+# 📁 Project Structure
 
 ---
 

@@ -3,7 +3,7 @@ version: "3.9"
 services:
   app:
     build: .
-    container_name: nest_app
+    container_name: ${APP_NAME}_app
     restart: always
     ports:
       - "3000:3000"
@@ -16,7 +16,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: nest_nginx
+    container_name: ${APP_NAME}_nginx
     restart: always
     ports:
       - "80:80"
@@ -27,7 +27,7 @@ services:
 
   mongo:
     image: mongo:6
-    container_name: mongo
+    container_name: ${APP_NAME}_mongo
     restart: always
     ports:
       - "27017:27017"
@@ -39,7 +39,7 @@ services:
 
   mongo-express:
     image: mongo-express
-    container_name: mongo_express
+    container_name: ${APP_NAME}_express
     restart: always
     ports:
       - "8081:8081"

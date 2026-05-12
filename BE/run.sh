@@ -4,6 +4,8 @@ set -e
 
 cd /var/www
 
+npm i -g @nestjs/cli
+
 echo "🚀 Checking NestJS project..."
 
 # =========================
@@ -12,18 +14,9 @@ echo "🚀 Checking NestJS project..."
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
-  npm i -g @nestjs/cli
-
   nest new app --package-manager npm --skip-git
 
   cd app
-
-  echo "📦 Installing dependencies..."
-
-  npm install @nestjs/mongoose mongoose
-  npm install @nestjs/config
-  npm install @nestjs/swagger swagger-ui-express
-  npm install
 
   # =========================
   # APP MODULE (MONGO ONLY)
@@ -116,6 +109,9 @@ EOF
 # BUILD + RUN
 # =========================
 echo "📦 Installing dependencies..."
+npm install @nestjs/mongoose mongoose
+npm install @nestjs/config
+npm install @nestjs/swagger swagger-ui-express
 npm install
 
 echo "📦 Building project..."

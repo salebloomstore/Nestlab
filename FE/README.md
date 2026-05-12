@@ -41,27 +41,32 @@ No backend logic or database is included.
 
 ## 🧱 Tech Stack
 
+### 🏷️ Editor Control
+- ⚡ JavaScript (ES6) code snippets
+- ⚡ ESLint
+- ⚡ WSL
+- 🎨 Prettier - Code formatter
+- 🏷️ Live Server (Five Server)
+- 🎨 vscode-icons
+- ❗ Error Lens
+
+### 🐳 Docker / DevOps
+- 🐳 Docker Entension Pack
+- 📦 Docker Explorer
+- 🧾 YAML
+
+### ⚙️ Git / Version Control
+- 🔥 GitLens
+- 🌳 Git Graph
+
 ### 🎨 UI Layer
-- HTML5
-- CSS3
-- Bootstrap 5
-
-### ⚡ Client Logic
-- JavaScript (Vanilla)
-- jQuery (AJAX, DOM handling)
-
-### 🗺 Mapping / GIS
-- OpenLayers (OSM maps, GIS rendering)
-
-### 📝 Rich Text Editor
-- TinyMCE (WYSIWYG editor)
-
-### 🌐 Web Server
-- Nginx (Static file serving)
-
-### 🐳 DevOps
-- Docker
-- Docker Compose
+- IntelliSense for CSS class names in HTML
+- Bootstrap 5 Quick Snippets
+- jQuery Code Snippets
+- HTML CSS Support
+- Auto Rename Tag
+- Auto Close Tag
+- HTMLHint
 
 ---
 

@@ -54,27 +54,37 @@ This project is designed for:
 
 # 🧱 Tech Stack
 
+## 🏷️ Editor Control
+- ⚡ JavaScript (ES6) code snippets
+- ⚡ ESLint
+- ⚡ WSL
+- 🎨 Prettier - Code formatter
+- 🏷️ Live Server (Five Server)
+- 🎨 vscode-icons
+- ❗ Error Lens
+
+## 🐳 Docker / DevOps
+- 🐳 Docker Entension Pack
+- 📦 Docker Explorer
+- 🧾 YAML
+
+## ⚙️ Git / Version Control
+- 🔥 GitLens
+- 🌳 Git Graph
+
 ## 🎨 Frontend
-- HTML5
-- CSS3
-- Bootstrap 5
-- JavaScript (Vanilla)
-- jQuery (AJAX)
-- OpenLayers (GIS Maps)
-- TinyMCE (Editor)
+- IntelliSense for CSS class names in HTML
+- JavaScript (ES6) code snippets
+- Bootstrap 5 Quick Snippets
+- jQuery Code Snippets
+- HTML CSS Support
+- Auto Rename Tag
+- Auto Close Tag
+- HTMLHint
 
 ## ⚙️ Backend
-- NestJS
-- TypeScript
-- MongoDB
-- Mongoose
-- Swagger (API Docs)
-- JWT Authentication
-
-## 🌐 DevOps / Infrastructure
-- Docker
-- Docker Compose
-- Nginx (Reverse Proxy + Static Server)
+- NestJS Files
+- MongoDB for VS Code
 
 ---
 

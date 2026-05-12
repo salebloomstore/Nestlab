@@ -39,39 +39,30 @@ This project is **backend API only** (no frontend UI), designed for:
 
 For stack: NestJS + Node.js + JavaScript + Docker + MongoDB + Nginx + Swagger
 
-### 🚀 Core Development
+### 🏷️ Editor Control
+- ⚡ JavaScript (ES6) code snippets
 - ⚡ ESLint
-- 🎨 Prettier
-- 📁 Path Intellisense
-- 🧩 JavaScript (ES6) code snippets
-- 🧠 TypeScript Importer
-
-### 🧩 NestJS / Backend
-- 🏗️ NestJS Snippets
-- 🌐 REST Client
-- 🚀 Thunder Client
+- ⚡ WSL
+- 🎨 Prettier - Code formatter
+- 🏷️ Live Server (Five Server)
+- 🎨 vscode-icons
+- ❗ Error Lens
 
 ### 🐳 Docker / DevOps
-- 🐳 Docker (VS Code extension)
-- 📦 Remote - Containers
+- 🐳 Docker Entension Pack
+- 📦 Docker Explorer
 - 🧾 YAML
-
-### 🗄️ Database Tools
-- 🍃 MongoDB for VS Code
-
-### 🧪 Debug / API Tools
-- ❗ Error Lens
 
 ### ⚙️ Git / Version Control
 - 🔥 GitLens
 - 🌳 Git Graph
 
-### 🎯 Frontend / UI Helpers
-- 🏷️ Auto Rename Tag
-- 🎨 Bracket Pair Colorizer 2
+### 🎯 Logic Layer
+- NestJS Files
+- MongoDB for VS Code
 
 ---
 
 ```bash
-docker compose up -d --build
+sudo docker compose up -d --build
 sudo chown 1000:1000 -R . | sudo chmod 777 -R .

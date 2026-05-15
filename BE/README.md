@@ -9,6 +9,13 @@
 
 ---
 
+## 👨‍💻 Author
+
+### - Author: Nguyễn Hoàng Anh
+### - Created: May 15, 2026
+
+---
+
 ## 📌 Overview
 
 This is a **RESTful API backend system** built with enterprise architecture using Docker.

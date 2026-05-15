@@ -11,6 +11,13 @@
 
 ---
 
+## 👨‍💻 Author
+
+### - Author: Nguyễn Hoàng Anh
+### - Created: May 15, 2026
+
+---
+
 ## 📌 Overview
 
 This is a **lightweight enterprise frontend system** built with static web technologies and deployed using Docker + Nginx.

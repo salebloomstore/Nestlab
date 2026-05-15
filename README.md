@@ -14,6 +14,13 @@
 
 ---
 
+## 👨‍💻 Author
+
+### - Author: Nguyễn Hoàng Anh
+### - Created: May 15, 2026
+
+---
+
 # 📌 Overview
 
 This is a **full stack enterprise system** built using Docker architecture.

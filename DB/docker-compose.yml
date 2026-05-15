@@ -10,7 +10,7 @@ services:
 # KEYFILE GENERATOR
 # =========================
   keygen:
-    container_name: keygen
+    container_name: ${APP_NAME}_keygen
     image: mongo:7
     volumes:
       - ./keyfile:/keyfile
@@ -21,7 +21,7 @@ services:
 # CONFIG SERVERS (3 nodes)
 # =========================
   config-sv-primary:
-    container_name: config-sv-primary
+    container_name: ${APP_NAME}_config-sv-primary
     image: mongo:7
     ports: ["27018:27017"]
     volumes:
@@ -60,7 +60,7 @@ services:
       - mongo-cluster
 
   config-sv-assistant:
-    container_name: config-sv-assistant
+    container_name: ${APP_NAME}_config-sv-assistant
     image: mongo:7
     ports: ["27019:27017"]
     volumes:
@@ -99,7 +99,7 @@ services:
       - mongo-cluster
 
   config-sv-secretary:
-    container_name: config-sv-secretary
+    container_name: ${APP_NAME}_config-sv-secretary
     image: mongo:7
     ports: ["27020:27017"]
     volumes:
@@ -143,7 +143,7 @@ services:
 # SHARD DN
 # =========================
   shard-dn-primary:
-    container_name: shard-dn-primary
+    container_name: ${APP_NAME}_shard-dn-primary
     image: mongo:7
     ports: ["27021:27017"]
     volumes:
@@ -180,7 +180,7 @@ services:
       - mongo-cluster
 
   shard-dn-assistant:
-    container_name: shard-dn-assistant
+    container_name: ${APP_NAME}_shard-dn-assistant
     image: mongo:7
     ports: ["27022:27017"]
     volumes:
@@ -213,7 +213,7 @@ services:
       - mongo-cluster
 
   shard-dn-secretary:
-    container_name: shard-dn-secretary
+    container_name: ${APP_NAME}_shard-dn-secretary
     image: mongo:7
     ports: ["27023:27017"]
     volumes:
@@ -249,7 +249,7 @@ services:
 # SHARD HN
 # =========================
   shard-hn-primary:
-    container_name: shard-hn-primary
+    container_name: ${APP_NAME}_shard-hn-primary
     image: mongo:7
     ports: ["27024:27017"]
     volumes:
@@ -286,7 +286,7 @@ services:
       - mongo-cluster
 
   shard-hn-assistant:
-    container_name: shard-hn-assistant
+    container_name: ${APP_NAME}_shard-hn-assistant
     image: mongo:7
     ports: ["27025:27017"]
     volumes:
@@ -319,7 +319,7 @@ services:
       - mongo-cluster
 
   shard-hn-secretary:
-    container_name: shard-hn-secretary
+    container_name: ${APP_NAME}_shard-hn-secretary
     image: mongo:7
     ports: ["27026:27017"]
     volumes:
@@ -355,7 +355,7 @@ services:
 # SHARD SG
 # =========================
   shard-sg-primary:
-    container_name: shard-sg-primary
+    container_name: ${APP_NAME}_shard-sg-primary
     image: mongo:7
     ports: ["27027:27017"]
     volumes:
@@ -392,7 +392,7 @@ services:
       - mongo-cluster
 
   shard-sg-assistant:
-    container_name: shard-sg-assistant
+    container_name: ${APP_NAME}_shard-sg-assistant
     image: mongo:7
     ports: ["27028:27017"]
     volumes:
@@ -425,7 +425,7 @@ services:
       - mongo-cluster
 
   shard-sg-secretary:
-    container_name: shard-sg-secretary
+    container_name: ${APP_NAME}_shard-sg-secretary
     image: mongo:7
     ports: ["27029:27017"]
     volumes:
@@ -461,13 +461,8 @@ services:
 # MONGOS ROUTER
 # =========================
   mongo-router:
-    container_name: mongo-router
+    container_name: ${APP_NAME}_mongo-router
     image: mongo:7
-    depends_on:
-      - config-sv-primary
-      - shard-dn-primary
-      - shard-hn-primary
-      - shard-sg-primary
     ports:
       - "27017:27017"
     volumes:
@@ -496,7 +491,7 @@ services:
 # MONGO EXPRESS
 # =========================
   mongo-express:
-    container_name: mongo-express
+    container_name: ${APP_NAME}_mongo-express
     image: mongo-express
     depends_on:
       - mongo-router

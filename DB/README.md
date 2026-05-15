@@ -1,18 +1,7 @@
 docker compose down -v --remove-orphans
-docker compose up -d --build --force-recreate
 sudo chown 1000:1000 -R . | sudo chmod 777 -R .
-
-00. find . -type f -name "*.sh" -exec chmod +x {} \;
-00. docker compose up -d --build --force-recreate keygen
-00. docker compose up -d --build --force-recreate shard-dn-primary shard-dn-assistant shard-dn-secretary
-00. docker compose up -d --build --force-recreate shard-hn-primary shard-hn-assistant shard-hn-secretary
-00. docker compose up -d --build --force-recreate shard-sg-primary shard-sg-assistant shard-sg-secretary
-00. docker compose up -d --build --force-recreate config-sv-primary config-sv-assistant config-sv-secretary
-
-
-
-06. docker compose up -d --build --force-recreate mongo-router
-07. docker compose up -d --build --force-recreate mongo-express
+find . -type f -name "*.sh" -exec chmod +x {} \;
+docker compose up -d --build --force-recreate
 
 
 

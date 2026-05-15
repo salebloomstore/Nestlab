@@ -9,7 +9,7 @@
 
 ## 👨‍💻 Author
 
-### - Author: Nguyễn Hoàng Anh
+### - Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
 ### - Created: May 15, 2026
 
 ---

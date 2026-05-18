@@ -6,9 +6,9 @@ networks:
 
 services:
 
-# =========================
-# KEYFILE GENERATOR
-# =========================
+  # =========================
+  # KEYFILE GENERATOR
+  # =========================
   keygen:
     container_name: ${APP_NAME}_keygen
     image: mongo:7
@@ -17,681 +17,533 @@ services:
       - ./init/keygen:/keygen
     entrypoint: ["bash", "/keygen/create-keyfile.sh"]
 
-# =========================
-# CONFIG SERVERS (3 nodes)
-# =========================
+  # =========================
+  # CONFIG SERVERS (3 nodes)
+  # =========================
   config-sv-primary:
     container_name: ${APP_NAME}_config-sv-primary
     image: mongo:7
+
     ports:
       - "27018:27017"
+
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-primary.js:/init/init.js:ro
+
     env_file:
       - .env
-    command: |
-      bash -c '
-      mongod \
-        --replSet cfgRS \
-        --bind_ip_all \
-        --configsvr \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host config-sv-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting mongo..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet cfgRS
+      --bind_ip_all
+      --configsvr
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 20 &&
+      mongosh --host config-sv-primary:27017 /init/init.js &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet cfgRS
+      --bind_ip_all
+      --configsvr
+      --port 27017
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      mongosh --host config-sv-primary:27017 /init/init.js
-
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet cfgRS \
-        --bind_ip_all \
-        --configsvr \
-        --port 27017 \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   config-sv-assistant:
     container_name: ${APP_NAME}_config-sv-assistant
     image: mongo:7
+
     ports:
       - "27019:27017"
+
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-assistant.js:/init/init.js:ro
-    command: |
-      bash -c '
-      mongod \
-        --replSet cfgRS \
-        --bind_ip_all \
-        --configsvr \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host config-sv-assistant:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting config-sv-assistant..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet cfgRS
+      --bind_ip_all
+      --configsvr
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      mongosh --host config-sv-assistant:27017 /init/init.js &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet cfgRS
+      --bind_ip_all
+      --configsvr
+      --port 27017
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      mongosh --host config-sv-assistant:27017 /init/init.js
-
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet cfgRS \
-        --bind_ip_all \
-        --configsvr \
-        --port 27017 \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   config-sv-secretary:
     container_name: ${APP_NAME}_config-sv-secretary
     image: mongo:7
+
     ports:
       - "27020:27017"
+
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-secretary.js:/init/init.js:ro
+
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_CONFIG_SV}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD_CONFIG_SV}
-    command: |
-      bash -c '
-      mongod \
-        --replSet cfgRS \
-        --bind_ip_all \
-        --configsvr \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host config-sv-secretary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting config-sv-secretary..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet cfgRS
+      --bind_ip_all
+      --configsvr
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      mongosh --host config-sv-secretary:27017 /init/init.js &&
+      kill -15 $(pidof mongod) &&
+      sleep 35 &&
+      exec mongod
+      --replSet cfgRS
+      --bind_ip_all
+      --configsvr
+      --port 27017
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      mongosh --host config-sv-secretary:27017 /init/init.js
-
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet cfgRS \
-        --bind_ip_all \
-        --configsvr \
-        --port 27017 \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
-# =========================
-# SHARD DN
-# =========================
+  # =========================
+  # SHARD DN
+  # =========================
   shard-dn-primary:
     container_name: ${APP_NAME}_shard-dn-primary
     image: mongo:7
+
     ports:
       - "27021:27017"
+
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-dn.js:/init/init.js:ro
+
     env_file:
       - .env
-    command: |
-      bash -c '
-      mongod \
-        --replSet dnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-dn-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting mongo..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet dnRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 20 &&
+      mongosh --host shard-dn-primary:27017 /init/init.js &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet dnRS
+      --bind_ip_all
+      --shardsvr
+      --port 27017
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      mongosh --host shard-dn-primary:27017 /init/init.js
-
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet dnRS \
-        --bind_ip_all \
-        --shardsvr \
-        --port 27017 \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   shard-dn-assistant:
     container_name: ${APP_NAME}_shard-dn-assistant
     image: mongo:7
+
     ports:
       - "27022:27017"
+
     volumes:
       - ./keyfile:/etc
-    command: |
-      bash -c '
-      mongod \
-        --replSet dnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-dn-assistant:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting shard-dn-assistant..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet dnRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet dnRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet dnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --shardsvr \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   shard-dn-secretary:
     container_name: ${APP_NAME}_shard-dn-secretary
     image: mongo:7
+
     ports:
       - "27023:27017"
+
     volumes:
       - ./keyfile:/etc
-    command: |
-      bash -c '
-      mongod \
-        --replSet dnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-dn-secretary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting shard-dn-secretary..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet dnRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      kill -15 $(pidof mongod) &&
+      sleep 35 &&
+      exec mongod
+      --replSet dnRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet dnRS \
-        --bind_ip_all \
-        --shardsvr \
-        --port 27017 \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
-# =========================
-# SHARD HN
-# =========================
+  # =========================
+  # SHARD HN
+  # =========================
   shard-hn-primary:
     container_name: ${APP_NAME}_shard-hn-primary
     image: mongo:7
+
     ports:
       - "27024:27017"
+
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-hn.js:/init/init.js:ro
+
     env_file:
       - .env
-    command: |
-      bash -c '
-      mongod \
-        --replSet hnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-hn-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting mongo..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet hnRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 20 &&
+      mongosh --host shard-hn-primary:27017 /init/init.js &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet hnRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      mongosh --host shard-hn-primary:27017 /init/init.js
-
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet hnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --shardsvr \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   shard-hn-assistant:
     container_name: ${APP_NAME}_shard-hn-assistant
     image: mongo:7
+
     ports:
       - "27025:27017"
+
     volumes:
       - ./keyfile:/etc
-    command: |
-      bash -c '
-      mongod \
-        --replSet hnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-hn-assistant:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting shard-hn-assistant..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet hnRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet hnRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet hnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --shardsvr \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   shard-hn-secretary:
     container_name: ${APP_NAME}_shard-hn-secretary
     image: mongo:7
+
     ports:
       - "27026:27017"
+
     volumes:
       - ./keyfile:/etc
-    command: |
-      bash -c '
-      mongod \
-        --replSet hnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-hn-secretary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting shard-hn-secretary..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet hnRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      kill -15 $(pidof mongod) &&
+      sleep 35 &&
+      exec mongod
+      --replSet hnRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet hnRS \
-        --bind_ip_all \
-        --port 27017 \
-        --shardsvr \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
-# =========================
-# SHARD SG
-# =========================
+  # =========================
+  # SHARD SG
+  # =========================
   shard-sg-primary:
     container_name: ${APP_NAME}_shard-sg-primary
     image: mongo:7
+
     ports:
       - "27027:27017"
+
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-sg.js:/init/init.js:ro
+
     env_file:
       - .env
-    command: |
-      bash -c '
-      mongod \
-        --replSet sgRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-sg-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting mongo..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet sgRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 20 &&
+      mongosh --host shard-sg-primary:27017 /init/init.js &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet sgRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      mongosh --host shard-sg-primary:27017 /init/init.js
-
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet sgRS \
-        --bind_ip_all \
-        --port 27017 \
-        --shardsvr \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   shard-sg-assistant:
     container_name: ${APP_NAME}_shard-sg-assistant
     image: mongo:7
+
     ports:
       - "27028:27017"
+
     volumes:
       - ./keyfile:/etc
-    command: |
-      bash -c '
-      mongod \
-        --replSet sgRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-sg-assistant:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting shard-sg-assistant..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet sgRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      kill -15 $(pidof mongod) &&
+      sleep 30 &&
+      exec mongod
+      --replSet sgRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet sgRS \
-        --bind_ip_all \
-        --port 27017 \
-        --shardsvr \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
   shard-sg-secretary:
     container_name: ${APP_NAME}_shard-sg-secretary
     image: mongo:7
+
     ports:
       - "27029:27017"
+
     volumes:
       - ./keyfile:/etc
-    command: |
-      bash -c '
-      mongod \
-        --replSet sgRS \
-        --bind_ip_all \
-        --port 27017 \
-        --fork \
-        --logpath /tmp/mongod.log
 
-      until mongosh --host shard-sg-secretary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting shard-sg-secretary..."
-        sleep 2
-      done
+    command: >
+      bash -c "
+      sleep 5 &&
+      mongod
+      --replSet sgRS
+      --bind_ip_all
+      --port 27017
+      --fork
+      --logpath /tmp/mongod.log &&
+      sleep 55 &&
+      kill -15 $(pidof mongod) &&
+      sleep 35 &&
+      exec mongod
+      --replSet sgRS
+      --bind_ip_all
+      --port 27017
+      --shardsvr
+      --auth
+      --setParameter enableLocalhostAuthBypass=0
+      --keyFile /etc/mongo-keyfile
+      "
 
-      kill -15 $(pidof mongod)
-
-      while pidof mongod >/dev/null
-      do
-        echo "waiting mongod stop..."
-        sleep 2
-      done
-
-      exec mongod \
-        --replSet sgRS \
-        --bind_ip_all \
-        --port 27017 \
-        --shardsvr \
-        --auth \
-        --setParameter enableLocalhostAuthBypass=0 \
-        --keyFile /etc/mongo-keyfile
-      '
     networks:
       - nest-cluster
-    depends_on:
-      keygen:
-        condition: service_completed_successfully
 
-# =========================
-# MONGOS ROUTER
-# =========================
+  # =========================
+  # MONGOS ROUTER
+  # =========================
   mongo-router:
     container_name: ${APP_NAME}_mongo-router
     image: mongo:7
+
     ports:
       - "27017:27017"
+
     volumes:
       - ./keyfile:/etc
       - ./mongo/cluster.js:/mongo/cluster.js:ro
-    command: |
-      bash -c '
-      until mongosh --host config-sv-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting cfgRS..."
-        sleep 2
-      done
 
-      until mongosh --host shard-dn-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting dnRS..."
-        sleep 2
-      done
-
-      until mongosh --host shard-hn-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting hnRS..."
-        sleep 2
-      done
-
-      until mongosh --host shard-sg-primary:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting sgRS..."
-        sleep 2
-      done
-
-      mongos \
-        --configdb cfgRS/config-sv-primary:27017,config-sv-assistant:27017,config-sv-secretary:27017 \
-        --bind_ip_all \
-        --keyFile /etc/mongo-keyfile \
-        --fork \
-        --logpath /tmp/mongos.log
-
-      until mongosh --host mongo-router:27017 --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting mongo..."
-        sleep 2
-      done
-
-      mongosh --host mongo-router:27017 \
-        -u ${MONGO_ADMIN_CONFIG_SV} \
-        -p ${MONGO_PASSWORD_CONFIG_SV} \
-        --authenticationDatabase admin \
-        /mongo/cluster.js
-
+    command: >
+      bash -c "
+      sleep 140 &&
+      mongos
+      --configdb cfgRS/config-sv-primary:27017,config-sv-assistant:27017,config-sv-secretary:27017
+      --bind_ip_all
+      --keyFile /etc/mongo-keyfile
+      --fork
+      --logpath /tmp/mongos.log &&
+      sleep 20 &&
+      mongosh
+      --host mongo-router:27017
+      -u ${MONGO_ADMIN_CONFIG_SV}
+      -p ${MONGO_PASSWORD_CONFIG_SV}
+      --authenticationDatabase admin
+      /mongo/cluster.js &&
       tail -f /tmp/mongos.log
-      '
+      "
+
     networks:
       - nest-cluster
 
-# =========================
-# MONGO EXPRESS
-# =========================
+  # =========================
+  # MONGO EXPRESS
+  # =========================
   mongo-express:
     container_name: ${APP_NAME}_mongo-express
     image: mongo-express
+
     depends_on:
       - mongo-router
+
     env_file:
       - .env
+
     ports:
       - "8081:8081"
+
     restart: always
+
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${EXPRESS_ADMIN}:${EXPRESS_PASSWORD}@mongo-router:27017/admin?authSource=admin
       ME_CONFIG_BASICAUTH_USERNAME: ${EXPRESS_ADMIN}
       ME_CONFIG_BASICAUTH_PASSWORD: ${EXPRESS_PASSWORD}
-    command: |
-      bash -c '
-      until mongosh --host mongo-router:27017 \
-        -u ${MONGO_ADMIN_CONFIG_SV} \
-        -p ${MONGO_PASSWORD_CONFIG_SV} \
-        --authenticationDatabase admin \
-        --eval "db.adminCommand({ ping: 1 })" >/dev/null 2>&1
-      do
-        echo "waiting router..."
-        sleep 2
-      done
 
+    command: >
+      bash -c "
+      sleep 160 &&
       /sbin/tini -- node app
-      '
+      "
+
     networks:
       - nest-cluster

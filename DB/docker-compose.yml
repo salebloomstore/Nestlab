@@ -1,7 +1,7 @@
 version: "3.9"
 
 networks:
-  mongo-cluster:
+  nest-cluster:
     driver: bridge
 
 services:
@@ -27,6 +27,8 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-primary.js:/init/init.js:ro
+    env_file:
+      - .env
     command: >
       bash -c "
       sleep 5 &&
@@ -57,7 +59,7 @@ services:
       "
 
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   config-sv-assistant:
     container_name: ${APP_NAME}_config-sv-assistant
@@ -96,7 +98,7 @@ services:
       "
 
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   config-sv-secretary:
     container_name: ${APP_NAME}_config-sv-secretary
@@ -106,8 +108,8 @@ services:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-secretary.js:/init/init.js:ro
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_CONFIG_SV}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD_CONFIG_SV}
     command: >
       bash -c "
       sleep 5 &&
@@ -137,7 +139,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
 # =========================
 # SHARD DN
@@ -149,6 +151,8 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-dn.js:/init/init.js:ro
+    env_file:
+      - .env
     command: >
       bash -c "
       sleep 5 &&
@@ -177,7 +181,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   shard-dn-assistant:
     container_name: ${APP_NAME}_shard-dn-assistant
@@ -210,7 +214,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   shard-dn-secretary:
     container_name: ${APP_NAME}_shard-dn-secretary
@@ -243,7 +247,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
 # =========================
 # SHARD HN
@@ -255,6 +259,8 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-hn.js:/init/init.js:ro
+    env_file:
+      - .env
     command: >
       bash -c "
       sleep 5 &&
@@ -283,7 +289,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   shard-hn-assistant:
     container_name: ${APP_NAME}_shard-hn-assistant
@@ -316,7 +322,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   shard-hn-secretary:
     container_name: ${APP_NAME}_shard-hn-secretary
@@ -349,7 +355,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
 # =========================
 # SHARD SG
@@ -361,6 +367,8 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-sg.js:/init/init.js:ro
+    env_file:
+      - .env
     command: >
       bash -c "
       sleep 5 &&
@@ -389,7 +397,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   shard-sg-assistant:
     container_name: ${APP_NAME}_shard-sg-assistant
@@ -422,7 +430,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
   shard-sg-secretary:
     container_name: ${APP_NAME}_shard-sg-secretary
@@ -455,7 +463,7 @@ services:
       --keyFile /etc/mongo-keyfile
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 
 # =========================
 # MONGOS ROUTER
@@ -481,12 +489,12 @@ services:
 
       sleep 20 &&
 
-      mongosh --host mongo-router:27017 -u admin -p password --authenticationDatabase admin /mongo/cluster.js &&
+      mongosh --host mongo-router:27017 -u ${MONGO_ADMIN_CONFIG_SV} -p ${MONGO_PASSWORD_CONFIG_SV} --authenticationDatabase admin /mongo/cluster.js &&
 
       tail -f /tmp/mongos.log
       "
     networks:
-      - mongo-cluster
+      - nest-cluster
 # =========================
 # MONGO EXPRESS
 # =========================
@@ -499,13 +507,13 @@ services:
       - "8081:8081"
     restart: always
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://admin:password@mongo-router:27017/admin?authSource=admin
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://${EXPRESS_ADMIN}:${EXPRESS_PASSWORD}@mongo-router:27017/admin?authSource=admin
+      ME_CONFIG_BASICAUTH_USERNAME: ${EXPRESS_ADMIN}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${EXPRESS_PASSWORD}
     command: >
       bash -c "
       sleep 160 &&
       /sbin/tini -- node app
       "
     networks:
-      - mongo-cluster
+      - nest-cluster

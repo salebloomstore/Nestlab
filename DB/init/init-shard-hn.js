@@ -14,15 +14,15 @@ while (!db.hello().isWritablePrimary) {
   sleep(10)
 }
 
-print("✅ SHARD-DN INIT DONE")
+print("✅ SHARD-HN INIT DONE")
 
 // switch admin DB
 db = db.getSiblingDB("admin")
 
 // create root user
 db.createUser({
-  user: "admin",
-  pwd: "password",
+  user: process.env.MONGO_ADMIN_SHARD_HN,
+  pwd: process.env.MONGO_PASSWORD_SHARD_HN,
   roles: [
     { role: "root", db: "admin" }
   ]

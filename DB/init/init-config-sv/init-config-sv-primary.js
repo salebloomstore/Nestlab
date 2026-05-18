@@ -21,8 +21,8 @@ db = db.getSiblingDB("admin")
 
 // create root user
 db.createUser({
-  user: "admin",
-  pwd: "password",
+  user: process.env.MONGO_ADMIN_CONFIG_SV,
+  pwd: process.env.MONGO_PASSWORD_CONFIG_SV,
   roles: [
     { role: "root", db: "admin" }
   ]

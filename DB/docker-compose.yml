@@ -503,6 +503,8 @@ services:
     image: mongo-express
     depends_on:
       - mongo-router
+    env_file:
+      - .env
     ports:
       - "8081:8081"
     restart: always

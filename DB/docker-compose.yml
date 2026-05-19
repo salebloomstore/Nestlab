@@ -28,6 +28,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-primary.js:/init/init.js:ro
+      - ./data/config-sv/config-sv-primary:/data/db
     env_file:
       - .env
     command: |
@@ -66,6 +67,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-assistant.js:/init/init.js:ro
+      - ./data/config-sv/config-sv-assistant:/data/db
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -99,6 +101,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-secretary.js:/init/init.js:ro
+      - ./data/config-sv/config-sv-secretary:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_CONFIG_SV}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD_CONFIG_SV}
@@ -138,6 +141,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-dn.js:/init/init.js:ro
+      - ./data/sharding/shard-dn-primary:/data/db
     env_file:
       - .env
     command: |
@@ -175,6 +179,7 @@ services:
       - "27022:27017"
     volumes:
       - ./keyfile:/etc
+      - ./data/sharding/shard-dn-assistant:/data/db
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -203,6 +208,7 @@ services:
       - "27023:27017"
     volumes:
       - ./keyfile:/etc
+      - ./data/sharding/shard-dn-secretary:/data/db
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -235,6 +241,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-hn.js:/init/init.js:ro
+      - ./data/sharding/shard-hn-primary:/data/db
     env_file:
       - .env
     command: |
@@ -272,6 +279,7 @@ services:
       - "27025:27017"
     volumes:
       - ./keyfile:/etc
+      - ./data/sharding/shard-hn-assistant:/data/db
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -300,6 +308,7 @@ services:
       - "27026:27017"
     volumes:
       - ./keyfile:/etc
+      - ./data/sharding/shard-hn-secretary:/data/db
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -332,6 +341,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-sg.js:/init/init.js:ro
+      - ./data/sharding/shard-sg-primary:/data/db
     env_file:
       - .env
     command: |
@@ -369,6 +379,7 @@ services:
       - "27028:27017"
     volumes:
       - ./keyfile:/etc
+      - ./data/sharding/shard-sg-assistant:/data/db
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -397,6 +408,7 @@ services:
       - "27029:27017"
     volumes:
       - ./keyfile:/etc
+      - ./data/sharding/shard-sg-secretary:/data/db
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do

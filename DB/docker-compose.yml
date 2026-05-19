@@ -23,17 +23,13 @@ services:
   config-sv-primary:
     container_name: ${APP_NAME}_config-sv-primary
     image: mongo:7
-
     ports:
       - "27018:27017"
-
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-primary.js:/init/init.js:ro
-
     env_file:
       - .env
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -59,21 +55,17 @@ services:
       done
       exec mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   config-sv-assistant:
     container_name: ${APP_NAME}_config-sv-assistant
     image: mongo:7
-
     ports:
       - "27019:27017"
-
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-assistant.js:/init/init.js:ro
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -96,25 +88,20 @@ services:
       done
       exec mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   config-sv-secretary:
     container_name: ${APP_NAME}_config-sv-secretary
     image: mongo:7
-
     ports:
       - "27020:27017"
-
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-secretary.js:/init/init.js:ro
-
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_CONFIG_SV}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD_CONFIG_SV}
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -137,7 +124,6 @@ services:
       done
       exec mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
@@ -147,17 +133,13 @@ services:
   shard-dn-primary:
     container_name: ${APP_NAME}_shard-dn-primary
     image: mongo:7
-
     ports:
       - "27021:27017"
-
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-dn.js:/init/init.js:ro
-
     env_file:
       - .env
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -183,20 +165,16 @@ services:
       done
       exec mongod --replSet dnRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   shard-dn-assistant:
     container_name: ${APP_NAME}_shard-dn-assistant
     image: mongo:7
-
     ports:
       - "27022:27017"
-
     volumes:
       - ./keyfile:/etc
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -215,20 +193,16 @@ services:
       done
       exec mongod --replSet dnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   shard-dn-secretary:
     container_name: ${APP_NAME}_shard-dn-secretary
     image: mongo:7
-
     ports:
       - "27023:27017"
-
     volumes:
       - ./keyfile:/etc
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -247,7 +221,6 @@ services:
       done
       exec mongod --replSet dnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
@@ -257,17 +230,13 @@ services:
   shard-hn-primary:
     container_name: ${APP_NAME}_shard-hn-primary
     image: mongo:7
-
     ports:
       - "27024:27017"
-
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-hn.js:/init/init.js:ro
-
     env_file:
       - .env
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -291,22 +260,18 @@ services:
       while pidof mongod > /dev/null; do
         sleep 1
       done
-      exec mongod --replSet hnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
+      exec mongod --replSet hnRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   shard-hn-assistant:
     container_name: ${APP_NAME}_shard-hn-assistant
     image: mongo:7
-
     ports:
       - "27025:27017"
-
     volumes:
       - ./keyfile:/etc
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -325,20 +290,16 @@ services:
       done
       exec mongod --replSet hnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   shard-hn-secretary:
     container_name: ${APP_NAME}_shard-hn-secretary
     image: mongo:7
-
     ports:
       - "27026:27017"
-
     volumes:
       - ./keyfile:/etc
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -357,7 +318,6 @@ services:
       done
       exec mongod --replSet hnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
@@ -367,17 +327,13 @@ services:
   shard-sg-primary:
     container_name: ${APP_NAME}_shard-sg-primary
     image: mongo:7
-
     ports:
       - "27027:27017"
-
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-sg.js:/init/init.js:ro
-
     env_file:
       - .env
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -401,22 +357,18 @@ services:
       while pidof mongod > /dev/null; do
         sleep 1
       done
-      exec mongod --replSet sgRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
+      exec mongod --replSet sgRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   shard-sg-assistant:
     container_name: ${APP_NAME}_shard-sg-assistant
     image: mongo:7
-
     ports:
       - "27028:27017"
-
     volumes:
       - ./keyfile:/etc
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -435,20 +387,16 @@ services:
       done
       exec mongod --replSet sgRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
   shard-sg-secretary:
     container_name: ${APP_NAME}_shard-sg-secretary
     image: mongo:7
-
     ports:
       - "27029:27017"
-
     volumes:
       - ./keyfile:/etc
-
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -465,9 +413,8 @@ services:
       while pidof mongod > /dev/null; do
         sleep 1
       done
-      exec mongod --replSet sgRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
+      exec mongod --replSet sgRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
-
     networks:
       - nest-cluster
 
@@ -477,14 +424,11 @@ services:
   mongo-router:
     container_name: ${APP_NAME}_mongo-router
     image: mongo:7
-
     ports:
       - "27017:27017"
-
     volumes:
       - ./keyfile:/etc
       - ./mongo/cluster.js:/mongo/cluster.js:ro
-
     command: |
       bash -c "
       echo 'Waiting for replica set initialization...'
@@ -537,7 +481,6 @@ services:
       echo 'mongos is ready'
       mongosh --host mongo-router --port 27017 -u ${MONGO_ADMIN_CONFIG_SV} -p ${MONGO_PASSWORD_CONFIG_SV} --authenticationDatabase admin /mongo/cluster.js && tail -f /tmp/mongos.log
       "
-
     networks:
       - nest-cluster
 
@@ -547,23 +490,17 @@ services:
   mongo-express:
     container_name: ${APP_NAME}_mongo-express
     image: mongo-express
-
     depends_on:
       - mongo-router
-
     env_file:
       - .env
-
     ports:
       - "8081:8081"
-
     restart: always
-
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${EXPRESS_ADMIN}:${EXPRESS_PASSWORD}@mongo-router:27017/admin?authSource=admin
       ME_CONFIG_BASICAUTH_USERNAME: ${EXPRESS_ADMIN}
       ME_CONFIG_BASICAUTH_PASSWORD: ${EXPRESS_PASSWORD}
-
     command: |
       bash -c "
       echo 'Waiting for mongos startup...'
@@ -573,6 +510,5 @@ services:
       echo 'mongos is ready'
       /sbin/tini -- node app
       "
-
     networks:
       - nest-cluster

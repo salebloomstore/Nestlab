@@ -433,6 +433,7 @@ services:
       bash -c "
       echo 'Waiting for replica set initialization...'
 
+      echo '⏳ Waiting for CONFIG-SERVER (cfgRS)...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
@@ -442,7 +443,9 @@ services:
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
+      echo '✅ CONFIG-SERVER READY'
 
+      echo '⏳ Waiting for SHARD-DN (dnRS)...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
@@ -452,7 +455,9 @@ services:
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
+      echo '✅ SHARD-DN READY'
 
+      echo '⏳ Waiting for SHARD-HN (hnRS)...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
@@ -462,7 +467,9 @@ services:
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
+      echo '✅ SHARD-HN READY'
 
+      echo '⏳ Waiting for SHARD-SG (sgRS)...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
@@ -472,7 +479,9 @@ services:
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
         sleep 2
       done
-      echo 'Replica set initialized'
+      echo '✅ SHARD-SG READY'
+
+      echo '🎉 ALL REPLICA SETS INITIALIZED'
       mongos --configdb cfgRS/config-sv-primary:27017,config-sv-assistant:27017,config-sv-secretary:27017 --bind_ip_all --keyFile /etc/mongo-keyfile --fork --logpath /tmp/mongos.log
       echo 'Waiting for mongos startup...'
       until mongosh --quiet --host mongo-router --port 27017 -u ${MONGO_ADMIN_CONFIG_SV} -p ${MONGO_PASSWORD_CONFIG_SV} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do

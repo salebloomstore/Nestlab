@@ -16,6 +16,12 @@
 
 ## ⚙️ Build Instructions
 
+### 0. Copy `.env_example` to `.env` and configure it for project
+
+```bash
+cp .env_example .env
+```
+
 ### 1. Remove old containers
 
 ```bash

@@ -526,7 +526,6 @@ services:
   mongo-express:
     container_name: ${APP_NAME}_mongo-express
     image: mongo-express
-    init: true
     depends_on:
       - mongo-router
     env_file:

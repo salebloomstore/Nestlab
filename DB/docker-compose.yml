@@ -28,7 +28,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-primary.js:/init/init.js:ro
-      - ./data/config-sv/config-sv-primary:/data/db
+      # - ./data/config-sv/config-sv-primary:/data/db
     env_file:
       - .env
     command: |
@@ -67,7 +67,9 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-assistant.js:/init/init.js:ro
-      - ./data/config-sv/config-sv-assistant:/data/db
+      # - ./data/config-sv/config-sv-assistant:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -82,7 +84,7 @@ services:
       echo 'MongoDB is ready'
       mongosh --host config-sv-assistant:27017 /init/init.js
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
@@ -101,10 +103,9 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-config-sv/init-config-sv-secretary.js:/init/init.js:ro
-      - ./data/config-sv/config-sv-secretary:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ADMIN_CONFIG_SV}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD_CONFIG_SV}
+      # - ./data/config-sv/config-sv-secretary:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -119,7 +120,7 @@ services:
       echo 'MongoDB is ready'
       mongosh --host config-sv-secretary:27017 /init/init.js
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
@@ -141,7 +142,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-dn.js:/init/init.js:ro
-      - ./data/sharding/shard-dn-primary:/data/db
+      # - ./data/sharding/shard-dn-primary:/data/db
     env_file:
       - .env
     command: |
@@ -179,7 +180,9 @@ services:
       - "27022:27017"
     volumes:
       - ./keyfile:/etc
-      - ./data/sharding/shard-dn-assistant:/data/db
+      # - ./data/sharding/shard-dn-assistant:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -189,7 +192,7 @@ services:
       mongod --replSet dnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
@@ -208,7 +211,9 @@ services:
       - "27023:27017"
     volumes:
       - ./keyfile:/etc
-      - ./data/sharding/shard-dn-secretary:/data/db
+      # - ./data/sharding/shard-dn-secretary:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -218,7 +223,7 @@ services:
       mongod --replSet dnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
@@ -241,7 +246,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-hn.js:/init/init.js:ro
-      - ./data/sharding/shard-hn-primary:/data/db
+      # - ./data/sharding/shard-hn-primary:/data/db
     env_file:
       - .env
     command: |
@@ -279,7 +284,9 @@ services:
       - "27025:27017"
     volumes:
       - ./keyfile:/etc
-      - ./data/sharding/shard-hn-assistant:/data/db
+      # - ./data/sharding/shard-hn-assistant:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -289,7 +296,7 @@ services:
       mongod --replSet hnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
@@ -308,7 +315,9 @@ services:
       - "27026:27017"
     volumes:
       - ./keyfile:/etc
-      - ./data/sharding/shard-hn-secretary:/data/db
+      # - ./data/sharding/shard-hn-secretary:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -318,7 +327,7 @@ services:
       mongod --replSet hnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
@@ -341,7 +350,7 @@ services:
     volumes:
       - ./keyfile:/etc
       - ./init/init-shard-sg.js:/init/init.js:ro
-      - ./data/sharding/shard-sg-primary:/data/db
+      # - ./data/sharding/shard-sg-primary:/data/db
     env_file:
       - .env
     command: |
@@ -379,7 +388,9 @@ services:
       - "27028:27017"
     volumes:
       - ./keyfile:/etc
-      - ./data/sharding/shard-sg-assistant:/data/db
+      # - ./data/sharding/shard-sg-assistant:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -389,7 +400,7 @@ services:
       mongod --replSet sgRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
@@ -408,7 +419,9 @@ services:
       - "27029:27017"
     volumes:
       - ./keyfile:/etc
-      - ./data/sharding/shard-sg-secretary:/data/db
+      # - ./data/sharding/shard-sg-secretary:/data/db
+    env_file:
+      - .env
     command: |
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
@@ -418,7 +431,7 @@ services:
       mongod --replSet sgRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
       until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 40
+        sleep 60
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
@@ -436,6 +449,8 @@ services:
   mongo-router:
     container_name: ${APP_NAME}_mongo-router
     image: mongo:7
+    env_file:
+      - .env
     ports:
       - "27017:27017"
     volumes:
@@ -511,6 +526,7 @@ services:
   mongo-express:
     container_name: ${APP_NAME}_mongo-express
     image: mongo-express
+    init: true
     depends_on:
       - mongo-router
     env_file:
@@ -519,7 +535,7 @@ services:
       - "8081:8081"
     restart: always
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://${EXPRESS_ADMIN}:${EXPRESS_PASSWORD}@mongo-router:27017/admin?authSource=admin
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/admin?authSource=admin
       ME_CONFIG_BASICAUTH_USERNAME: ${EXPRESS_ADMIN}
       ME_CONFIG_BASICAUTH_PASSWORD: ${EXPRESS_PASSWORD}
     command: |

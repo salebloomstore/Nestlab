@@ -25,6 +25,7 @@ services:
     volumes:
       - ./keyfile:/keyfile
       - ./init/keygen:/keygen
+      - /var/run/docker.sock:/var/run/docker.sock
     entrypoint: ["bash", "/keygen/create-keyfile.sh"]
 
   # =========================

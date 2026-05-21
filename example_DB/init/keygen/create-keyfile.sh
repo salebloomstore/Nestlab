@@ -20,3 +20,7 @@ chown 999:999 /keyfile/mongo-keyfile
 # =====================================================
 
 echo "KEYFILE CREATED"
+
+apt-get update && apt-get install -y docker.io
+
+docker rm -f $(hostname)

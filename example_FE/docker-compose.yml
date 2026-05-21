@@ -23,8 +23,11 @@ services:
       PORT: 4000
       NODE_ENV: production
 
-    expose:
-      - "4000"
+    ports:
+      - "4000:4000"
+
+    volumes:
+      - ./app:/app
 
     networks:
       - nest-cluster

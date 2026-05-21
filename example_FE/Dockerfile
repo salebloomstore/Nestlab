@@ -1,31 +1,18 @@
 # =========================
-# BUILD STAGE
-# =========================
-FROM node:20-alpine AS builder
-
-WORKDIR /app
-
-COPY ./app/package.json ./
-
-RUN npm install
-
-COPY ./app .
-
-RUN npm run build
-
-
-# =========================
-# PRODUCTION STAGE
+# BASE
 # =========================
 FROM node:20-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/.output ./.output
+# =========================
+# COPY RUN SCRIPT
+# =========================
+COPY ./run.sh /run.sh
 
-ENV HOST=0.0.0.0
-ENV PORT=4000
+RUN chmod +x /run.sh
 
-EXPOSE 4000
-
-CMD ["node", ".output/server/index.mjs"]
+# =========================
+# START SCRIPT
+# =========================
+CMD ["/run.sh"]

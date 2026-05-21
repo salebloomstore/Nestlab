@@ -105,12 +105,6 @@ This project is designed for:
 docker network create nest-cluster
 ```
 
-### 0. Copy `.env_example` to `.env` and configure it for project
-
-```bash
-cp .env_example .env
-```
-
 ### 0. Fix permissions
 
 ```bash

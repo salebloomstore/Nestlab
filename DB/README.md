@@ -28,25 +28,25 @@ docker network create nest-cluster
 cp .env_example .env
 ```
 
-### 0. Remove old containers
-
-```bash
-docker compose down -v --remove-orphans
-```
-
-### 1. Fix permissions
+### 0. Fix permissions
 
 ```bash
 sudo chown 1000:1000 -R . && sudo chmod 777 -R .
 ```
 
-### 2. Grant execute permission
+### 0. Grant execute permission
 
 ```bash
 find . -type f -name "*.sh" -exec chmod +x {} \;
 ```
 
-### 3. Build & start cluster
+### 1. Remove old containers
+
+```bash
+docker compose down -v --remove-orphans
+```
+
+### 2. Build & start cluster
 
 ```bash
 docker compose up -d --build --force-recreate

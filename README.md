@@ -139,11 +139,17 @@ cd example_FE && docker compose down -v --remove-orphans
 
 ```bash
 cd example_DB && cp .env_example .env
+cd ..
+
 cd example_DB && docker compose up -d --build --force-recreate
+cd ..
 ```
 ```bash
 cd example_BE && cp .env_example .env
+cd ..
+
 cd example_BE && docker compose up -d --build --force-recreate
+cd ..
 ```
 ```bash
 cd example_FE && docker compose up -d --build --force-recreate

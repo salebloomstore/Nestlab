@@ -11,7 +11,7 @@ print("🚀 SHARD-DN SET INIT DONE");
 print("⏳ WAITING PRIMARY...")
 
 while (!db.hello().isWritablePrimary) {
-  sleep(10)
+  sleep(2)
 }
 
 print("✅ SHARD-DN INIT DONE")

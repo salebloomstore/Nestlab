@@ -11,7 +11,7 @@ rs.initiate({
 print("⏳ WAITING PRIMARY...")
 
 while (!db.hello().isWritablePrimary) {
-  sleep(10)
+  sleep(2)
 }
 
 print("✅ CONFIG-SV INIT DONE")

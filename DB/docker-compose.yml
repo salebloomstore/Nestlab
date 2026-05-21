@@ -35,24 +35,33 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for MongoDB startup...'
       while ! mongosh --quiet --host config-sv-primary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host config-sv-assistant:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host config-sv-secretary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       echo 'MongoDB is ready'
       mongosh --host config-sv-primary:27017 /init/init.js
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
+      done
+      until mongosh --quiet --host config-sv-assistant:27017 -u ${MONGO_ADMIN_CONFIG_SV} -p ${MONGO_PASSWORD_CONFIG_SV} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+      until mongosh --quiet --host config-sv-secretary:27017 -u ${MONGO_ADMIN_CONFIG_SV} -p ${MONGO_PASSWORD_CONFIG_SV} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -74,21 +83,21 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for MongoDB startup...'
       while ! mongosh --quiet --host config-sv-assistant:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       echo 'MongoDB is ready'
       mongosh --host config-sv-assistant:27017 /init/init.js
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -110,21 +119,21 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for MongoDB startup...'
       while ! mongosh --quiet --host config-sv-secretary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       echo 'MongoDB is ready'
       mongosh --host config-sv-secretary:27017 /init/init.js
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet cfgRS --bind_ip_all --configsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -149,24 +158,33 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet dnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for MongoDB startup...'
       while ! mongosh --quiet --host shard-dn-primary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host shard-dn-assistant:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host shard-dn-secretary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       echo 'MongoDB is ready'
       mongosh --host shard-dn-primary:27017 /init/init.js
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
+      done
+      until mongosh --quiet --host shard-dn-assistant:27017 -u ${MONGO_ADMIN_SHARD_DN} -p ${MONGO_PASSWORD_SHARD_DN} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+      until mongosh --quiet --host shard-dn-secretary:27017 -u ${MONGO_ADMIN_SHARD_DN} -p ${MONGO_PASSWORD_SHARD_DN} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
       kill -15 $(pidof mongod) 
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet dnRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -187,17 +205,17 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet dnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet dnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -218,17 +236,17 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet dnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet dnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -253,24 +271,33 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet hnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for MongoDB startup...'
       while ! mongosh --quiet --host shard-hn-primary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host shard-hn-assistant:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host shard-hn-secretary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       echo 'MongoDB is ready'
       mongosh --host shard-hn-primary:27017 /init/init.js
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
+      done
+      until mongosh --quiet --host shard-hn-assistant:27017 -u ${MONGO_ADMIN_SHARD_HN} -p ${MONGO_PASSWORD_SHARD_HN} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+      until mongosh --quiet --host shard-hn-secretary:27017 -u ${MONGO_ADMIN_SHARD_HN} -p ${MONGO_PASSWORD_SHARD_HN} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet hnRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -291,17 +318,17 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet hnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet hnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -322,17 +349,17 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet hnRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet hnRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -357,24 +384,33 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet sgRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for MongoDB startup...'
       while ! mongosh --quiet --host shard-sg-primary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host shard-sg-assistant:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       while ! mongosh --quiet --host shard-sg-secretary:27017 --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+        sleep 2
       done
       echo 'MongoDB is ready'
       mongosh --host shard-sg-primary:27017 /init/init.js
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
+      done
+      until mongosh --quiet --host shard-sg-assistant:27017 -u ${MONGO_ADMIN_SHARD_SG} -p ${MONGO_PASSWORD_SHARD_SG} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+      until mongosh --quiet --host shard-sg-secretary:27017 -u ${MONGO_ADMIN_SHARD_SG} -p ${MONGO_PASSWORD_SHARD_SG} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet sgRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -395,17 +431,17 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet sgRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet sgRS --bind_ip_all --port 27017 --shardsvr --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -426,17 +462,17 @@ services:
       bash -c "
       until [ -f /etc/mongo-keyfile ]; do
         echo 'Waiting for mongo-keyfile...'
-        sleep 1
+        sleep 2
       done
       mongod --replSet sgRS --bind_ip_all --port 27017 --fork --logpath /tmp/mongod.log
       echo 'Waiting for replica set initialization...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 60
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin?authSource=admin' --eval 'rs.isMaster().ismaster' | grep true > /dev/null; do
+        sleep 3
       done
       echo 'Replica set initialized'
       kill -15 $(pidof mongod)
       while pidof mongod > /dev/null; do
-        sleep 1
+        sleep 2
       done
       exec mongod --replSet sgRS --bind_ip_all --shardsvr --port 27017 --auth --setParameter enableLocalhostAuthBypass=0 --keyFile /etc/mongo-keyfile
       "
@@ -458,64 +494,113 @@ services:
       - ./mongo/cluster.js:/mongo/cluster.js:ro
     command: |
       bash -c "
-      echo 'Waiting for replica set initialization...'
+      echo '⏳ Waiting for CONFIG SERVER REPLICATION...'
 
-      echo '⏳ Waiting for CONFIG-SERVER (cfgRS)...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin?replicaSet=cfgRS&authSource=admin' --eval 'rs.status().members.filter(m => m.stateStr == \"SECONDARY\").length' | grep 2 > /dev/null; do
+        sleep 2
       done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-assistant:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      echo '✅ CONFIG-SERVER READY'
 
-      echo '⏳ Waiting for SHARD-DN (dnRS)...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-assistant:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      echo '✅ SHARD-DN READY'
+      echo '✅ CONFIG SERVER REPLICATED'
 
-      echo '⏳ Waiting for SHARD-HN (hnRS)...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-assistant:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      echo '✅ SHARD-HN READY'
+      echo '⏳ Waiting for SHARD DN REPLICATION...'
 
-      echo '⏳ Waiting for SHARD-SG (sgRS)...'
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin?replicaSet=dnRS&authSource=admin' --eval 'rs.status().members.filter(m => m.stateStr == \"SECONDARY\").length' | grep 2 > /dev/null; do
+        sleep 2
       done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-assistant:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-secretary:27017/admin' --eval 'rs.status().ok' | grep 1 > /dev/null; do
-        sleep 1
-      done
-      echo '✅ SHARD-SG READY'
 
-      echo '🎉 ALL REPLICA SETS INITIALIZED'
+      echo '✅ SHARD DN REPLICATED'
+
+      echo '⏳ Waiting for SHARD HN REPLICATION...'
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin?replicaSet=hnRS&authSource=admin' --eval 'rs.status().members.filter(m => m.stateStr == \"SECONDARY\").length' | grep 2 > /dev/null; do
+        sleep 2
+      done
+
+      echo '✅ SHARD HN REPLICATED'
+
+      echo '⏳ Waiting for SHARD SG REPLICATION...'
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin?replicaSet=sgRS&authSource=admin' --eval 'rs.status().members.filter(m => m.stateStr == \"SECONDARY\").length' | grep 2 > /dev/null; do
+        sleep 2
+      done
+
+      echo '✅ SHARD SG REPLICATED'
+
+      echo '🎉 ALL REPLICA SETS REPLICATED'
+
+      echo '⏳ Waiting for ALL NODES RESTART WITH AUTH...'
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-primary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-assistant:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@config-sv-secretary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-primary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-assistant:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_DN}:${MONGO_PASSWORD_SHARD_DN}@shard-dn-secretary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-primary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-assistant:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_HN}:${MONGO_PASSWORD_SHARD_HN}@shard-hn-secretary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-primary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-assistant:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_SHARD_SG}:${MONGO_PASSWORD_SHARD_SG}@shard-sg-secretary:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      echo '✅ ALL NODES RESTARTED WITH AUTH'
+
+      echo '🚀 STARTING MONGOS...'
+
       mongos --configdb cfgRS/config-sv-primary:27017,config-sv-assistant:27017,config-sv-secretary:27017 --bind_ip_all --keyFile /etc/mongo-keyfile --fork --logpath /tmp/mongos.log
-      echo 'Waiting for mongos startup...'
-      until mongosh --quiet --host mongo-router --port 27017 -u ${MONGO_ADMIN_CONFIG_SV} -p ${MONGO_PASSWORD_CONFIG_SV} --authenticationDatabase admin --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
-        sleep 1
+
+      echo '⏳ Waiting for mongos startup...'
+
+      until pidof mongos > /dev/null; do
+        sleep 2
       done
-      echo 'mongos is ready'
+
+      until mongosh --quiet 'mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@localhost:27017/admin?authSource=admin' --eval 'db.runCommand({ ping: 1 }).ok' | grep 1 > /dev/null; do
+        sleep 2
+      done
+
+      echo '✅ MONGOS READY'
+
+      echo '⏳ Configuring cluster...'
+
       mongosh --host mongo-router --port 27017 -u ${MONGO_ADMIN_CONFIG_SV} -p ${MONGO_PASSWORD_CONFIG_SV} --authenticationDatabase admin /mongo/cluster.js && tail -f /tmp/mongos.log
+
+      echo '✅ CLUSTER CONFIGURED'
       "
     networks:
       - nest-cluster
@@ -541,7 +626,7 @@ services:
       bash -c "
       echo 'Waiting for mongos startup...'
       until nc -z mongo-router 27017; do
-        sleep 1
+        sleep 2
       done
       echo 'mongos is ready'
       /sbin/tini -- node app

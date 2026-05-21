@@ -3,7 +3,7 @@
 set -e
 
 echo "======================================="
-echo "🚀 STARTING NUXT + NGINX"
+echo "🚀 STARTING NUXT + NGINX SYSTEM"
 echo "======================================="
 
 # =========================
@@ -20,13 +20,44 @@ if ! docker compose version >/dev/null 2>&1; then
 fi
 
 # =========================
-# CHECK REQUIRED FILES
+# CREATE NETWORK IF NEEDED
 # =========================
-if [ ! -d "app" ]; then
-    echo "❌ Missing ./app directory"
-    exit 1
+echo "🌐 Checking Docker network..."
+
+if ! docker network inspect nest-cluster >/dev/null 2>&1; then
+    echo "📦 Creating network: nest-cluster"
+    docker network create nest-cluster
+else
+    echo "✅ Network already exists"
 fi
 
+# =========================
+# CREATE NUXT PROJECT FIRST TIME
+# =========================
+if [ ! -f "app/package.json" ]; then
+
+    echo "📦 First run detected"
+    echo "🚀 Creating NuxtJS project..."
+
+    mkdir -p app
+
+    docker run --rm \
+        -v $(pwd)/app:/app \
+        -w /app \
+        node:20-alpine \
+        sh -c "npx nuxi@latest init . && npm install"
+
+    echo "✅ NuxtJS project created"
+
+else
+
+    echo "✅ Existing NuxtJS project detected"
+
+fi
+
+# =========================
+# CHECK REQUIRED FILES
+# =========================
 if [ ! -f "Dockerfile" ]; then
     echo "❌ Missing Dockerfile"
     exit 1
@@ -40,18 +71,6 @@ fi
 if [ ! -f "nginx/default.conf" ]; then
     echo "❌ Missing nginx/default.conf"
     exit 1
-fi
-
-# =========================
-# CREATE NETWORK IF NEEDED
-# =========================
-echo "🌐 Checking Docker network..."
-
-if ! docker network inspect nest-cluster >/dev/null 2>&1; then
-    echo "📦 Creating network: nest-cluster"
-    docker network create nest-cluster
-else
-    echo "✅ Network already exists"
 fi
 
 # =========================
@@ -80,7 +99,7 @@ docker compose up -d
 # =========================
 echo ""
 echo "======================================="
-echo "✅ CONTAINERS STARTED"
+echo "✅ SYSTEM STARTED"
 echo "======================================="
 
 docker compose ps

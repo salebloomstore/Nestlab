@@ -1,11 +1,11 @@
 # =========================
 # BUILD STAGE
 # =========================
-FROM node:22-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY ./app/package*.json ./
+COPY ./app/package.json ./
 
 RUN npm install
 
@@ -17,7 +17,7 @@ RUN npm run build
 # =========================
 # PRODUCTION STAGE
 # =========================
-FROM node:22-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 

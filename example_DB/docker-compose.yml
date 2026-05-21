@@ -1,3 +1,13 @@
+# =====================================================
+# DOCKER COMPOSE - MONGODB SHARDED CLUSTER
+# =====================================================
+# Stack:
+# - Config Servers (cfgRS)
+# - Shards: dnRS / hnRS / sgRS
+# - Router: mongos
+# - UI: mongo-express
+# =====================================================
+
 version: "3.9"
 
 networks:

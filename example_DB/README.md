@@ -1,31 +1,50 @@
-# 🚀 Distributed MongoDB Cluster with Docker (MongoDB + Mongo Express)
+# 🍃 MongoDB Cluster System (MongoDB + Mongo Express + Docker)
 
 ![MongoDB](https://img.shields.io/badge/Database-MongoDB-green)
-![Docker](https://img.shields.io/badge/Container-Docker-blue)
-![Mongo Express](https://img.shields.io/badge/UI-Mongo_Express-orange)
-![Cluster](https://img.shields.io/badge/Architecture-Sharding-red)
+![Mongo Express](https://img.shields.io/badge/Admin-Mongo--Express-orange)
+![Docker](https://img.shields.io/badge/Deploy-Docker-blue)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
 ## 👨‍💻 Author
 
-### - Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
-### - Created: May 15, 2026
+- Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
+- Created: May 21, 2026
 
 ---
 
-## ⚙️ Build Instructions
+# 📌 Overview
+
+MongoDB cluster system using:
+
+- 🍃 MongoDB Replica Set
+- 📊 Mongo Express management
+- 🐳 Docker containerization
+- 🌐 Mongo Router (mongos)
+
+---
+
+# 🧱 Tech Stack
+
+## 🗄️ Database
+- MongoDB
+- Mongo Express
+- Replica Set
+- Sharding Cluster
+
+## 🐳 DevOps
+- Docker
+- Docker Compose
+
+---
+
+# 🚀 Deployment
 
 ### 0. Create the shared Docker network if it does not already exist
 
 ```bash
 docker network create nest-cluster
-```
-
-### 0. Copy `.env_example` to `.env` and configure it for project
-
-```bash
-cp .env_example .env
 ```
 
 ### 0. Fix permissions
@@ -48,48 +67,7 @@ docker compose down -v --remove-orphans
 
 ### 2. Build & start cluster
 
+#### Please configure .env_example before running
 ```bash
-docker compose up -d --build --force-recreate
+cp .env_example .env && docker compose up -d --build --force-recreate
 ```
-
----
-
-## 🌐 Services
-
-| Service | Address |
-|---|---|
-| Mongo Express | http://localhost:8081 |
-| Mongo Router | http://localhost:27017 |
-
----
-
-## 🔑 MongoDB Login
-
-```bash
-docker exec -it <container-name> mongosh -u <admin> -p <password> --authenticationDatabase admin
-```
-
----
-
-## 🧪 Useful Commands
-
-### Check Replica Set
-
-```javascript
-rs.status()
-```
-
-### Check Sharding
-
-```javascript
-sh.status()
-```
-
----
-
-## 🛡️ Security
-
-- Keyfile Authentication
-- Replica Set Authentication
-- Admin Authentication
-- Docker Internal Network

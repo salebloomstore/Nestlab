@@ -13,7 +13,7 @@
 ## 👨‍💻 Author
 
 - Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
-- Created: May 15, 2026
+- Created: May 21, 2026
 
 ---
 
@@ -35,7 +35,6 @@ Full stack system using:
 ## 🎨 Frontend
 - NuxtJS
 - HTML5 / CSS3 / JavaScript
-- Bootstrap 5
 
 ## ⚙️ Backend
 - NestJS REST API

@@ -1,85 +1,46 @@
-# 🚀 Frontend UI Stack - Docker Enterprise Frontend
+# 🎨 Frontend System (NuxtJS + Docker + Nginx)
 
-![Docker](https://img.shields.io/badge/Docker-Enterprise-blue)
-![Frontend](https://img.shields.io/badge/Frontend-HTML%2FCSS%2FJS-orange)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple)
-![jQuery](https://img.shields.io/badge/jQuery-AJAX-blue)
-![OpenLayers](https://img.shields.io/badge/OpenLayers-GIS-green)
-![TinyMCE](https://img.shields.io/badge/TinyMCE-Editor-red)
-![Nginx](https://img.shields.io/badge/Nginx-Static%20Server-brightgreen)
+![Nuxt](https://img.shields.io/badge/Frontend-Nuxt-success)
+![Docker](https://img.shields.io/badge/Deploy-Docker-blue)
+![Nginx](https://img.shields.io/badge/Nginx-ReverseProxy-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
 ## 👨‍💻 Author
 
-### - Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
-### - Created: May 15, 2026
+- Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
+- Created: May 21, 2026
 
 ---
 
-## 📌 Overview
+# 📌 Overview
 
-This is a **lightweight enterprise frontend system** built with static web technologies and deployed using Docker + Nginx.
+Frontend system using:
 
-It provides:
-
-- 🎨 Responsive UI with Bootstrap 5
-- ⚡ AJAX communication using jQuery
-- 🗺 GIS mapping with OpenLayers
-- 📝 Rich text editor using TinyMCE
-- 🌐 Static server via Nginx
-- 🐳 Fully containerized deployment (Docker)
+- ⚡ NuxtJS framework
+- 🎨 HTML5 / CSS3 / JavaScript
+- 🌐 Nginx reverse proxy
+- 🐳 Docker containerization
 
 ---
 
-## ⚠️ Note
+# 🧱 Tech Stack
 
-This project is **frontend-only** and is designed to integrate with backend APIs such as:
+## 🎨 Frontend
+- NuxtJS
+- HTML5
+- CSS3
+- JavaScript
 
-- NestJS REST API
-- Node.js / Express API
-- Laravel API
-- Microservices architecture
-
-No backend logic or database is included.
-
----
-
-## 🧱 Tech Stack
-
-### 🏷️ Editor Control
-- ⚡ JavaScript (ES6) code snippets
-- ⚡ ESLint
-- ⚡ WSL
-- 🎨 Prettier - Code formatter
-- 🏷️ Live Server (Five Server)
-- 🎨 vscode-icons
-- ❗ Error Lens
-
-### 🐳 Docker / DevOps
-- 🐳 Docker Entension Pack
-- 📦 Docker Explorer
-- 🧾 YAML
-
-### ⚙️ Git / Version Control
-- 🔥 GitLens
-- 🌳 Git Graph
-
-### 🎨 UI Layer
-- IntelliSense for CSS class names in HTML
-- Bootstrap 5 Quick Snippets
-- jQuery Code Snippets
-- HTML CSS Support
-- Auto Rename Tag
-- Auto Close Tag
-- HTMLHint
+## 🐳 DevOps
+- Docker
+- Docker Compose
+- Nginx
 
 ---
 
-## 📁 Project Structure
-
----
+# 🚀 Deployment
 
 ### 0. Create the shared Docker network if it does not already exist
 
@@ -87,32 +48,27 @@ No backend logic or database is included.
 docker network create nest-cluster
 ```
 
-### 0. Copy `.env_example` to `.env` and configure it for project
-
-```bash
-cp .env_example .env
-```
-
-### 0. Remove old containers
-
-```bash
-docker compose down -v --remove-orphans
-```
-
-### 1. Fix permissions
+### 0. Fix permissions
 
 ```bash
 sudo chown 1000:1000 -R . && sudo chmod 777 -R .
 ```
 
-### 2. Grant execute permission
+### 0. Grant execute permission
 
 ```bash
 find . -type f -name "*.sh" -exec chmod +x {} \;
 ```
 
-### 3. Build & start cluster
+### 1. Remove old containers
 
 ```bash
-docker compose up -d --build --force-recreate
+docker compose down -v --remove-orphans
+```
+
+### 2. Build & start cluster
+
+#### Please configure .env_example before running
+```bash
+cp .env_example .env && docker compose up -d --build --force-recreate
 ```

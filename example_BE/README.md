@@ -1,87 +1,51 @@
-# 🚀 NestJS REST API - Docker Enterprise Backend
+# 🚀 Backend API System (NestJS + MongoDB + Docker)
 
-![Docker](https://img.shields.io/badge/Docker-Enterprise-blue)
-![NestJS](https://img.shields.io/badge/NestJS-Backend-red)
-![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
-![Nginx](https://img.shields.io/badge/Nginx-ReverseProxy-brightgreen)
-![API](https://img.shields.io/badge/Type-REST%20API-orange)
+![NestJS](https://img.shields.io/badge/Backend-NestJS-red)
+![Docker](https://img.shields.io/badge/Deploy-Docker-blue)
+![Swagger](https://img.shields.io/badge/API-Swagger-green)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
 ## 👨‍💻 Author
 
-### - Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
-### - Created: May 15, 2026
+- Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
+- Created: May 21, 2026
 
 ---
 
-## 📌 Overview
+# 📌 Overview
 
-This is a **RESTful API backend system** built with enterprise architecture using Docker.
+Backend REST API system using:
 
-It provides:
-
-- 🔐 Authentication API (Register / Login)
-- 📄 Swagger API Documentation
-- 🗄️ MongoDB database integration
-- 🧩 Mongo Express for database management
-- 🌐 Nginx reverse proxy
-- 🐳 Fully containerized environment
+- 🚀 NestJS framework
+- 🍃 MongoDB integration
+- 🔐 JWT Authentication
+- 📄 Swagger API documentation
+- 🐳 Docker containerization
 
 ---
 
-## ⚠️ Note
+# 🧱 Tech Stack
 
-This project is **backend API only** (no frontend UI), designed for:
+## ⚙️ Backend
+- NestJS
+- REST API
+- JWT Authentication
+- Swagger
 
-- Mobile apps
-- Frontend frameworks (React / Vue / Angular)
-- Microservices architecture
-- API integrations
-
----
-
-## 🚀 VS Code Extensions (Recommended Setup)
-
-For stack: NestJS + Node.js + JavaScript + Docker + MongoDB + Nginx + Swagger
-
-### 🏷️ Editor Control
-- ⚡ JavaScript (ES6) code snippets
-- ⚡ ESLint
-- ⚡ WSL
-- 🎨 Prettier - Code formatter
-- 🏷️ Live Server (Five Server)
-- 🎨 vscode-icons
-- ❗ Error Lens
-
-### 🐳 Docker / DevOps
-- 🐳 Docker Entension Pack
-- 📦 Docker Explorer
-- 🧾 YAML
-
-### ⚙️ Git / Version Control
-- 🔥 GitLens
-- 🌳 Git Graph
-
-### 🎯 Logic Layer
-- NestJS Files
-- MongoDB for VS Code
+## 🐳 DevOps
+- Docker
+- Docker Compose
 
 ---
 
-## ⚙️ Build Instructions
+# 🚀 Deployment
 
 ### 0. Create the shared Docker network if it does not already exist
 
 ```bash
 docker network create nest-cluster
-```
-
-### 0. Copy `.env_example` to `.env` and configure it for project
-
-```bash
-cp .env_example .env
 ```
 
 ### 0. Fix permissions
@@ -104,6 +68,7 @@ docker compose down -v --remove-orphans
 
 ### 2. Build & start cluster
 
+#### Please configure .env_example before running
 ```bash
-docker compose up -d --build --force-recreate
+cp .env_example .env && docker compose up -d --build --force-recreate
 ```

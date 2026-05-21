@@ -138,9 +138,11 @@ cd example_FE && docker compose down -v --remove-orphans
 ### 2. Build & start cluster
 
 ```bash
+cd example_DB && cp .env_example .env
 cd example_DB && docker compose up -d --build --force-recreate
 ```
 ```bash
+cd example_BE && cp .env_example .env
 cd example_BE && docker compose up -d --build --force-recreate
 ```
 ```bash

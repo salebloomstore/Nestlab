@@ -1,14 +1,34 @@
+// =====================================================
+// SHARD HN REPLICA SET INITIALIZATION
+// =====================================================
+
 rs.initiate({
   _id: "hnRS",
+
   members: [
-    { _id: 0, host: "shard-hn-primary:27017" },
-    { _id: 1, host: "shard-hn-assistant:27017" },
-    { _id: 2, host: "shard-hn-secretary:27017" }
+    {
+      _id: 0,
+      host: "shard-hn-primary:27017"
+    },
+    {
+      _id: 1,
+      host: "shard-hn-assistant:27017"
+    },
+    {
+      _id: 2,
+      host: "shard-hn-secretary:27017"
+    }
   ]
 })
 
-print("🚀 SHARD-HN SET INIT DONE");
+
+// =====================================================
+// INITIAL STATUS LOGGING
+// =====================================================
+
+print("🚀 SHARD-HN SET INIT DONE")
 print("⏳ WAITING PRIMARY...")
+
 
 while (!db.hello().isWritablePrimary) {
   sleep(2)
@@ -16,15 +36,27 @@ while (!db.hello().isWritablePrimary) {
 
 print("✅ SHARD-HN INIT DONE")
 
-// switch admin DB
+
+// =====================================================
+// SWITCH TO ADMIN DATABASE
+// =====================================================
+
 db = db.getSiblingDB("admin")
 
-// create root user
+
+// =====================================================
+// CREATE ROOT ADMIN USER
+// =====================================================
+
 db.createUser({
   user: process.env.MONGO_ADMIN_SHARD_HN,
   pwd: process.env.MONGO_PASSWORD_SHARD_HN,
+
   roles: [
-    { role: "root", db: "admin" }
+    {
+      role: "root",
+      db: "admin"
+    }
   ]
 })
 

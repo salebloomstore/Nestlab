@@ -1,38 +1,22 @@
+#!/bin/bash
+
 # =====================================================
-# NESTJS STARTUP SCRIPT (run.sh)
+# NESTJS BOOTSTRAP SCRIPT
 # =====================================================
 
 set -e
-
-
-# =====================================================
-# LOAD ENV VARIABLES
-# =====================================================
-
 source /var/www/cache/.env
-
-
-# =====================================================
-# SET WORKING DIRECTORY
-# =====================================================
 
 cd /var/www
 
-
-# =====================================================
-# INSTALL NESTJS CLI (GLOBAL)
-# =====================================================
-
 npm i -g @nestjs/cli
-
 
 echo "🚀 Checking NestJS project..."
 
 
-# =====================================================
-# CREATE PROJECT FIRST TIME ONLY
-# =====================================================
-
+# =========================
+# CREATE PROJECT FIRST TIME
+# =========================
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
@@ -41,10 +25,9 @@ if [ ! -f app/package.json ]; then
   cd app
 
 
-  # =====================================================
-  # CREATE ENV FILE
-  # =====================================================
-
+  # =========================
+  # ENV FILE
+  # =========================
   echo "📄 Creating .env..."
 
   cat > .env << EOF
@@ -54,10 +37,9 @@ MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 EOF
 
 
-  # =====================================================
-  # APP MODULE (MONGODB CONFIG ONLY)
-  # =====================================================
-
+  # =========================
+  # APP MODULE (MONGO ONLY)
+  # =========================
   echo "📄 Injecting MongoDB config..."
 
   cat > src/app.module.ts << 'EOF'
@@ -79,13 +61,12 @@ export class AppModule {}
 EOF
 
 
-  # =====================================================
-  # MAIN ENTRY (SWAGGER + ROOT ROUTE)
-  # =====================================================
-
+  # =========================
+  # MAIN (SWAGGER + ROOT ROUTE)
+  # =========================
   echo "📄 Setup main.ts (Swagger + Root route)..."
 
-  cat > src/main.ts << 'EOF'
+  cat > src/main.ts << EOF
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -93,7 +74,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // ROOT ROUTE
+  // =========================
+  // ROOT ROUTE (/)
+  // =========================
   app.getHttpAdapter().get('/', (req, res) => {
     res.json({
       status: 'ok',
@@ -102,7 +85,9 @@ async function bootstrap() {
     });
   });
 
-  // SWAGGER SETUP
+  // =========================
+  // SWAGGER
+  // =========================
   const config = new DocumentBuilder()
     .setTitle('NestJS API')
     .setDescription('API Documentation')
@@ -121,9 +106,9 @@ EOF
 fi
 
 
-# =====================================================
-# ENSURE ENV FILE ALWAYS EXISTS
-# =====================================================
+# =========================
+# ALWAYS ENSURE ENV
+# =========================
 
 cd /var/www/app
 
@@ -136,9 +121,9 @@ MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 EOF
 
 
-# =====================================================
-# INSTALL DEPENDENCIES
-# =====================================================
+# =========================
+# BUILD + RUN
+# =========================
 
 echo "📦 Installing dependencies..."
 
@@ -147,19 +132,9 @@ npm install @nestjs/config
 npm install @nestjs/swagger swagger-ui-express
 npm install
 
-
-# =====================================================
-# BUILD PROJECT
-# =====================================================
-
 echo "📦 Building project..."
 
 npm run build
-
-
-# =====================================================
-# START APPLICATION
-# =====================================================
 
 echo "🚀 Starting NestJS..."
 

@@ -2,7 +2,7 @@ version: "3.9"
 
 networks:
   nest-cluster:
-    driver: bridge
+    external: true
 
 services:
 

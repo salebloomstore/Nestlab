@@ -9,7 +9,7 @@ services:
   # =========================
   # NUXT SSR
   # =========================
-  app:
+  nuxt-app:
     container_name: ${APP_NAME}_GUI
 
     build:
@@ -44,7 +44,7 @@ services:
     restart: unless-stopped
 
     depends_on:
-      - app
+      - nuxt-app
 
     ports:
       - "90:80"

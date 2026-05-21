@@ -81,6 +81,38 @@ No backend logic or database is included.
 
 ---
 
+### 0. Create the shared Docker network if it does not already exist
+
 ```bash
-docker compose up -d --build
-sudo chown 1000:1000 -R . | sudo chmod 777 -R .
+docker network create nest-cluster
+```
+
+### 0. Copy `.env_example` to `.env` and configure it for project
+
+```bash
+cp .env_example .env
+```
+
+### 0. Remove old containers
+
+```bash
+docker compose down -v --remove-orphans
+```
+
+### 1. Fix permissions
+
+```bash
+sudo chown 1000:1000 -R . && sudo chmod 777 -R .
+```
+
+### 2. Grant execute permission
+
+```bash
+find . -type f -name "*.sh" -exec chmod +x {} \;
+```
+
+### 3. Build & start cluster
+
+```bash
+docker compose up -d --build --force-recreate
+```

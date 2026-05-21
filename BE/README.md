@@ -72,31 +72,37 @@ For stack: NestJS + Node.js + JavaScript + Docker + MongoDB + Nginx + Swagger
 
 ## ⚙️ Build Instructions
 
+### 0. Create the shared Docker network if it does not already exist
+
+```bash
+docker network create nest-cluster
+```
+
 ### 0. Copy `.env_example` to `.env` and configure it for project
 
 ```bash
 cp .env_example .env
 ```
 
-### 1. Remove old containers
+### 0. Remove old containers
 
 ```bash
 docker compose down -v --remove-orphans
 ```
 
-### 2. Fix permissions
+### 1. Fix permissions
 
 ```bash
 sudo chown 1000:1000 -R . && sudo chmod 777 -R .
 ```
 
-### 3. Grant execute permission
+### 2. Grant execute permission
 
 ```bash
 find . -type f -name "*.sh" -exec chmod +x {} \;
 ```
 
-### 4. Build & start cluster
+### 3. Build & start cluster
 
 ```bash
 docker compose up -d --build --force-recreate

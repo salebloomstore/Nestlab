@@ -1,18 +1,30 @@
-FROM nginx:alpine
+# =========================
+# BUILD STAGE
+# =========================
+FROM node:22-alpine AS builder
 
-# Xóa config mặc định
-RUN rm -rf /usr/share/nginx/html/*
+WORKDIR /app
 
-# Copy source web
-COPY src/ /usr/share/nginx/html/
+COPY ./app/package*.json ./
 
-# Copy nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN npm install
 
-# Script chạy (optional)
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
+COPY ./app .
 
-EXPOSE 80
+RUN npm run build
 
-CMD ["/run.sh"]
+
+# =========================
+# PRODUCTION STAGE
+# =========================
+FROM node:22-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app/.output ./.output
+
+EXPOSE 4000
+
+ENV PORT=4000
+
+CMD ["node", ".output/server/index.mjs"]

@@ -9,8 +9,8 @@ services:
   # =========================
   # NUXT SSR
   # =========================
-  nuxt-app:
-    container_name: fe-nuxt-app
+  app:
+    container_name: ${APP_NAME}_GUI
 
     build:
       context: .
@@ -37,14 +37,14 @@ services:
   # NGINX
   # =========================
   nginx:
-    container_name: fe-nginx
+    container_name: ${APP_NAME}_nginx_fGUI
 
     image: nginx:alpine
 
     restart: unless-stopped
 
     depends_on:
-      - nuxt-app
+      - app
 
     ports:
       - "90:80"

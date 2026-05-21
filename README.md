@@ -86,14 +86,17 @@ docker compose -f example_FE/docker-compose.yml down -v --remove-orphans
 
 ### 2. Build & start cluster
 
+#### Please configure example_DB/.env_example before running
 ```bash
 cp example_DB/.env_example example_DB/.env && docker compose -f example_DB/docker-compose.yml up -d --build --force-recreate
 ```
 
+#### Please configure example_DB/.env_example before running
 ```bash
 cp example_BE/.env_example example_BE/.env && docker compose -f example_BE/docker-compose.yml up -d --build --force-recreate
 ```
 
+#### Please configure example_DB/.env_example before running
 ```bash
 cp example_FE/.env_example example_FE/.env && docker compose -f example_FE/docker-compose.yml up -d --build --force-recreate
 ```

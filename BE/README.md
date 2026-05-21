@@ -71,5 +71,9 @@ For stack: NestJS + Node.js + JavaScript + Docker + MongoDB + Nginx + Swagger
 ---
 
 ```bash
-sudo docker compose up -d --build
-sudo chown 1000:1000 -R . | sudo chmod 777 -R .
+cp .env_example .env
+docker compose down -v --remove-orphans
+sudo chown 1000:1000 -R . && sudo chmod 777 -R .
+find . -type f -name "*.sh" -exec chmod +x {} \;
+docker compose up -d --build --force-recreate
+```

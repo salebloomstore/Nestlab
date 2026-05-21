@@ -7,7 +7,7 @@ networks:
 services:
 
   # =========================
-  # NUXT APP
+  # NUXT SSR
   # =========================
   nuxt-app:
     container_name: nuxt-app
@@ -20,12 +20,15 @@ services:
 
     environment:
       PORT: 4000
+      HOST: 0.0.0.0
+      NODE_ENV: production
 
     expose:
       - "4000"
 
     networks:
       - nest-cluster
+
 
   # =========================
   # NGINX
@@ -37,14 +40,14 @@ services:
 
     restart: unless-stopped
 
+    depends_on:
+      - nuxt-app
+
     ports:
-      - "90:80"
+      - "80:80"
 
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-
-    depends_on:
-      - nuxt-app
 
     networks:
       - nest-cluster

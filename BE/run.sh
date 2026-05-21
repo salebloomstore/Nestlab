@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-source .env
 
 cd /var/www
 

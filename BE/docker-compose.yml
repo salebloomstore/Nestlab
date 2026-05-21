@@ -17,6 +17,8 @@ services:
       - MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
     volumes:
       - ./app:/var/www/app
+    env_file:
+      - .env
     networks:
       - nest-cluster
 
@@ -28,6 +30,8 @@ services:
       - "80:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    env_file:
+      - .env
     depends_on:
       - app
     networks:

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-source /cache/.env
+source /var/www/cache/.env
 
 cd /var/www
 

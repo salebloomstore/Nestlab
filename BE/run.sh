@@ -20,11 +20,22 @@ if [ ! -f app/package.json ]; then
   cd app
 
   # =========================
+  # ENV FILE
+  # =========================
+  echo "📄 Creating .env..."
+
+  cat > .env << EOF
+MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
+MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
+MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
+EOF
+
+  # =========================
   # APP MODULE (MONGO ONLY)
   # =========================
   echo "📄 Injecting MongoDB config..."
 
-  cat > src/app.module.ts << EOF
+  cat > src/app.module.ts << 'EOF'
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
@@ -35,7 +46,7 @@ import { ConfigModule } from '@nestjs/config';
 
     MongooseModule.forRoot(
       process.env.MONGO_URI ||
-      \`mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin\`
+      `mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin`
     ),
   ],
 })
@@ -82,16 +93,6 @@ async function bootstrap() {
 }
 bootstrap();
 EOF
-
-  # =========================
-  # ENV FILE
-  # =========================
-  echo "📄 Creating .env..."
-
-  cat > .env << EOF
-MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
-EOF
-
   echo "✅ Project created"
 fi
 
@@ -104,6 +105,8 @@ echo "🔧 Ensuring .env..."
 
 cat > .env << EOF
 MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
+MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
+MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 EOF
 
 # =========================

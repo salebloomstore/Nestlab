@@ -1,17 +1,38 @@
-#!/bin/bash
+# =====================================================
+# NESTJS STARTUP SCRIPT (run.sh)
+# =====================================================
 
 set -e
+
+
+# =====================================================
+# LOAD ENV VARIABLES
+# =====================================================
+
 source /var/www/cache/.env
+
+
+# =====================================================
+# SET WORKING DIRECTORY
+# =====================================================
 
 cd /var/www
 
+
+# =====================================================
+# INSTALL NESTJS CLI (GLOBAL)
+# =====================================================
+
 npm i -g @nestjs/cli
+
 
 echo "🚀 Checking NestJS project..."
 
-# =========================
-# CREATE PROJECT FIRST TIME
-# =========================
+
+# =====================================================
+# CREATE PROJECT FIRST TIME ONLY
+# =====================================================
+
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
@@ -19,9 +40,11 @@ if [ ! -f app/package.json ]; then
 
   cd app
 
-  # =========================
-  # ENV FILE
-  # =========================
+
+  # =====================================================
+  # CREATE ENV FILE
+  # =====================================================
+
   echo "📄 Creating .env..."
 
   cat > .env << EOF
@@ -30,9 +53,11 @@ MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 EOF
 
-  # =========================
-  # APP MODULE (MONGO ONLY)
-  # =========================
+
+  # =====================================================
+  # APP MODULE (MONGODB CONFIG ONLY)
+  # =====================================================
+
   echo "📄 Injecting MongoDB config..."
 
   cat > src/app.module.ts << 'EOF'
@@ -53,12 +78,14 @@ import { ConfigModule } from '@nestjs/config';
 export class AppModule {}
 EOF
 
-  # =========================
-  # MAIN (SWAGGER + ROOT ROUTE)
-  # =========================
+
+  # =====================================================
+  # MAIN ENTRY (SWAGGER + ROOT ROUTE)
+  # =====================================================
+
   echo "📄 Setup main.ts (Swagger + Root route)..."
 
-  cat > src/main.ts << EOF
+  cat > src/main.ts << 'EOF'
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -66,9 +93,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // =========================
-  // ROOT ROUTE (/)
-  // =========================
+  // ROOT ROUTE
   app.getHttpAdapter().get('/', (req, res) => {
     res.json({
       status: 'ok',
@@ -77,9 +102,7 @@ async function bootstrap() {
     });
   });
 
-  // =========================
-  // SWAGGER
-  // =========================
+  // SWAGGER SETUP
   const config = new DocumentBuilder()
     .setTitle('NestJS API')
     .setDescription('API Documentation')
@@ -93,12 +116,15 @@ async function bootstrap() {
 }
 bootstrap();
 EOF
+
   echo "✅ Project created"
 fi
 
-# =========================
-# ALWAYS ENSURE ENV
-# =========================
+
+# =====================================================
+# ENSURE ENV FILE ALWAYS EXISTS
+# =====================================================
+
 cd /var/www/app
 
 echo "🔧 Ensuring .env..."
@@ -109,17 +135,32 @@ MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 EOF
 
-# =========================
-# BUILD + RUN
-# =========================
+
+# =====================================================
+# INSTALL DEPENDENCIES
+# =====================================================
+
 echo "📦 Installing dependencies..."
+
 npm install @nestjs/mongoose mongoose
 npm install @nestjs/config
 npm install @nestjs/swagger swagger-ui-express
 npm install
 
+
+# =====================================================
+# BUILD PROJECT
+# =====================================================
+
 echo "📦 Building project..."
+
 npm run build
 
+
+# =====================================================
+# START APPLICATION
+# =====================================================
+
 echo "🚀 Starting NestJS..."
+
 npm run start:prod

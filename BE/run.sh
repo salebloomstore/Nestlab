@@ -35,7 +35,7 @@ import { ConfigModule } from '@nestjs/config';
 
     MongooseModule.forRoot(
       process.env.MONGO_URI ||
-      `mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo:27017/nestdb?authSource=admin`
+      `mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin`
     ),
   ],
 })
@@ -89,7 +89,7 @@ EOF
   echo "📄 Creating .env..."
 
   cat > .env << EOF
-MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo:27017/nestdb?authSource=admin
+MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
 EOF
 
   echo "✅ Project created"
@@ -103,7 +103,7 @@ cd /var/www/app
 echo "🔧 Ensuring .env..."
 
 cat > .env << EOF
-MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo:27017/nestdb?authSource=admin
+MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
 EOF
 
 # =========================

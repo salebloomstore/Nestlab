@@ -14,11 +14,14 @@ cd /app
 if [ ! -f "package.json" ]; then
 
     echo "📦 First run detected"
+
     echo "🚀 Creating NuxtJS project..."
 
-    npm install -g nuxi
+    npx nuxi@latest init . \
+        --template minimal \
+        --force
 
-    nuxi init . --force
+    echo "📦 Installing dependencies..."
 
     npm install
 
@@ -45,7 +48,7 @@ echo "🏗️ Building NuxtJS..."
 npm run build
 
 # =========================
-# START NUXT
+# START NUXT SSR
 # =========================
 echo "🚀 Starting NuxtJS..."
 

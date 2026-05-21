@@ -35,7 +35,7 @@ import { ConfigModule } from '@nestjs/config';
 
     MongooseModule.forRoot(
       process.env.MONGO_URI ||
-      `mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin`
+      \`mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin\`
     ),
   ],
 })

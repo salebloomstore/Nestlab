@@ -24,7 +24,7 @@ if [ ! -f app/package.json ]; then
   # =========================
   echo "📄 Injecting MongoDB config..."
 
-  cat > src/app.module.ts << 'EOF'
+  cat > src/app.module.ts << EOF
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
@@ -47,7 +47,7 @@ EOF
   # =========================
   echo "📄 Setup main.ts (Swagger + Root route)..."
 
-  cat > src/main.ts << 'EOF'
+  cat > src/main.ts << EOF
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -88,7 +88,7 @@ EOF
   # =========================
   echo "📄 Creating .env..."
 
-  cat > .env << 'EOF'
+  cat > .env << EOF
 MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo:27017/nestdb?authSource=admin
 EOF
 
@@ -102,7 +102,7 @@ cd /var/www/app
 
 echo "🔧 Ensuring .env..."
 
-cat > .env << 'EOF'
+cat > .env << EOF
 MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo:27017/nestdb?authSource=admin
 EOF
 

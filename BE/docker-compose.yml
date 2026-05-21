@@ -7,7 +7,7 @@ networks:
 services:
   app:
     build: .
-    container_name: ${APP_NAME}_BE
+    container_name: ${APP_NAME}_API
     restart: always
     ports:
       - "3000:3000"

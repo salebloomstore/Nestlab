@@ -126,31 +126,25 @@ find . -type f -name "*.sh" -exec chmod +x {} \;
 ### 1. Remove old containers
 
 ```bash
-cd example_DB && docker compose down -v --remove-orphans
+docker compose -f example_DB/docker-compose.yml down -v --remove-orphans
 ```
 ```bash
-cd example_BE && docker compose down -v --remove-orphans
+docker compose -f example_BE/docker-compose.yml down -v --remove-orphans
 ```
 ```bash
-cd example_FE && docker compose down -v --remove-orphans
+docker compose -f example_FE/docker-compose.yml down -v --remove-orphans
 ```
 
 ### 2. Build & start cluster
 
 ```bash
-cd example_DB && cp .env_example .env
-cd ..
-
-cd example_DB && docker compose up -d --build --force-recreate
-cd ..
+cp example_DB/.env_example example_DB/.env && docker compose -f example_DB/docker-compose.yml up -d --build --force-recreate
 ```
-```bash
-cd example_BE && cp .env_example .env
-cd ..
 
-cd example_BE && docker compose up -d --build --force-recreate
-cd ..
-```
 ```bash
-cd example_FE && docker compose up -d --build --force-recreate
+cp example_BE/.env_example example_BE/.env && docker compose -f example_BE/docker-compose.yml up -d --build --force-recreate
+```
+
+```bash
+cp example_FE/.env_example example_FE/.env && docker compose -f example_FE/docker-compose.yml up -d --build --force-recreate
 ```

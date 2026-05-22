@@ -35,6 +35,35 @@ MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-r
 MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 PORT=3000
+
+EOF
+
+cat > tsconfig.json << EOF
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
+
 EOF
 
 
@@ -111,6 +140,7 @@ MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-r
 MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 PORT=3000
+
 EOF
 
 

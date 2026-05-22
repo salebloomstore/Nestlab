@@ -34,6 +34,7 @@ if [ ! -f app/package.json ]; then
 MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
 MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
+PORT=3000
 EOF
 
 
@@ -44,20 +45,23 @@ EOF
 
   cat > src/app.module.ts << 'EOF'
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-
+    // CONNECT MONGODB
     MongooseModule.forRoot(
       process.env.MONGO_URI ||
-      `mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin`
-    ),
+      `mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/authentication_db?authSource=admin`
+    )
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
+
 EOF
 
 
@@ -74,32 +78,20 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // =========================
-  // ROOT ROUTE (/)
-  // =========================
-  app.getHttpAdapter().get('/', (req, res) => {
-    res.json({
-      status: 'ok',
-      message: 'NestJS API is running',
-      swagger: '/swagger'
-    });
-  });
-
-  // =========================
   // SWAGGER
-  // =========================
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
-    .setDescription('API Documentation')
+    .setTitle('NestJS CRUD API')
+    .setDescription('User CRUD API')
     .setVersion('1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+
 EOF
 
   echo "✅ Project created"
@@ -118,6 +110,7 @@ cat > .env << EOF
 MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
 MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
+PORT=3000
 EOF
 
 
@@ -127,9 +120,20 @@ EOF
 
 echo "📦 Installing dependencies..."
 
-npm install @nestjs/mongoose mongoose
-npm install @nestjs/config
+npm install -D typescript ts-node @types/node
+npm install @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadata rxjs
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt bcrypt
+npm install -D @types/bcrypt @types/passport-jwt
 npm install @nestjs/swagger swagger-ui-express
+npm install class-validator class-transformer
+npm install @nestjs/mongoose mongoose
+npm install express-session
+npm install -D @types/express-session
+npm install cookie-parser
+npm install -D @types/cookie-parser
+npm install bcryptjs
+npm install -D @types/bcryptjs
+npm install @nestjs/config
 npm install
 
 echo "📦 Building project..."

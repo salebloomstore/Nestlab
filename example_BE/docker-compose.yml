@@ -30,6 +30,8 @@ services:
       # MongoDB connection string (via mongos router)
       - MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
 
+    working_dir: /var/www/app
+
     volumes:
       # Source code bind mount (dev-friendly)
       - ./app:/var/www/app

@@ -35,7 +35,6 @@ MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-r
 MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 PORT=3000
-
 EOF
 
 cat > tsconfig.json << EOF
@@ -63,7 +62,6 @@ cat > tsconfig.json << EOF
     "noFallthroughCasesInSwitch": false
   }
 }
-
 EOF
 
 
@@ -90,7 +88,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   providers: [AppService],
 })
 export class AppModule {}
-
 EOF
 
 
@@ -120,7 +117,6 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
-
 EOF
 
   echo "✅ Project created"
@@ -140,7 +136,6 @@ MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-r
 MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
 MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
 PORT=3000
-
 EOF
 
 

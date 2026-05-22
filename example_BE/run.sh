@@ -96,7 +96,7 @@ EOF
   # =========================
   echo "📄 Setup main.ts (Swagger + Root route)..."
 
-  cat > src/main.ts << EOF
+  cat > src/main.ts << 'EOF'
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';

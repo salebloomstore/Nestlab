@@ -51,6 +51,22 @@ Full stack system using:
 
 ---
 
+# 🚀 Development Environment
+
+Before running this project, please install the following tools:
+
+- [Kali Linux](https://apps.microsoft.com/detail/9pkr34tncv07)
+- [Git](https://git-scm.com/downloads)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+
+## Recommended VS Code Extensions
+
+- [Docker Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+- [Prettier Extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+---
+
 # 🚀 Deployment
 
 ### 0. Create the shared Docker network if it does not already exist

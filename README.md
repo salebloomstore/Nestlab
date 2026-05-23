@@ -55,6 +55,7 @@ Full stack system using:
 
 Before running this project, please install the following tools:
 
+- [WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/windows/wsl/install)
 - [Kali Linux](https://apps.microsoft.com/detail/9pkr34tncv07)
 - [Git](https://git-scm.com/downloads)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
@@ -65,6 +66,8 @@ Before running this project, please install the following tools:
 - [Docker Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 - [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier Extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [vscode-icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons)
+- [WSL Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
 
 ---
 

@@ -84,7 +84,7 @@ Before running this project, please install the following tools:
 
 # 🚀 Deployment
 
-### 0. Create the Portainer if [it does not already exist] and [you are using Linux operating system]
+### 0. Create the Portainer if `it does not already exist` and `you are using Linux operating system`
 
 ```bash
 docker compose down -v --remove-orphans

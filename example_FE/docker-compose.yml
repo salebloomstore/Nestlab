@@ -23,8 +23,6 @@ services:
       context: .
       dockerfile: Dockerfile
 
-    restart: unless-stopped
-
     environment:
       HOST: 0.0.0.0
       PORT: 4000
@@ -47,8 +45,6 @@ services:
     container_name: ${APP_NAME}_nginx_fGUI
 
     image: nginx:alpine
-
-    restart: unless-stopped
 
     depends_on:
       - nuxt-app

@@ -94,6 +94,9 @@ find . -type f -name "*.sh" -exec chmod +x {} \;
 ### 1. Remove old containers
 
 ```bash
+docker compose down -v --remove-orphans
+```
+```bash
 docker compose -f example_DB/docker-compose.yml down -v --remove-orphans
 ```
 ```bash
@@ -104,6 +107,10 @@ docker compose -f example_FE/docker-compose.yml down -v --remove-orphans
 ```
 
 ### 2. Build & start cluster
+
+```bash
+docker compose up -d --build --force-recreate
+```
 
 #### Please configure example_DB/.env_example before running
 ```bash

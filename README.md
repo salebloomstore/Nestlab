@@ -56,11 +56,18 @@ Full stack system using:
 Before running this project, please install the following tools:
 
 - [WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/windows/wsl/install)
+
 - [Kali Linux](https://apps.microsoft.com/detail/9pkr34tncv07)
+
 - [Git](https://git-scm.com/downloads)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+#### If you are using Windows operating system
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
+
+#### If you are using Linux operating system
 - [Docker Engine](https://docs.docker.com/engine/install/)
 - [Docker Compose](https://docs.docker.com/compose/)
+
 - [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Recommended VS Code Extensions
@@ -75,7 +82,7 @@ Before running this project, please install the following tools:
 
 # 🚀 Deployment
 
-### 0. Create the Portainer if it does not already exist
+### 0. Create the Portainer if [it does not already exist] and [you are using Linux operating system]
 
 ```bash
 docker compose down -v --remove-orphans

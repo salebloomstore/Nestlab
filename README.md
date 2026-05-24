@@ -97,7 +97,7 @@ docker compose up -d --build --force-recreate
 docker network create nest-cluster
 ```
 
-### 0. Fix permissions if `you are using Windows operating system`
+### 0. Fix permissions
 
 ```bash
 sudo chown 1000:1000 -R . && sudo chmod 777 -R .

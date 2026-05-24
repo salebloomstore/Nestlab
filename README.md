@@ -59,6 +59,8 @@ Before running this project, please install the following tools:
 - [Kali Linux](https://apps.microsoft.com/detail/9pkr34tncv07)
 - [Git](https://git-scm.com/downloads)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Docker Engine](https://docs.docker.com/engine/install/)
+- [Docker Compose](https://docs.docker.com/compose/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 
 ## Recommended VS Code Extensions

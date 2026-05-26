@@ -9,7 +9,7 @@ source /var/www/cache/.env
 
 cd /var/www
 
-npm i -g @nestjs/cli
+npm install -g @nestjs/cli@11.0.10
 
 echo "🚀 Checking NestJS project..."
 
@@ -20,7 +20,7 @@ echo "🚀 Checking NestJS project..."
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
-  nest new app --package-manager npm --skip-git
+  npx @nestjs/cli@11.0.10 new app --package-manager npm --skip-git
 
   cd app
 
@@ -31,37 +31,37 @@ if [ ! -f app/package.json ]; then
   echo "📄 Creating .env..."
 
   cat > .env << EOF
-MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
-MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
-MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
+MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin
+MONGO_ADMIN_CONFIG_SERVER=${MONGO_ADMIN_CONFIG_SERVER}
+MONGO_PASSWORD_CONFIG_SERVER=${MONGO_PASSWORD_CONFIG_SERVER}
 EOF
 
-cat > tsconfig.json << EOF
-{
-  "compilerOptions": {
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "resolvePackageJsonExports": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
-}
-EOF
+# cat > tsconfig.json << EOF
+# {
+#   "compilerOptions": {
+#     "module": "nodenext",
+#     "moduleResolution": "nodenext",
+#     "resolvePackageJsonExports": true,
+#     "esModuleInterop": true,
+#     "isolatedModules": true,
+#     "declaration": true,
+#     "removeComments": true,
+#     "emitDecoratorMetadata": true,
+#     "experimentalDecorators": true,
+#     "allowSyntheticDefaultImports": true,
+#     "target": "ES2023",
+#     "sourceMap": true,
+#     "outDir": "./dist",
+#     "incremental": true,
+#     "skipLibCheck": true,
+#     "strictNullChecks": true,
+#     "forceConsistentCasingInFileNames": true,
+#     "noImplicitAny": false,
+#     "strictBindCallApply": false,
+#     "noFallthroughCasesInSwitch": false
+#   }
+# }
+# EOF
 
 
   # =========================
@@ -69,25 +69,25 @@ EOF
   # =========================
   echo "📄 Injecting MongoDB config..."
 
-  cat > src/app.module.ts << 'EOF'
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
+#   cat > src/app.module.ts << 'EOF'
+# import { Module } from '@nestjs/common';
+# import { AppController } from './app.controller';
+# import { AppService } from './app.service';
+# import { MongooseModule } from '@nestjs/mongoose';
 
-@Module({
-  imports: [
-    // CONNECT MONGODB
-    MongooseModule.forRoot(
-      process.env.MONGO_URI ||
-      `mongodb://${process.env.MONGO_ADMIN_CONFIG_SV}:${process.env.MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/authentication_db?authSource=admin`
-    )
-  ],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
-EOF
+# @Module({
+#   imports: [
+#     // CONNECT MONGODB
+#     MongooseModule.forRoot(
+#       process.env.MONGO_URI ||
+#       `mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin`
+#     )
+#   ],
+#   controllers: [AppController],
+#   providers: [AppService],
+# })
+# export class AppModule {}
+# EOF
 
 
   # =========================
@@ -95,31 +95,31 @@ EOF
   # =========================
   echo "📄 Setup main.ts (Swagger + Root route)..."
 
-  cat > src/main.ts << 'EOF'
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+#   cat > src/main.ts << 'EOF'
+# import { NestFactory } from '@nestjs/core';
+# import { AppModule } from './app.module';
+# import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+# async function bootstrap() {
+#   const app = await NestFactory.create(AppModule);
 
-  // SWAGGER
-  const config = new DocumentBuilder()
-    .setTitle('NestJS CRUD API')
-    .setDescription('User CRUD API')
-    .setVersion('1.0')
-    .build();
+#   // SWAGGER
+#   const config = new DocumentBuilder()
+#     .setTitle('NestJS CRUD API')
+#     .setDescription('User CRUD API')
+#     .setVersion('1.0')
+#     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+#   const document = SwaggerModule.createDocument(app, config);
+#   SwaggerModule.setup('swagger', app, document);
 
-  await app.listen(3000);
+#   await app.listen(3000);
 
-  console.log(`Server running: http://localhost`);
-  console.log(`Swagger: http://localhost/swagger`);
-}
-bootstrap();
-EOF
+#   console.log(`Server running: http://localhost`);
+#   console.log(`Swagger: http://localhost/swagger`);
+# }
+# bootstrap();
+# EOF
 
   echo "✅ Project created"
 fi
@@ -134,9 +134,9 @@ cd /var/www/app
 echo "🔧 Ensuring .env..."
 
 cat > .env << EOF
-MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SV}:${MONGO_PASSWORD_CONFIG_SV}@mongo-router:27017/nestdb?authSource=admin
-MONGO_ADMIN_CONFIG_SV=${MONGO_ADMIN_CONFIG_SV}
-MONGO_PASSWORD_CONFIG_SV=${MONGO_PASSWORD_CONFIG_SV}
+MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongo-router:27017/nestdb?authSource=admin
+MONGO_ADMIN_CONFIG_SERVER=${MONGO_ADMIN_CONFIG_SERVER}
+MONGO_PASSWORD_CONFIG_SERVER=${MONGO_PASSWORD_CONFIG_SERVER}
 EOF
 
 
@@ -146,21 +146,21 @@ EOF
 
 echo "📦 Installing dependencies..."
 
-npm install -D typescript ts-node @types/node
-npm install @nestjs/common @nestjs/core @nestjs/platform-express reflect-metadata rxjs
-npm install @nestjs/jwt @nestjs/passport passport passport-jwt bcrypt
-npm install -D @types/bcrypt @types/passport-jwt
-npm install @nestjs/swagger swagger-ui-express
-npm install class-validator class-transformer
-npm install @nestjs/mongoose mongoose
-npm install express-session
-npm install -D @types/express-session
-npm install cookie-parser
-npm install -D @types/cookie-parser
-npm install bcryptjs
-npm install -D @types/bcryptjs
-npm install @nestjs/config
-npm install
+npm install -D typescript@5.8.3 ts-node@10.9.2 @types/node@22.15.30
+npm install @nestjs/common@11.1.6 @nestjs/core@11.1.6 @nestjs/platform-express@11.1.6 reflect-metadata rxjs
+npm install @nestjs/jwt@11.0.1 @nestjs/passport@11.0.5 passport@0.7.0 passport-jwt@4.0.1 bcrypt@5.1.1
+npm install -D @types/bcrypt@5.0.2 @types/passport-jwt@4.0.1
+npm install @nestjs/swagger@8.1.1 swagger-ui-express@5.0.1
+npm install class-validator@0.14.2 class-transformer@0.5.1
+npm install @nestjs/mongoose@11.0.3 mongoose@8.15.1
+npm install express-session@1.18.1
+npm install -D @types/express-session@1.18.0
+npm install cookie-parser@1.4.7
+npm install -D @types/cookie-parser@1.4.9
+npm install bcryptjs@3.0.2
+npm install -D @types/bcryptjs@2.4.6
+npm install @nestjs/config@4.0.2
+npm install -D typescript@5.8.3 ts-node@10.9.2 @types/node@22.15.30
 
 echo "📦 Building project..."
 

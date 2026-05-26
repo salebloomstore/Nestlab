@@ -1,8 +1,10 @@
 # 🚀 Backend API System (NestJS + MongoDB + Docker)
 
-![NestJS](https://img.shields.io/badge/Backend-NestJS-red)
-![Docker](https://img.shields.io/badge/Deploy-Docker-blue)
-![Swagger](https://img.shields.io/badge/API-Swagger-green)
+![Nginx](https://img.shields.io/badge/Reverse%20Proxy-Nginx%201.28.0-brightgreen)
+![NestJS](https://img.shields.io/badge/Backend-NestJS%2011.1.6-red)
+![Mongo Express](https://img.shields.io/badge/Admin-Mongo--Express%201.0.2-orange)
+![Docker Engine](https://img.shields.io/badge/Docker%20Engine-27.5.1-blue)
+![Swagger](https://img.shields.io/badge/API-Swagger%208.1.1-green)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---

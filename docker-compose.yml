@@ -20,13 +20,13 @@ services:
 # =====================================================
 # NESTJS BACKEND APPLICATION
 # =====================================================
-  nest-app:
+  nestjs-webapi-io:
     build: .
-    container_name: ${APP_NAME}_API
+    container_name: ${APP_NAME}_nestjs-webapi-io
     restart: always
 
     ports:
-      - "3000:3000"
+      - ${NESTJS_WEBAPI_IO_PORT}:3000
 
     working_dir: /var/www/app
 
@@ -44,13 +44,13 @@ services:
 # =====================================================
 # NGINX REVERSE PROXY
 # =====================================================
-  nginx:
+  nginxe-server-be:
     image: *nginx-image
-    container_name: ${APP_NAME}_nginx_fAPI
+    container_name: ${APP_NAME}_nginxe-server-be
     restart: always
 
     ports:
-      - "80:80"
+      - ${NGINXE_SERVER_BE_PORT}:80
 
     volumes:
       # Nginx configuration
@@ -60,7 +60,7 @@ services:
       - .env
 
     depends_on:
-      - nest-app
+      - nestjs-webapi-io
 
     networks:
       - bloomn-etword

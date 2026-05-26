@@ -9,7 +9,6 @@ source /var/www/cache/.env
 
 cd /var/www
 
-npm install -g npm@11.15.0
 npm install -g @nestjs/cli@11.0.10
 
 echo "🚀 Checking NestJS project..."
@@ -117,7 +116,7 @@ async function bootstrap() {
   console.log(`Server running: http://localhost`);
   console.log(`Swagger: http://localhost/swagger`);
 }
-bootstrap();
+void bootstrap();
 EOF
 
   echo "✅ Project created"

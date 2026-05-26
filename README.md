@@ -2,7 +2,6 @@
 
 ![Nginx](https://img.shields.io/badge/Reverse%20Proxy-Nginx%201.28.0-brightgreen)
 ![NestJS](https://img.shields.io/badge/Backend-NestJS%2011.1.24-red)
-![Mongo Express](https://img.shields.io/badge/Admin-Mongo--Express%201.0.2-orange)
 ![Docker Engine](https://img.shields.io/badge/Docker%20Engine-27.5.1-blue)
 ![Docker Compose](https://img.shields.io/badge/Docker%20Compose-2.32.4-blue)
 ![Swagger](https://img.shields.io/badge/API-Swagger%2011.4.4-green)
@@ -38,7 +37,7 @@ Backend REST API system using:
 - Swagger
 
 ## 🐳 DevOps
-- Docker
+- Docker Engine
 - Docker Compose
 
 ---

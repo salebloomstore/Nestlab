@@ -1,0 +1,28 @@
+name: portai-incorr
+
+x-portainer-image: &portainer-image portainer/portainer-ce:2.27.9@sha256:224a378fbc5ae579dc9d570c5ca2e5e981a4a003c8d7c2c5b5e482af97c2f87c
+
+networks:
+  bloomn-etword:
+    external: true
+
+services:
+  portainer:
+    image: *portainer-image
+    container_name: portainer
+
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+    networks:
+      - bloomn-etword
+
+volumes:
+  portainer_data:

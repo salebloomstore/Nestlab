@@ -73,10 +73,16 @@ Before running this project, please install the following tools:
 
 # 🚀 Deployment
 
+### 0. Create Portainer if it does not already exist
+
+```bash
+docker compose -f portainer/docker-compose.yml up -d --build --force-recreate
+```
+
 ### 0. Create the shared Docker network if it does not already exist
 
 ```bash
-docker network create nest-cluster
+docker network create bloomn-etword
 ```
 
 ### 0. Fix permissions

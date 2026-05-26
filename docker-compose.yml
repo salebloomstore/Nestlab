@@ -6,10 +6,10 @@
 # - Nginx reverse proxy
 # =====================================================
 
-version: "3.9"
+name: nestjs-incorr
 
 networks:
-  nest-cluster:
+  bloomn-etword:
     external: true
 
 
@@ -40,7 +40,7 @@ services:
       - .env
 
     networks:
-      - nest-cluster
+      - bloomn-etword
 
 
 # =====================================================
@@ -65,4 +65,4 @@ services:
       - nest-app
 
     networks:
-      - nest-cluster
+      - bloomn-etword

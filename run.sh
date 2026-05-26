@@ -146,7 +146,7 @@ EOF
 
 echo "📦 Installing dependencies..."
 
-npm install -D typescript@5.9.0 ts-node@10.9.2 @types/node@22.15.31
+npm install -D typescript@5.8.3 ts-node@10.9.2 @types/node@22.15.31
 npm install @nestjs/common@11.1.8 @nestjs/core@11.1.8 @nestjs/platform-express@11.1.8 reflect-metadata@0.2.2 rxjs@7.8.2
 npm install @nestjs/jwt@11.0.1 @nestjs/passport@11.0.5 passport@0.7.0 passport-jwt@4.0.1 bcrypt@5.1.1
 npm install -D @types/bcrypt@5.0.2 @types/passport-jwt@4.0.1

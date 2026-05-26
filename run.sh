@@ -81,7 +81,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     // CONNECT MONGODB
     MongooseModule.forRoot(
       process.env.MONGO_URI ||
-      `mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin`
+      `mongodb://${process.env.MONGO_ADMIN_CONFIG_SERVER}:${process.env.MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin`
     )
   ],
   controllers: [AppController],

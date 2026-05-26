@@ -79,8 +79,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     // CONNECT MONGODB
-    MongooseModule.forRoot(
-      MongooseModule.forRoot(process.env.MONGO_URI),
+    MongooseModule.forRoot(process.env.MONGO_URI),
   ],
   controllers: [AppController],
   providers: [AppService],

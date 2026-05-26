@@ -37,32 +37,32 @@ MONGO_ADMIN_CONFIG_SERVER=${MONGO_ADMIN_CONFIG_SERVER}
 MONGO_PASSWORD_CONFIG_SERVER=${MONGO_PASSWORD_CONFIG_SERVER}
 EOF
 
-# cat > tsconfig.json << EOF
-# {
-#   "compilerOptions": {
-#     "module": "nodenext",
-#     "moduleResolution": "nodenext",
-#     "resolvePackageJsonExports": true,
-#     "esModuleInterop": true,
-#     "isolatedModules": true,
-#     "declaration": true,
-#     "removeComments": true,
-#     "emitDecoratorMetadata": true,
-#     "experimentalDecorators": true,
-#     "allowSyntheticDefaultImports": true,
-#     "target": "ES2023",
-#     "sourceMap": true,
-#     "outDir": "./dist",
-#     "incremental": true,
-#     "skipLibCheck": true,
-#     "strictNullChecks": true,
-#     "forceConsistentCasingInFileNames": true,
-#     "noImplicitAny": false,
-#     "strictBindCallApply": false,
-#     "noFallthroughCasesInSwitch": false
-#   }
-# }
-# EOF
+  cat > tsconfig.json << EOF
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
+EOF
 
 
   # =========================
@@ -70,25 +70,25 @@ EOF
   # =========================
   echo "📄 Injecting MongoDB config..."
 
-#   cat > src/app.module.ts << 'EOF'
-# import { Module } from '@nestjs/common';
-# import { AppController } from './app.controller';
-# import { AppService } from './app.service';
-# import { MongooseModule } from '@nestjs/mongoose';
+  cat > src/app.module.ts << 'EOF'
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
 
-# @Module({
-#   imports: [
-#     // CONNECT MONGODB
-#     MongooseModule.forRoot(
-#       process.env.MONGO_URI ||
-#       `mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin`
-#     )
-#   ],
-#   controllers: [AppController],
-#   providers: [AppService],
-# })
-# export class AppModule {}
-# EOF
+@Module({
+  imports: [
+    // CONNECT MONGODB
+    MongooseModule.forRoot(
+      process.env.MONGO_URI ||
+      `mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin`
+    )
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+EOF
 
 
   # =========================
@@ -96,31 +96,31 @@ EOF
   # =========================
   echo "📄 Setup main.ts (Swagger + Root route)..."
 
-#   cat > src/main.ts << 'EOF'
-# import { NestFactory } from '@nestjs/core';
-# import { AppModule } from './app.module';
-# import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+  cat > src/main.ts << 'EOF'
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-# async function bootstrap() {
-#   const app = await NestFactory.create(AppModule);
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
 
-#   // SWAGGER
-#   const config = new DocumentBuilder()
-#     .setTitle('NestJS CRUD API')
-#     .setDescription('User CRUD API')
-#     .setVersion('1.0')
-#     .build();
+  // SWAGGER
+  const config = new DocumentBuilder()
+    .setTitle('NestJS CRUD API')
+    .setDescription('User CRUD API')
+    .setVersion('1.0')
+    .build();
 
-#   const document = SwaggerModule.createDocument(app, config);
-#   SwaggerModule.setup('swagger', app, document);
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('swagger', app, document);
 
-#   await app.listen(3000);
+  await app.listen(3000);
 
-#   console.log(`Server running: http://localhost`);
-#   console.log(`Swagger: http://localhost/swagger`);
-# }
-# bootstrap();
-# EOF
+  console.log(`Server running: http://localhost`);
+  console.log(`Swagger: http://localhost/swagger`);
+}
+bootstrap();
+EOF
 
   echo "✅ Project created"
 fi

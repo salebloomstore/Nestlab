@@ -135,7 +135,7 @@ cd /var/www/app
 echo "🔧 Ensuring .env..."
 
 cat > .env << EOF
-MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongo-router:27017/nestdb?authSource=admin
+MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin
 MONGO_ADMIN_CONFIG_SERVER=${MONGO_ADMIN_CONFIG_SERVER}
 MONGO_PASSWORD_CONFIG_SERVER=${MONGO_PASSWORD_CONFIG_SERVER}
 EOF

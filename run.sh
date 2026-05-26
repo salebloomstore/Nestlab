@@ -167,7 +167,7 @@ npm install express-session@1.19.0 cookie-parser@1.4.7
 npm install -D @types/express-session@1.19.0 @types/cookie-parser@1.4.10
 
 # Extra utilities
-npm install bcryptjs@3.0.2 @nestjs/config@4.0.4
+npm install bcryptjs@3.0.3 @nestjs/config@4.0.4
 npm install -D @types/bcryptjs@2.4.6
 
 npm install

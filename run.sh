@@ -169,8 +169,8 @@ npm install -D @types/express-session@1.18.0 @types/cookie-parser@1.4.9
 
 # Extra utilities
 npm install bcryptjs@3.0.2 @nestjs/config@4.0.2
-
 npm install -D @types/bcryptjs@2.4.6
+npm install
 
 echo "📦 Building project..."
 

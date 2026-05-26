@@ -9,7 +9,7 @@ source /var/www/cache/.env
 
 cd /var/www
 
-npm install -g @nestjs/cli@11.0.11
+npm install -g @nestjs/cli@11.0.10
 
 echo "🚀 Checking NestJS project..."
 

@@ -28,10 +28,6 @@ services:
     ports:
       - "3000:3000"
 
-    environment:
-      # MongoDB connection string (via mongos router)
-      - MONGO_URI=mongodb://${MONGO_ADMIN_CONFIG_SERVER}:${MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin
-
     working_dir: /var/www/app
 
     volumes:

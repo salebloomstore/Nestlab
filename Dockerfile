@@ -2,7 +2,7 @@
 # DOCKER IMAGE - NESTJS APPLICATION
 # =====================================================
 
-FROM node:20.18.3-bookworm@sha256:bcf90f85634194bc51e92f8add1221c7fdeeff94b7f1ff360aeaa7498086d641
+FROM node:20.19.0-bookworm@sha256:ba077fe891ce516b24bdbbd66d27d1e8e8c5a6e6b31ec7e7e559b45c3fca0643
 
 
 # =====================================================

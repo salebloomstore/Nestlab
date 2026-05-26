@@ -150,7 +150,7 @@ npm install -D typescript@5.8.3 ts-node@10.9.2 @types/node@22.15.30
 npm install @nestjs/common@11.1.6 @nestjs/core@11.1.6 @nestjs/platform-express@11.1.6 reflect-metadata rxjs
 npm install @nestjs/jwt@11.0.1 @nestjs/passport@11.0.5 passport@0.7.0 passport-jwt@4.0.1 bcrypt@5.1.1
 npm install -D @types/bcrypt@5.0.2 @types/passport-jwt@4.0.1
-npm install @nestjs/swagger@8.1.1 swagger-ui-express@5.0.1
+npm install @nestjs/swagger@11.2.0 swagger-ui-express@5.0.1
 npm install class-validator@0.14.2 class-transformer@0.5.1
 npm install @nestjs/mongoose@11.0.3 mongoose@8.15.1
 npm install express-session@1.18.1

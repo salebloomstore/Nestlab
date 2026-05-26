@@ -9,7 +9,7 @@ source /var/www/cache/.env
 
 cd /var/www
 
-npm install @nestjs/common@11.1.8 @nestjs/core@11.1.8 @nestjs/platform-express@11.1.8
+npm install -g @nestjs/cli@11.0.11
 
 echo "🚀 Checking NestJS project..."
 
@@ -20,7 +20,7 @@ echo "🚀 Checking NestJS project..."
 if [ ! -f app/package.json ]; then
   echo "📦 Creating NestJS project..."
 
-  npx @nestjs/cli@11.0.11 new app --package-manager npm --skip-git
+  nest new app --package-manager npm --skip-git
 
   cd app
 

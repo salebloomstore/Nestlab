@@ -80,8 +80,7 @@ import { MongooseModule } from '@nestjs/mongoose';
   imports: [
     // CONNECT MONGODB
     MongooseModule.forRoot(
-      process.env.MONGO_URI
-    )
+      MongooseModule.forRoot(process.env.MONGO_URI),
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -115,8 +114,8 @@ async function bootstrap() {
 
   await app.listen(3000);
 
-  console.log('Server running: http://localhost');
-  console.log('Swagger: http://localhost/swagger');
+  console.log(`Server running: http://localhost`);
+  console.log(`Swagger: http://localhost/swagger`);
 }
 bootstrap();
 EOF

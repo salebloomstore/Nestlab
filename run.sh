@@ -154,7 +154,7 @@ npm install @nestjs/swagger@11.2.1 swagger-ui-express@5.0.1
 npm install class-validator@0.14.2 class-transformer@0.5.1
 npm install @nestjs/mongoose@11.0.3 mongoose@8.15.2
 npm install express-session@1.18.1
-npm install -D @types/express-session@1.18.1
+npm install -D @types/express-session@1.18.0
 npm install cookie-parser@1.4.7
 npm install -D @types/cookie-parser@1.4.9
 npm install bcryptjs@3.0.2

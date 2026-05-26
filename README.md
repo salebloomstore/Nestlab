@@ -1,11 +1,8 @@
-# 🚀 Full Stack System (Nuxt + NestJS + MongoDB + Docker)
+# 🚀 Backend API System (NestJS + MongoDB + Docker)
 
-![Nuxt](https://img.shields.io/badge/Frontend-Nuxt-success)
 ![NestJS](https://img.shields.io/badge/Backend-NestJS-red)
-![MongoDB](https://img.shields.io/badge/Database-MongoDB-green)
-![Mongo Express](https://img.shields.io/badge/Admin-Mongo--Express-orange)
 ![Docker](https://img.shields.io/badge/Deploy-Docker-blue)
-![Nginx](https://img.shields.io/badge/Nginx-ReverseProxy-brightgreen)
+![Swagger](https://img.shields.io/badge/API-Swagger-green)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
@@ -19,35 +16,27 @@
 
 # 📌 Overview
 
-Full stack system using:
+Backend REST API system using:
 
-- ⚡ NuxtJS frontend
-- 🚀 NestJS backend
-- 🍃 MongoDB database
-- 📊 Mongo Express management
+- 🚀 NestJS framework
+- 🍃 MongoDB integration
+- 🔐 JWT Authentication
+- 📄 Swagger API documentation
 - 🐳 Docker containerization
-- 🌐 Nginx reverse proxy
 
 ---
 
 # 🧱 Tech Stack
 
-## 🎨 Frontend
-- NuxtJS
-- HTML5 / CSS3 / JavaScript
-
 ## ⚙️ Backend
-- NestJS REST API
+- NestJS
+- REST API
 - JWT Authentication
-- Swagger API
-
-## 🗄️ Database
-- MongoDB
-- Mongo Express
+- Swagger
 
 ## 🐳 DevOps
-- Docker & Docker Compose
-- Nginx Reverse Proxy
+- Docker
+- Docker Compose
 
 ---
 
@@ -84,14 +73,7 @@ Before running this project, please install the following tools:
 
 # 🚀 Deployment
 
-### 0. Create the Portainer if `it does not already exist` and `you are using Linux operating system`
-
-```bash
-docker compose down -v --remove-orphans
-docker compose up -d --build --force-recreate
-```
-
-### 0. Create the Docker network if `it does not already exist`
+### 0. Create the shared Docker network if it does not already exist
 
 ```bash
 docker network create nest-cluster
@@ -112,28 +94,13 @@ find . -type f -name "*.sh" -exec chmod +x {} \;
 ### 1. Remove old containers
 
 ```bash
-docker compose -f example_DB/docker-compose.yml down -v --remove-orphans
-```
-```bash
-docker compose -f example_BE/docker-compose.yml down -v --remove-orphans
-```
-```bash
-docker compose -f example_FE/docker-compose.yml down -v --remove-orphans
+docker compose down -v --remove-orphans
 ```
 
 ### 2. Build & start cluster
 
-#### Please configure example_DB/.env_example before running
-```bash
-cp example_DB/.env_example example_DB/.env && docker compose -f example_DB/docker-compose.yml up -d --build --force-recreate
-```
+#### Please configure .env_example before running
 
-#### Please configure example_BE/.env_example before running
 ```bash
-cp example_BE/.env_example example_BE/.env && docker compose -f example_BE/docker-compose.yml up -d --build --force-recreate
-```
-
-#### Please configure example_FE/.env_example before running
-```bash
-cp example_FE/.env_example example_FE/.env && docker compose -f example_FE/docker-compose.yml up -d --build --force-recreate
+cp .env_example .env && docker compose up -d --build --force-recreate
 ```

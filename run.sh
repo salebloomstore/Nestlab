@@ -115,8 +115,8 @@ async function bootstrap() {
 
   await app.listen(3000);
 
-  console.log(`Server running: http://localhost`);
-  console.log(`Swagger: http://localhost/swagger`);
+  console.log('Server running: http://localhost');
+  console.log('Swagger: http://localhost/swagger');
 }
 bootstrap();
 EOF

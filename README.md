@@ -78,7 +78,7 @@ Before running this project, please install the following tools:
 ### 0. Create Portainer if it does not already exist
 
 ```bash
-docker compose -f portainer/docker-compose.yml up -d --build --force-recreate
+cp portainer/.env_example portainer/.env && docker compose -f portainer/docker-compose.yml up -d --build --force-recreate
 ```
 
 ### 0. Create the shared Docker network if it does not already exist

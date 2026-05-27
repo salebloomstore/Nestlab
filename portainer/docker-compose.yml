@@ -7,15 +7,15 @@ networks:
     external: true
 
 services:
-  portainer:
+  portai-nergui-io:
     image: *portainer-image
-    container_name: portainer
+    container_name: ${APP_NAME}_portai-nergui-io
 
     restart: unless-stopped
 
     ports:
-      - "8000:8000"
-      - "9443:9443"
+      - ${PORTAI_NERGUI_EA_PORT}:8000
+      - ${PORTAI_NERGUI_UI_PORT}:9443
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

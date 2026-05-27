@@ -27,7 +27,7 @@ EOF
 echo "📦 Installing dependencies..."
 
 # TypeScript toolchain
-npm install -D typescript@5.9.3 ts-node@10.9.2 @types/node@24.12.4
+npm install -D typescript@5.9.3 ts-node@10.9.2 @types/node@24.12.4 @types/jest@29.5.14 jest@29.7.0 ts-jest@29.2.5
 
 # NestJS core (stable 11.x ecosystem)
 npm install @nestjs/common@11.1.24 @nestjs/core@11.1.24 @nestjs/platform-express@11.1.24 reflect-metadata@0.2.2 rxjs@7.8.2

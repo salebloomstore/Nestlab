@@ -28,7 +28,7 @@ services:
     working_dir: /var/www/app
     volumes:
       # Source code bind mount (dev-friendly)
-      - ./app:/var/www/app
+      - ./source:/var/www/app
     env_file: .env
     networks:
       - bloomn-etword

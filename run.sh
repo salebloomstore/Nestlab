@@ -7,122 +7,6 @@ tail -f /dev/null
 set -e
 source /var/www/cache/.env
 
-# cd /var/www
-
-# npm install -g @nestjs/cli@11.0.0
-
-# echo "🚀 Checking NestJS project..."
-
-
-# # =========================
-# # CREATE PROJECT FIRST TIME
-# # =========================
-# if [ ! -f app/package.json ]; then
-#   echo "📦 Creating NestJS project..."
-
-#   nest new app --package-manager npm --skip-git
-
-#   cd app
-
-
-#   # =========================
-#   # ENV FILE
-#   # =========================
-#   echo "📄 Creating .env..."
-
-#   cat > .env << EOF
-# MONGO_ADMIN_CONFIG_SERVER=${MONGO_ADMIN_CONFIG_SERVER}
-# MONGO_PASSWORD_CONFIG_SERVER=${MONGO_PASSWORD_CONFIG_SERVER}
-# EOF
-
-#   cat > tsconfig.json << EOF
-# {
-#   "compilerOptions": {
-#     "module": "nodenext",
-#     "moduleResolution": "nodenext",
-#     "resolvePackageJsonExports": true,
-#     "esModuleInterop": true,
-#     "isolatedModules": true,
-#     "declaration": true,
-#     "removeComments": true,
-#     "emitDecoratorMetadata": true,
-#     "experimentalDecorators": true,
-#     "allowSyntheticDefaultImports": true,
-#     "target": "ES2023",
-#     "sourceMap": true,
-#     "outDir": "./dist",
-#     "incremental": true,
-#     "skipLibCheck": true,
-#     "strictNullChecks": true,
-#     "forceConsistentCasingInFileNames": true,
-#     "noImplicitAny": false,
-#     "strictBindCallApply": false,
-#     "noFallthroughCasesInSwitch": false
-#   }
-# }
-# EOF
-
-
-#   # =========================
-#   # APP MODULE (MONGO ONLY)
-#   # =========================
-#   echo "📄 Injecting MongoDB config..."
-
-#   cat > src/app.module.ts << 'EOF'
-# import { Module } from '@nestjs/common';
-# import { AppController } from './app.controller';
-# import { AppService } from './app.service';
-# import { MongooseModule } from '@nestjs/mongoose';
-
-# const mongoUri = `mongodb://${process.env.MONGO_ADMIN_CONFIG_SERVER}:${process.env.MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin`;
-
-# @Module({
-#   imports: [
-#     // CONNECT MONGODB
-#     MongooseModule.forRoot(mongoUri),
-#   ],
-#   controllers: [AppController],
-#   providers: [AppService],
-# })
-# export class AppModule {}
-# EOF
-
-
-#   # =========================
-#   # MAIN (SWAGGER + ROOT ROUTE)
-#   # =========================
-#   echo "📄 Setup main.ts (Swagger + Root route)..."
-
-#   cat > src/main.ts << 'EOF'
-# import { NestFactory } from '@nestjs/core';
-# import { AppModule } from './app.module';
-# import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
-# async function bootstrap() {
-#   const app = await NestFactory.create(AppModule);
-
-#   // SWAGGER
-#   const config = new DocumentBuilder()
-#     .setTitle('NestJS CRUD API')
-#     .setDescription('User CRUD API')
-#     .setVersion('1.0')
-#     .build();
-
-#   const document = SwaggerModule.createDocument(app, config);
-#   SwaggerModule.setup('swagger', app, document);
-
-#   await app.listen(3000);
-
-#   console.log(`Server running: http://localhost`);
-#   console.log(`Swagger: http://localhost/swagger`);
-# }
-# void bootstrap();
-# EOF
-
-#   echo "✅ Project created"
-# fi
-
-
 # =========================
 # ALWAYS ENSURE ENV
 # =========================
@@ -136,9 +20,8 @@ MONGO_ADMIN_CONFIG_SERVER=${MONGO_ADMIN_CONFIG_SERVER}
 MONGO_PASSWORD_CONFIG_SERVER=${MONGO_PASSWORD_CONFIG_SERVER}
 EOF
 
-
 # =========================
-# BUILD + RUN
+# BUILD
 # =========================
 
 echo "📦 Installing dependencies..."
@@ -173,9 +56,11 @@ npm install -D @types/bcryptjs@2.4.6
 npm install
 
 echo "📦 Building project..."
-
 npm run build
 
-echo "🚀 Starting NestJS..."
+# =========================
+# RUN
+# =========================
 
+echo "🚀 Starting NestJS..."
 npm run start:prod

@@ -1,9 +1,9 @@
 # 🚀 Backend API System (NestJS + MongoDB + Docker)
 
-![Nginx](https://img.shields.io/badge/Reverse%20Proxy-Nginx%201.28.0-brightgreen)
-![NestJS](https://img.shields.io/badge/Backend-NestJS%2011.1.24-red)
-![Docker Engine](https://img.shields.io/badge/Docker%20Engine-27.5.1-blue)
-![Docker Compose](https://img.shields.io/badge/Docker%20Compose-2.32.4-blue)
+![Nginx](https://img.shields.io/badge/Reverse%20Proxy-Nginx%201.31.1-brightgreen)
+![NestJS](https://img.shields.io/badge/Backend-NestJS%2011.0.1-red)
+![Docker Engine](https://img.shields.io/badge/Docker%20Engine-29.5.2-blue)
+![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v5.1.4-blue)
 ![Swagger](https://img.shields.io/badge/API-Swagger%2011.4.4-green)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
@@ -107,7 +107,7 @@ docker compose down -v --remove-orphans
 
 ### 2. Build & start cluster
 
-#### Please configure .env_example before running
+#### Please configure .env.example before running
 
 ```bash
 cp .env.example .env && docker compose up -d --build --force-recreate

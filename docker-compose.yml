@@ -8,12 +8,11 @@
 
 name: nestjs-incorr
 
-x-nginx-image: &nginx-image nginx:1.31.1-alpine@sha256:8b1e78743a03dbb2c95171cc58639fef29abc8816598e27fb910ed2e621e589a
+x-nginx-image: &nginx-image nginx:1.31.1@sha256:5aca99593157f4ae539a5dec1092a0ad8762f8e2eb1789085a13a0f5622369f6
 
 networks:
   bloomn-etword:
     external: true
-
 
 services:
 # =====================================================

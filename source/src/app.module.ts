@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 
-const mongoUri = `mongodb://${process.env.MONGO_ADMIN_CONFIG_SERVER}:${process.env.MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/admin?authSource=admin`;
+const mongoUri = `mongodb://${process.env.MONGO_ADMIN_CONFIG_SERVER}:${process.env.MONGO_PASSWORD_CONFIG_SERVER}@mongos-router-dn:27017,mongos-router-hn:27017,mongos-router-sg:27017/${process.env.MONGO_DATABASE_CONFIG_SERVER}?authSource=admin`;
 
 @Module({
   imports: [MongooseModule.forRoot(mongoUri)],

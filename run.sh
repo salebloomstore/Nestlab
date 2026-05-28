@@ -15,10 +15,7 @@ cd /var/www/app
 
 echo "🔧 Ensuring .env..."
 
-cat > .env << EOF
-MONGO_ADMIN_CONFIG_SERVER=${MONGO_ADMIN_CONFIG_SERVER}
-MONGO_PASSWORD_CONFIG_SERVER=${MONGO_PASSWORD_CONFIG_SERVER}
-EOF
+cp .env.example .env
 
 # =========================
 # BUILD

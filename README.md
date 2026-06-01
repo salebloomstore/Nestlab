@@ -77,7 +77,7 @@ docker builder prune -af
 ### 0. Create the shared Docker network if it does not already exist
 
 ```bash
-docker network create bloomn-etword
+docker network create master-netwrk
 ```
 
 ### 0. Fix permissions

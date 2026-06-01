@@ -8,5 +8,5 @@ RUN apt-get update && apt-get install -y bash
 COPY run.sh /run.sh
 COPY .env /var/www/cache/.env
 RUN chmod +x /run.sh
-EXPOSE 3000
+EXPOSE ${PORT_OF_NESTJS}
 CMD ["/run.sh"]

@@ -23,7 +23,7 @@ services:
     container_name: ${APP_NAME}_nestjs-webapi-io
     restart: always
     ports:
-      - ${NESTJS_WEBAPI_IO_PORT}:3000
+      - ${NESTJS_WEBAPI_IO_PORT}:${PORT_OF_NESTJS}
     working_dir: /var/www/app
     volumes:
       # Source code bind mount (dev-friendly)
@@ -40,10 +40,10 @@ services:
     container_name: ${APP_NAME}_nginxe-server-be
     restart: always
     ports:
-      - ${NGINXE_SERVER_BE_PORT}:80
+      - ${NGINXE_SERVER_BE_PORT}:${PORT_OF_NGINXE}
     volumes:
       # Nginx configuration
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template
     env_file: .env
     depends_on:
       - nestjs-webapi-io

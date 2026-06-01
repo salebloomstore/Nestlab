@@ -1,5 +1,5 @@
 server {
-    listen 80;
+    listen ${PORT_OF_NGINXE};
 
     server_name _;
 
@@ -7,7 +7,7 @@ server {
     # NESTJS API
     # =====================================================
     location / {
-        proxy_pass http://nestjs-webapi-io:3000;
+        proxy_pass http://nestjs-webapi-io:${PORT_OF_NESTJS};
 
         proxy_http_version 1.1;
 
@@ -24,7 +24,7 @@ server {
     # SWAGGER UI
     # =====================================================
     location /swagger {
-        proxy_pass http://nestjs-webapi-io:3000/swagger;
+        proxy_pass http://nestjs-webapi-io:${PORT_OF_NESTJS}/swagger;
 
         proxy_http_version 1.1;
 

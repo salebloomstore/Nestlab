@@ -12,19 +12,7 @@
 ## 👨‍💻 Author
 
 - Author: [Nguyễn Hoàng Anh](https://www.facebook.com/FakeofHA)
-- Created: May 21, 2026
-
----
-
-# 📌 Overview
-
-Backend REST API system using:
-
-- 🚀 NestJS framework
-- 🍃 MongoDB integration
-- 🔐 JWT Authentication
-- 📄 Swagger API documentation
-- 🐳 Docker containerization
+- Created: May 31, 2026
 
 ---
 
@@ -75,10 +63,15 @@ Before running this project, please install the following tools:
 
 # 🚀 Deployment
 
-### 0. Create Portainer if it does not already exist
+### 0. Docker empty
 
 ```bash
-cp portainer/.env.example portainer/.env && docker compose -f portainer/docker-compose.yml up -d --build --force-recreate
+docker stop $(docker ps -aq) 2>/dev/null
+docker rm -f $(docker ps -aq) 2>/dev/null
+docker rmi -f $(docker images -aq) 2>/dev/null
+docker volume rm $(docker volume ls -q) 2>/dev/null
+docker network rm $(docker network ls -q --filter type=custom) 2>/dev/null
+docker builder prune -af
 ```
 
 ### 0. Create the shared Docker network if it does not already exist
@@ -110,5 +103,11 @@ docker compose down -v --remove-orphans
 #### Please configure .env.example before running
 
 ```bash
-cp .env.example .env && docker compose up -d --build --force-recreate
+cp .env.example .env
+```
+
+#### Or configure .env before running
+
+```bash
+docker compose up -d --build --force-recreate
 ```

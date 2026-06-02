@@ -3,7 +3,7 @@
 # =====================================================
 # NESTJS BOOTSTRAP SCRIPT
 # =====================================================
-# tail -f /dev/null
+tail -f /dev/null
 set -e
 source /var/www/cache/.env
 

@@ -34,6 +34,9 @@ EOF
 echo "📦 Installing dependencies..."
 npm ci
 
+echo "📦 Building project..."
+npm run build
+
 # =========================
 # RUN
 # =========================

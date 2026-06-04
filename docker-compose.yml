@@ -15,9 +15,9 @@ networks:
     external: true
 
 services:
-# =====================================================
-# NESTJS BACKEND APPLICATION
-# =====================================================
+  # =====================================================
+  # NESTJS BACKEND APPLICATION
+  # =====================================================
   nestjs-webapi-io:
     build: .
     container_name: ${APP_NAME}_nestjs-webapi-io
@@ -32,9 +32,9 @@ services:
     networks:
       - master-netwrk
 
-# =====================================================
-# NGINX REVERSE PROXY
-# =====================================================
+  # =====================================================
+  # NGINX REVERSE PROXY
+  # =====================================================
   nginxe-server-be:
     image: *nginx-image
     container_name: ${APP_NAME}_nginxe-server-be

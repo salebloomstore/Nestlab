@@ -27,7 +27,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
-  await app.listen(configService.get<string>('PORT_OF_NESTJS')!);
+  await app.listen(configService.getOrThrow<string>('PORT_OF_NESTJS'));
 
   console.log(`Server running: http://localhost`);
   console.log(`Swagger: http://localhost/swagger`);

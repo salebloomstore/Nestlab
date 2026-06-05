@@ -13,17 +13,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        uri: `mongodb://${configService.getOrThrow(
+        uri: `mongodb://${configService.get<string>(
           'MONGO_ADMINIST_SHARDE_MATTER',
-        )}:${configService.getOrThrow(
+        )}:${configService.get<string>(
           'MONGO_PASSWORD_SHARDE_MATTER',
-        )}@${configService.getOrThrow(
+        )}@${configService.get<string>(
           'MONGOS_ROUTER_DN_ADRS',
-        )}:${configService.getOrThrow('PORT_OF_MONGOS')},${configService.getOrThrow(
+        )}:${configService.get<string>('PORT_OF_MONGOS')},${configService.get<string>(
           'MONGOS_ROUTER_HN_ADRS',
-        )}:${configService.getOrThrow('PORT_OF_MONGOS')},${configService.getOrThrow(
+        )}:${configService.get<string>('PORT_OF_MONGOS')},${configService.get<string>(
           'MONGOS_ROUTER_SG_ADRS',
-        )}:${configService.getOrThrow('PORT_OF_MONGOS')}/${configService.getOrThrow(
+        )}:${configService.get<string>('PORT_OF_MONGOS')}/${configService.get<string>(
           'MONGO_DATABASE_SHARDE_MATTER',
         )}?authSource=admin`,
       }),

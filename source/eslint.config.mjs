@@ -4,7 +4,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default [
+export default tseslint.config(
   {
     ignores: ['eslint.config.mjs'],
   },
@@ -20,7 +20,6 @@ export default [
       sourceType: 'commonjs',
       parserOptions: {
         projectService: true,
-        project: './tsconfig.json',
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -33,4 +32,4 @@ export default [
       "prettier/prettier": ["error", { endOfLine: "auto" }],
     },
   },
-];
+);

@@ -35,13 +35,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
         const uri = `mongodb://${admi}:${pass}@${wukong.map((king) => `${king.hsts}:${king.ptdf}`).join(',')}/${data}?authSource=admin`;
 
-        console.log({
-          admi,
-          pass,
-          data,
-          uri,
-        });
-
         return { uri };
       },
     }),

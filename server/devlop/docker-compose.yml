@@ -21,6 +21,7 @@ services:
   nestjs-webapi-io:
     build: .
     container_name: ${APP_NAME}_nestjs-webapi-io
+    restart: always
     ports:
       - ${NESTJS_WEBAPI_IO_PORT}:${PORT_OF_NESTJS}
     working_dir: /var/www/app

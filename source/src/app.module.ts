@@ -16,16 +16,24 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         const admi = config.getOrThrow<string>('MONGO_ADMINIST_SHARDE_MATTER');
         const pass = config.getOrThrow<string>('MONGO_PASSWORD_SHARDE_MATTER');
 
-        const hsts = [
-          config.getOrThrow<string>('MONGOS_ROUTER_DN_ADRS'),
-          config.getOrThrow<string>('MONGOS_ROUTER_HN_ADRS'),
-          config.getOrThrow<string>('MONGOS_ROUTER_SG_ADRS'),
+        const wukong = [
+          {
+            hsts: config.getOrThrow<string>('MONGOS_ROUTER_DN_ADRS'),
+            ptdf: config.getOrThrow<string>('MONGOS_ROUTER_DN_PORT_OF'),
+          },
+          {
+            hsts: config.getOrThrow<string>('MONGOS_ROUTER_HN_ADRS'),
+            ptdf: config.getOrThrow<string>('MONGOS_ROUTER_HN_PORT_OF'),
+          },
+          {
+            hsts: config.getOrThrow<string>('MONGOS_ROUTER_SG_ADRS'),
+            ptdf: config.getOrThrow<string>('MONGOS_ROUTER_SG_PORT_OF'),
+          },
         ];
 
-        const ptdf = config.getOrThrow<string>('PORT_OF_MONGOS');
         const data = config.getOrThrow<string>('MONGO_DATABASE_SHARDE_MATTER');
 
-        const uri = `mongodb://${admi}:${pass}@${hsts.map((hee) => `${hee}:${ptdf}`).join(',')}/${data}?authSource=admin`;
+        const uri = `mongodb://${admi}:${pass}@${wukong.map((king) => `${king.hsts}:${king.ptdf}`).join(',')}/${data}?authSource=admin`;
 
         return { uri };
       },

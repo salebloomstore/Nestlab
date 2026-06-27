@@ -105,12 +105,26 @@ find . -type f -name "*.sh" -exec chmod +x {} \;
 docker compose down -v --remove-orphans
 ```
 
-### 2. Build & start cluster
+### 2. Build & start
 
-#### Please configure .env.example before running
+#### Please configure .env.builde.example before running
 
 ```bash
-cp .env.example .env
+cp .env.builde.example .env
+```
+
+#### Or configure .env before running
+
+```bash
+docker compose up -d --build --force-recreate
+```
+
+### 3. Develop
+
+#### Please configure .env.devlop.example before running
+
+```bash
+cp .env.devlop.example .env
 ```
 
 #### Or configure .env before running

@@ -99,13 +99,7 @@ sudo chown 1000:1000 -R . && sudo chmod 777 -R .
 find . -type f -name "*.sh" -exec chmod +x {} \;
 ```
 
-### 1. Remove old containers
-
-```bash
-docker compose down -v --remove-orphans
-```
-
-### 2. Build & start
+### 1. Build & start
 
 #### Please configure .env.builde.example before running
 
@@ -116,10 +110,10 @@ cp .env.builde.example .env
 #### Or configure .env before running
 
 ```bash
-docker compose up -d --build --force-recreate
+chmod +x driver/reboot/master.sh && sudo ./driver/reboot/master.sh
 ```
 
-### 3. Develop
+### 2. Develop
 
 #### Please configure .env.devlop.example before running
 
@@ -130,5 +124,27 @@ cp .env.devlop.example .env
 #### Or configure .env before running
 
 ```bash
-docker compose up -d --build --force-recreate
+chmod +x driver/reboot/devlop.sh && sudo ./driver/reboot/devlop.sh
 ```
+
+### 3. Driver List
+
+```bash
+# <!-- ----------------------------------------------------------------------------------------------- -->
+cp .env.builde.example .env
+cp .env.devlop.example .env
+
+# <!-- ----------------------------------------------------------------------------------------------- -->
+chmod +x driver/reboot/master.sh && sudo ./driver/reboot/master.sh
+
+chmod +x driver/reboot/devlop.sh && sudo ./driver/reboot/devlop.sh
+
+# <!-- ----------------------------------------------------------------------------------------------- -->
+chmod +x driver/boot/master.sh && sudo ./driver/boot/master.sh
+
+chmod +x driver/boot/devlop.sh && sudo ./driver/boot/devlop.sh
+
+# <!-- ----------------------------------------------------------------------------------------------- -->
+chmod +x driver/shutdown/master.sh && sudo ./driver/shutdown/master.sh
+
+chmod +x driver/shutdown/devlop.sh && sudo ./driver/shutdown/devlop.sh

@@ -27,7 +27,6 @@ services:
     volumes:
       # Source code bind mount (dev-friendly)
       - ../../source:/var/www/app
-      - ../../.env:/var/www/cache/.env:ro
     env_file: ../../.env
     networks:
       - master-netwrk

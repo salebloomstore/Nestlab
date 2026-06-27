@@ -5,7 +5,6 @@
 # =====================================================
 # tail -f /dev/null
 set -e
-source /var/www/cache/.env
 
 # =========================
 # ALWAYS ENSURE ENV

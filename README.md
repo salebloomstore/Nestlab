@@ -2,8 +2,8 @@
 
 ![Nginx](https://img.shields.io/badge/Reverse%20Proxy-Nginx%201.31.1-brightgreen)
 ![NestJS](https://img.shields.io/badge/Backend-NestJS%2011.0.1-red)
-![Docker Engine](https://img.shields.io/badge/Docker%20Engine-29.5.2-blue)
-![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v5.1.4-blue)
+![Docker Engine](https://img.shields.io/badge/Docker%20Engine-28.5.2-blue)
+![Docker Compose](https://img.shields.io/badge/Docker%20Compose-v2.40.3-blue)
 ![Swagger](https://img.shields.io/badge/API-Swagger%2011.4.4-green)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 

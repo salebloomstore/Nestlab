@@ -26,7 +26,7 @@ services:
     working_dir: /var/www/app
     volumes:
       # Source code bind mount (dev-friendly)
-      - ./source:/var/www/app
+      - ../../source:/var/www/app
     env_file: .env
     networks:
       - master-netwrk
@@ -42,7 +42,7 @@ services:
       - ${NGINXE_SERVER_BE_PORT}:${PORT_OF_NGINXE}
     volumes:
       # Nginx configuration
-      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template
+      - ../../nginx/default.conf.template:/etc/nginx/templates/default.conf.template
     env_file: .env
     depends_on:
       - nestjs-webapi-io

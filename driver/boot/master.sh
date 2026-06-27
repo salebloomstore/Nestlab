@@ -2,6 +2,6 @@
 
 set -e
 
-docker compose up -d --build --force-recreate
+docker compose --env-file .env -f server/builde/docker-compose.yml up -d --build --force-recreate
 
 echo "Application boot successfully!"

@@ -1,4 +1,3 @@
 .env
 .env.*
-!.env.builde.example
-!.env.devlop.example
+!.env.example

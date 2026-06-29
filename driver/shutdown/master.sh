@@ -4,6 +4,6 @@ set -e
 
 cd "$(dirname "$0")"
 
-docker compose --env-file ../../.env -f ../../server/builde/docker-compose.yml down -v --remove-orphans
+docker compose --env-file ../../.env -f ../../server/master/docker-compose.yml down -v --remove-orphans
 
 echo "Application shutdown successfully!"

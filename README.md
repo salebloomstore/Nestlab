@@ -16,53 +16,10 @@
 
 ---
 
-# 🧱 Tech Stack
-
-## ⚙️ Backend
-
-- NestJS
-- REST API
-- JWT Authentication
-- Swagger
-
-## 🐳 DevOps
-
-- Docker Engine
-- Docker Compose
-
----
-
-# 🚀 Development Environment
-
-Before running this project, please install the following tools:
-
-#### For `Windows` operating system
-
-- [WSL2 (Windows Subsystem for Linux)](https://learn.microsoft.com/windows/wsl/install)
-- [Kali Linux](https://apps.microsoft.com/detail/9pkr34tncv07)
-
-#### For `Windows and Linux` operating systems
-
-- [Git](https://git-scm.com/downloads)
-
-#### For `Windows` operating system
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-
-#### For `Linux` operating system
-
-- [Docker Engine](https://docs.docker.com/engine/install/)
-- [Docker Compose](https://docs.docker.com/compose/)
-
-#### For `Windows and Linux` operating systems
-
-- [Visual Studio Code](https://code.visualstudio.com/)
-
 ## Recommended VS Code Extensions
 
 - [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [vscode-icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons)
 - [WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
 
@@ -81,71 +38,27 @@ docker network rm $(docker network ls -q --filter type=custom) 2>/dev/null
 docker builder prune -af
 ```
 
-### 0. Create the shared Docker network if it does not already exist
+### Create the shared Docker network if it does not already exist
 
 ```bash
 docker network create master-netwrk
 ```
 
-### 0. Fix permissions
+### Fix permissions
 
 ```bash
 sudo chown 1000:1000 -R . && sudo chmod 777 -R .
 ```
 
-### 0. Grant execute permission
+### Grant execute permission
 
 ```bash
 find . -type f -name "*.sh" -exec chmod +x {} \;
 ```
 
-### 1. Build & start
-
-#### Please configure .env.builde.example before running
+### Build
 
 ```bash
-cp .env.builde.example .env
-```
-
-#### Or configure .env before running
-
-```bash
+cp .env.example .env
 chmod +x driver/reboot/master.sh && sudo ./driver/reboot/master.sh
-```
-
-### 2. Develop
-
-#### Please configure .env.devlop.example before running
-
-```bash
-cp .env.devlop.example .env
-```
-
-#### Or configure .env before running
-
-```bash
-chmod +x driver/reboot/devlop.sh && sudo ./driver/reboot/devlop.sh
-```
-
-### 3. Driver List
-
-```bash
-# <!-- ----------------------------------------------------------------------------------------------- -->
-cp .env.builde.example .env
-cp .env.devlop.example .env
-
-# <!-- ----------------------------------------------------------------------------------------------- -->
-chmod +x driver/reboot/master.sh && sudo ./driver/reboot/master.sh
-
-chmod +x driver/reboot/devlop.sh && sudo ./driver/reboot/devlop.sh
-
-# <!-- ----------------------------------------------------------------------------------------------- -->
-chmod +x driver/boot/master.sh && sudo ./driver/boot/master.sh
-
-chmod +x driver/boot/devlop.sh && sudo ./driver/boot/devlop.sh
-
-# <!-- ----------------------------------------------------------------------------------------------- -->
-chmod +x driver/shutdown/master.sh && sudo ./driver/shutdown/master.sh
-
-chmod +x driver/shutdown/devlop.sh && sudo ./driver/shutdown/devlop.sh
 ```

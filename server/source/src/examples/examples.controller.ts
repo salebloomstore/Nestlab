@@ -10,6 +10,8 @@ import {
 import { ExamplesService } from './examples.service';
 import { CreateExampleDto } from './dto/create-example.dto';
 import { UpdateExampleDto } from './dto/update-example.dto';
+import { Types } from 'mongoose';
+import { ParseObjectIdPipe } from '../common/pipes/parse-object-id.pipe';
 
 @Controller('examples')
 export class ExamplesController {
@@ -31,8 +33,11 @@ export class ExamplesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExampleDto: UpdateExampleDto) {
-    return this.examplesService.update(+id, updateExampleDto);
+  update(
+    @Param('id', ParseObjectIdPipe) _id: Types.ObjectId,
+    @Body() updateExampleDto: UpdateExampleDto,
+  ) {
+    return this.examplesService.update(_id, updateExampleDto);
   }
 
   @Delete(':id')

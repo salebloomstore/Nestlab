@@ -6,7 +6,7 @@ import {
 import { CreateExampleDto } from './dto/create-example.dto';
 import { UpdateExampleDto } from './dto/update-example.dto';
 import { Example, ExampleDocument } from './schemas/example.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoServerError } from 'mongodb';
 import { Example as Examples } from '../examples/enums/example.enum';
@@ -48,8 +48,35 @@ export class ExamplesService {
     return `This action returns a #${id} example`;
   }
 
-  update(id: number, updateExampleDto: UpdateExampleDto) {
-    return `This action updates a #${id} example`;
+  async update(_id: Types.ObjectId, updateExampleDto: UpdateExampleDto) {
+    try {
+      if (updateExampleDto.container) {
+        const existingCpu = await this.findByContainer(
+          updateExampleDto.container,
+        );
+        if (existingCpu && !existingCpu._id.equals(_id)) {
+          throw new ConflictException(
+            `CPU  ${updateExampleDto.container} already exists`,
+          );
+        }
+      }
+
+      const result = await this.exampleModel.findByIdAndUpdate(
+        _id,
+        updateExampleDto,
+        {
+          returnDocument: 'after',
+        },
+      );
+
+      return result;
+    } catch (error: unknown) {
+      if (error instanceof MongoServerError) {
+        throw new BadRequestException(error.message);
+      }
+
+      throw error;
+    }
   }
 
   remove(id: number) {

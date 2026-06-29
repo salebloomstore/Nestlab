@@ -9,6 +9,7 @@ import { Example, ExampleDocument } from './schemas/example.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoServerError } from 'mongodb';
+import { Example as Examples } from '../examples/enums/example.enum';
 
 @Injectable()
 export class ExamplesService {
@@ -55,7 +56,7 @@ export class ExamplesService {
     return `This action removes a #${id} example`;
   }
 
-  findByContainer(container: string) {
+  findByContainer(container: Examples) {
     const query = this.exampleModel.findOne({ container });
 
     return query;

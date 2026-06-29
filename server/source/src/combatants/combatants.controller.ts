@@ -83,10 +83,7 @@ export class CombatantsController {
     @Param('id', ParseObjectIdPipe) _id: Types.ObjectId,
     @Body() updateCombatantDto: UpdateCombatantDto,
   ) {
-    const result = await this.combatantsService.update(
-      _id,
-      updateCombatantDto,
-    );
+    const result = await this.combatantsService.update(_id, updateCombatantDto);
 
     return {
       message: 'Update COMBATANT success',

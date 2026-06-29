@@ -5,10 +5,7 @@ import {
 } from '@nestjs/common';
 import { CreateCombatantDto } from './dto/create-combatant.dto';
 import { UpdateCombatantDto } from './dto/update-combatant.dto';
-import {
-  Combatant,
-  CombatantDocument,
-} from './schemas/combatant.schema';
+import { Combatant, CombatantDocument } from './schemas/combatant.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoServerError } from 'mongodb';
@@ -71,10 +68,7 @@ export class CombatantsService {
     }
   }
 
-  async update(
-    _id: Types.ObjectId,
-    updateCombatantDto: UpdateCombatantDto,
-  ) {
+  async update(_id: Types.ObjectId, updateCombatantDto: UpdateCombatantDto) {
     try {
       if (updateCombatantDto.container) {
         const existingCpu = await this.findByContainer(

@@ -14,20 +14,20 @@ import {
   ApiTags,
   ApiParam,
 } from '@nestjs/swagger';
-import { ExamplesService } from './examples.service';
-import { CreateExampleDto } from './dto/create-example.dto';
-import { UpdateExampleDto } from './dto/update-example.dto';
+import { QinShiHuangsService } from './qin-shi-huangs.service';
+import { CreateQinShiHuangDto } from './dto/create-qin-shi-huang.dto';
+import { UpdateQinShiHuangDto } from './dto/update-qin-shi-huang.dto';
 import { Types } from 'mongoose';
 import { ParseObjectIdPipe } from '../common/pipes/parse-object-id.pipe';
 
 @ApiTags('EXAMPLE')
-@Controller('examples')
-export class ExamplesController {
-  constructor(private readonly examplesService: ExamplesService) {}
+@Controller('qin-shi-huangs')
+export class QinShiHuangsController {
+  constructor(private readonly qinShiHuangsService: QinShiHuangsService) {}
 
   @Post()
-  async create(@Body() createExampleDto: CreateExampleDto) {
-    const result = await this.examplesService.create(createExampleDto);
+  async create(@Body() createQinShiHuangDto: CreateQinShiHuangDto) {
+    const result = await this.qinShiHuangsService.create(createQinShiHuangDto);
 
     return {
       message: 'Create EXAMPLE success',
@@ -37,7 +37,7 @@ export class ExamplesController {
 
   @Get()
   async findAll() {
-    const result = await this.examplesService.findAll();
+    const result = await this.qinShiHuangsService.findAll();
 
     if (!result?.length) throw new NotFoundException('EXAMPLEs does not exist');
 
@@ -57,7 +57,7 @@ export class ExamplesController {
     example: '6844e7c1f3c8d7b2f123456',
   })
   async findOne(@Param('id', ParseObjectIdPipe) _id: Types.ObjectId) {
-    const result = await this.examplesService.findOne(_id);
+    const result = await this.qinShiHuangsService.findOne(_id);
 
     if (!result) throw new NotFoundException('CPU does not exist');
 
@@ -78,9 +78,12 @@ export class ExamplesController {
   })
   async update(
     @Param('id', ParseObjectIdPipe) _id: Types.ObjectId,
-    @Body() updateExampleDto: UpdateExampleDto,
+    @Body() updateQinShiHuangDto: UpdateQinShiHuangDto,
   ) {
-    const result = await this.examplesService.update(_id, updateExampleDto);
+    const result = await this.qinShiHuangsService.update(
+      _id,
+      updateQinShiHuangDto,
+    );
 
     return {
       message: 'Update EXAMPLE success',
@@ -98,7 +101,7 @@ export class ExamplesController {
     example: '6844e7c1f3c8d7b2f123456',
   })
   async remove(@Param('id', ParseObjectIdPipe) _id: Types.ObjectId) {
-    const result = await this.examplesService.remove(_id);
+    const result = await this.qinShiHuangsService.remove(_id);
 
     if (!result) throw new NotFoundException('CPU does not exist');
 

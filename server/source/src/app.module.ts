@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SeedsModule } from './seeds/seeds.module';
-import { ExamplesModule } from './examples/examples.module';
+import { QinShiHuangsModule } from './qin-shi-huangs/qin-shi-huangs.module';
 
 @Module({
   imports: [
@@ -41,7 +41,7 @@ import { ExamplesModule } from './examples/examples.module';
       },
     }),
     SeedsModule,
-    ExamplesModule,
+    QinShiHuangsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

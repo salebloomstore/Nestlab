@@ -3,32 +3,35 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common';
-import { CreateExampleDto } from './dto/create-example.dto';
-import { UpdateExampleDto } from './dto/update-example.dto';
-import { Example, ExampleDocument } from './schemas/example.schema';
+import { CreateQinShiHuangDto } from './dto/create-qin-shi-huang.dto';
+import { UpdateQinShiHuangDto } from './dto/update-qin-shi-huang.dto';
+import {
+  QinShiHuang,
+  QinShiHuangDocument,
+} from './schemas/qin-shi-huang.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoServerError } from 'mongodb';
-import { Example as Examples } from '../examples/enums/example.enum';
+import { QinShiHuang as QinShiHuangs } from './enums/qin-shi-huang.enum';
 
 @Injectable()
-export class ExamplesService {
+export class QinShiHuangsService {
   constructor(
-    @InjectModel(Example.name)
-    private readonly exampleModel: Model<ExampleDocument>,
+    @InjectModel(QinShiHuang.name)
+    private readonly qinShiHuangModel: Model<QinShiHuangDocument>,
   ) {}
 
-  async create(createExampleDto: CreateExampleDto) {
+  async create(createQinShiHuangDto: CreateQinShiHuangDto) {
     try {
       const existingCpu = await this.findByContainer(
-        createExampleDto.container,
+        createQinShiHuangDto.container,
       );
       if (existingCpu) {
         throw new ConflictException(
-          `${createExampleDto.container} already exists`,
+          `${createQinShiHuangDto.container} already exists`,
         );
       }
-      const result = await this.exampleModel.create(createExampleDto);
+      const result = await this.qinShiHuangModel.create(createQinShiHuangDto);
 
       return result;
     } catch (error: unknown) {
@@ -42,7 +45,7 @@ export class ExamplesService {
 
   async findAll() {
     try {
-      const result = await this.exampleModel.find();
+      const result = await this.qinShiHuangModel.find();
 
       return result;
     } catch (error: unknown) {
@@ -56,7 +59,7 @@ export class ExamplesService {
 
   async findOne(_id: Types.ObjectId) {
     try {
-      const result = await this.exampleModel.findById(_id);
+      const result = await this.qinShiHuangModel.findById(_id);
 
       return result;
     } catch (error: unknown) {
@@ -68,22 +71,25 @@ export class ExamplesService {
     }
   }
 
-  async update(_id: Types.ObjectId, updateExampleDto: UpdateExampleDto) {
+  async update(
+    _id: Types.ObjectId,
+    updateQinShiHuangDto: UpdateQinShiHuangDto,
+  ) {
     try {
-      if (updateExampleDto.container) {
+      if (updateQinShiHuangDto.container) {
         const existingCpu = await this.findByContainer(
-          updateExampleDto.container,
+          updateQinShiHuangDto.container,
         );
         if (existingCpu && !existingCpu._id.equals(_id)) {
           throw new ConflictException(
-            `CPU  ${updateExampleDto.container} already exists`,
+            `CPU  ${updateQinShiHuangDto.container} already exists`,
           );
         }
       }
 
-      const result = await this.exampleModel.findByIdAndUpdate(
+      const result = await this.qinShiHuangModel.findByIdAndUpdate(
         _id,
-        updateExampleDto,
+        updateQinShiHuangDto,
         {
           returnDocument: 'after',
         },
@@ -101,7 +107,7 @@ export class ExamplesService {
 
   async remove(_id: Types.ObjectId) {
     try {
-      const result = await this.exampleModel.findByIdAndDelete(_id);
+      const result = await this.qinShiHuangModel.findByIdAndDelete(_id);
 
       return result;
     } catch (error: unknown) {
@@ -114,11 +120,11 @@ export class ExamplesService {
   }
 
   async enumEmpty() {
-    await Promise.all([this.exampleModel.deleteMany({})]);
+    await Promise.all([this.qinShiHuangModel.deleteMany({})]);
   }
 
-  findByContainer(container: Examples) {
-    const query = this.exampleModel.findOne({ container });
+  findByContainer(container: QinShiHuangs) {
+    const query = this.qinShiHuangModel.findOne({ container });
 
     return query;
   }

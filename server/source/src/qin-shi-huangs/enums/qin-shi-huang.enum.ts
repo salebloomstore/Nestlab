@@ -1,3 +1,3 @@
-export enum Example {
+export enum QinShiHuang {
   TEST = 'DATABASE CONNECTED',
 }

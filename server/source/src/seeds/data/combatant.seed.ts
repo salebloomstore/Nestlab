@@ -1,9 +1,9 @@
-import { QinShiHuang as QinShiHuangs } from '../../combatants/enums/combatant.enum';
-import { CreateQinShiHuangDto } from '../../combatants/dto/create-combatant.dto';
+import { Combatant as Combatants } from '../../combatants/enums/combatant.enum';
+import { CreateCombatantDto } from '../../combatants/dto/create-combatant.dto';
 
-const values = Object.values(QinShiHuangs);
+const values = Object.values(Combatants);
 
-export const QINSHIHUANGS_SEED: CreateQinShiHuangDto[] = values.map(
+export const COMBATANTS_SEED: CreateCombatantDto[] = values.map(
   (value) => ({
     container: value,
   }),

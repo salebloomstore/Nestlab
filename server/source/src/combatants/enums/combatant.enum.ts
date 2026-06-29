@@ -1,3 +1,3 @@
-export enum QinShiHuang {
+export enum Combatant {
   TEST = 'DATABASE CONNECTED',
 }

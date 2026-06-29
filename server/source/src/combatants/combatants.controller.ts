@@ -14,21 +14,21 @@ import {
   ApiTags,
   ApiParam,
 } from '@nestjs/swagger';
-import { QinShiHuangsService } from './combatants.service';
-import { CreateQinShiHuangDto } from './dto/create-combatant.dto';
-import { UpdateQinShiHuangDto } from './dto/update-combatant.dto';
+import { CombatantsService } from './combatants.service';
+import { CreateCombatantDto } from './dto/create-combatant.dto';
+import { UpdateCombatantDto } from './dto/update-combatant.dto';
 import { Types } from 'mongoose';
 import { ParseObjectIdPipe } from '../common/pipes/parse-object-id.pipe';
 
 @ApiTags('COMBATANT')
-@Controller('qin-shi-huangs')
-export class QinShiHuangsController {
-  constructor(private readonly qinShiHuangsService: QinShiHuangsService) {}
+@Controller('combatants')
+export class CombatantsController {
+  constructor(private readonly combatantsService: CombatantsService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create COMBATANT' })
-  async create(@Body() createQinShiHuangDto: CreateQinShiHuangDto) {
-    const result = await this.qinShiHuangsService.create(createQinShiHuangDto);
+  async create(@Body() createCombatantDto: CreateCombatantDto) {
+    const result = await this.combatantsService.create(createCombatantDto);
 
     return {
       message: 'Create COMBATANT success',
@@ -39,7 +39,7 @@ export class QinShiHuangsController {
   @Get()
   @ApiOperation({ summary: 'Get all COMBATANTs' })
   async findAll() {
-    const result = await this.qinShiHuangsService.findAll();
+    const result = await this.combatantsService.findAll();
 
     if (!result?.length)
       throw new NotFoundException('COMBATANTs does not exist');
@@ -60,7 +60,7 @@ export class QinShiHuangsController {
     example: '6844e7c1f3c8d7b2f123456',
   })
   async findOne(@Param('id', ParseObjectIdPipe) _id: Types.ObjectId) {
-    const result = await this.qinShiHuangsService.findOne(_id);
+    const result = await this.combatantsService.findOne(_id);
 
     if (!result) throw new NotFoundException('CPU does not exist');
 
@@ -81,11 +81,11 @@ export class QinShiHuangsController {
   })
   async update(
     @Param('id', ParseObjectIdPipe) _id: Types.ObjectId,
-    @Body() updateQinShiHuangDto: UpdateQinShiHuangDto,
+    @Body() updateCombatantDto: UpdateCombatantDto,
   ) {
-    const result = await this.qinShiHuangsService.update(
+    const result = await this.combatantsService.update(
       _id,
-      updateQinShiHuangDto,
+      updateCombatantDto,
     );
 
     return {
@@ -104,7 +104,7 @@ export class QinShiHuangsController {
     example: '6844e7c1f3c8d7b2f123456',
   })
   async remove(@Param('id', ParseObjectIdPipe) _id: Types.ObjectId) {
-    const result = await this.qinShiHuangsService.remove(_id);
+    const result = await this.combatantsService.remove(_id);
 
     if (!result) throw new NotFoundException('CPU does not exist');
 

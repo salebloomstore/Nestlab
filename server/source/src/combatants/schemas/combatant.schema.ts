@@ -1,19 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { QinShiHuang as QinShiHuangs } from '../enums/combatant.enum';
+import { Combatant as Combatants } from '../enums/combatant.enum';
 
-export type QinShiHuangDocument = HydratedDocument<QinShiHuang>;
+export type CombatantDocument = HydratedDocument<Combatant>;
 
 @Schema({
   timestamps: true,
 })
-export class QinShiHuang {
+export class Combatant {
   @Prop({
     required: true,
     unique: true,
-    enum: QinShiHuangs,
+    enum: Combatants,
   })
-  container!: QinShiHuangs;
+  container!: Combatants;
 }
 
-export const QinShiHuangSchema = SchemaFactory.createForClass(QinShiHuang);
+export const CombatantSchema = SchemaFactory.createForClass(Combatant);

@@ -1,13 +1,13 @@
 import { IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { QinShiHuang } from '../enums/combatant.enum';
+import { Combatant } from '../enums/combatant.enum';
 
-export class CreateQinShiHuangDto {
+export class CreateCombatantDto {
   @ApiProperty({
-    enum: QinShiHuang,
-    example: QinShiHuang.TEST,
-    description: 'QinShiHuang container',
+    enum: Combatant,
+    example: Combatant.TEST,
+    description: 'Combatant container',
   })
-  @IsEnum(QinShiHuang)
-  container!: QinShiHuang;
+  @IsEnum(Combatant)
+  container!: Combatant;
 }

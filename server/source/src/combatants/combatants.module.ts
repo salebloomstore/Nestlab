@@ -1,20 +1,20 @@
 import { Module } from '@nestjs/common';
-import { QinShiHuangsService } from './combatants.service';
-import { QinShiHuangsController } from './combatants.controller';
-import { QinShiHuang, QinShiHuangSchema } from './schemas/combatant.schema';
+import { CombatantsService } from './combatants.service';
+import { CombatantsController } from './combatants.controller';
+import { Combatant, CombatantSchema } from './schemas/combatant.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: QinShiHuang.name,
-        schema: QinShiHuangSchema,
+        name: Combatant.name,
+        schema: CombatantSchema,
       },
     ]),
   ],
-  controllers: [QinShiHuangsController],
-  providers: [QinShiHuangsService],
-  exports: [QinShiHuangsService],
+  controllers: [CombatantsController],
+  providers: [CombatantsService],
+  exports: [CombatantsService],
 })
-export class QinShiHuangsModule {}
+export class CombatantsModule {}

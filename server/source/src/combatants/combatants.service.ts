@@ -3,35 +3,35 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common';
-import { CreateQinShiHuangDto } from './dto/create-combatant.dto';
-import { UpdateQinShiHuangDto } from './dto/update-combatant.dto';
+import { CreateCombatantDto } from './dto/create-combatant.dto';
+import { UpdateCombatantDto } from './dto/update-combatant.dto';
 import {
-  QinShiHuang,
-  QinShiHuangDocument,
+  Combatant,
+  CombatantDocument,
 } from './schemas/combatant.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoServerError } from 'mongodb';
-import { QinShiHuang as QinShiHuangs } from './enums/combatant.enum';
+import { Combatant as Combatants } from './enums/combatant.enum';
 
 @Injectable()
-export class QinShiHuangsService {
+export class CombatantsService {
   constructor(
-    @InjectModel(QinShiHuang.name)
-    private readonly qinShiHuangModel: Model<QinShiHuangDocument>,
+    @InjectModel(Combatant.name)
+    private readonly combatantModel: Model<CombatantDocument>,
   ) {}
 
-  async create(createQinShiHuangDto: CreateQinShiHuangDto) {
+  async create(createCombatantDto: CreateCombatantDto) {
     try {
       const existingCpu = await this.findByContainer(
-        createQinShiHuangDto.container,
+        createCombatantDto.container,
       );
       if (existingCpu) {
         throw new ConflictException(
-          `${createQinShiHuangDto.container} already exists`,
+          `${createCombatantDto.container} already exists`,
         );
       }
-      const result = await this.qinShiHuangModel.create(createQinShiHuangDto);
+      const result = await this.combatantModel.create(createCombatantDto);
 
       return result;
     } catch (error: unknown) {
@@ -45,7 +45,7 @@ export class QinShiHuangsService {
 
   async findAll() {
     try {
-      const result = await this.qinShiHuangModel.find();
+      const result = await this.combatantModel.find();
 
       return result;
     } catch (error: unknown) {
@@ -59,7 +59,7 @@ export class QinShiHuangsService {
 
   async findOne(_id: Types.ObjectId) {
     try {
-      const result = await this.qinShiHuangModel.findById(_id);
+      const result = await this.combatantModel.findById(_id);
 
       return result;
     } catch (error: unknown) {
@@ -73,23 +73,23 @@ export class QinShiHuangsService {
 
   async update(
     _id: Types.ObjectId,
-    updateQinShiHuangDto: UpdateQinShiHuangDto,
+    updateCombatantDto: UpdateCombatantDto,
   ) {
     try {
-      if (updateQinShiHuangDto.container) {
+      if (updateCombatantDto.container) {
         const existingCpu = await this.findByContainer(
-          updateQinShiHuangDto.container,
+          updateCombatantDto.container,
         );
         if (existingCpu && !existingCpu._id.equals(_id)) {
           throw new ConflictException(
-            `CPU  ${updateQinShiHuangDto.container} already exists`,
+            `CPU  ${updateCombatantDto.container} already exists`,
           );
         }
       }
 
-      const result = await this.qinShiHuangModel.findByIdAndUpdate(
+      const result = await this.combatantModel.findByIdAndUpdate(
         _id,
-        updateQinShiHuangDto,
+        updateCombatantDto,
         {
           returnDocument: 'after',
         },
@@ -107,7 +107,7 @@ export class QinShiHuangsService {
 
   async remove(_id: Types.ObjectId) {
     try {
-      const result = await this.qinShiHuangModel.findByIdAndDelete(_id);
+      const result = await this.combatantModel.findByIdAndDelete(_id);
 
       return result;
     } catch (error: unknown) {
@@ -120,11 +120,11 @@ export class QinShiHuangsService {
   }
 
   async enumEmpty() {
-    await Promise.all([this.qinShiHuangModel.deleteMany({})]);
+    await Promise.all([this.combatantModel.deleteMany({})]);
   }
 
-  findByContainer(container: QinShiHuangs) {
-    const query = this.qinShiHuangModel.findOne({ container });
+  findByContainer(container: Combatants) {
+    const query = this.combatantModel.findOne({ container });
 
     return query;
   }

@@ -1,24 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { QINSHIHUANGS_SEED } from './data/combatant.seed';
-import { QinShiHuangsService } from '../combatants/combatants.service';
+import { COMBATANTS_SEED } from './data/combatant.seed';
+import { CombatantsService } from '../combatants/combatants.service';
 
 @Injectable()
 export class SeedsService {
-  constructor(private readonly qinShiHuangsService: QinShiHuangsService) {}
+  constructor(private readonly combatantsService: CombatantsService) {}
 
-  async seedQinShiHuang() {
-    for (const data of QINSHIHUANGS_SEED) {
-      await this.qinShiHuangsService.create(data);
+  async seedCombatant() {
+    for (const data of COMBATANTS_SEED) {
+      await this.combatantsService.create(data);
     }
   }
 
-  async rundQinShiHuang() {
-    await this.qinShiHuangsService.enumEmpty();
+  async rundCombatant() {
+    await this.combatantsService.enumEmpty();
 
-    await this.seedQinShiHuang();
+    await this.seedCombatant();
   }
 
   async run() {
-    await Promise.all([this.rundQinShiHuang()]);
+    await Promise.all([this.rundCombatant()]);
   }
 }

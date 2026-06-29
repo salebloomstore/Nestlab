@@ -14,9 +14,9 @@ import {
   ApiTags,
   ApiParam,
 } from '@nestjs/swagger';
-import { QinShiHuangsService } from './qin-shi-huangs.service';
-import { CreateQinShiHuangDto } from './dto/create-qin-shi-huang.dto';
-import { UpdateQinShiHuangDto } from './dto/update-qin-shi-huang.dto';
+import { QinShiHuangsService } from './combatants.service';
+import { CreateQinShiHuangDto } from './dto/create-combatant.dto';
+import { UpdateQinShiHuangDto } from './dto/update-combatant.dto';
 import { Types } from 'mongoose';
 import { ParseObjectIdPipe } from '../common/pipes/parse-object-id.pipe';
 

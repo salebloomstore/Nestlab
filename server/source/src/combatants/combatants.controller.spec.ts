@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { QinShiHuangsController } from './qin-shi-huangs.controller';
-import { QinShiHuangsService } from './qin-shi-huangs.service';
+import { QinShiHuangsController } from './combatants.controller';
+import { QinShiHuangsService } from './combatants.service';
 
 describe('QinShiHuangsController', () => {
   let controller: QinShiHuangsController;

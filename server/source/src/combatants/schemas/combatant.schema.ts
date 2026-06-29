@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { QinShiHuang as QinShiHuangs } from '../enums/qin-shi-huang.enum';
+import { QinShiHuang as QinShiHuangs } from '../enums/combatant.enum';
 
 export type QinShiHuangDocument = HydratedDocument<QinShiHuang>;
 

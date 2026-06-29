@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { QinShiHuangsService } from './qin-shi-huangs.service';
+import { QinShiHuangsService } from './combatants.service';
 
 describe('QinShiHuangsService', () => {
   let service: QinShiHuangsService;

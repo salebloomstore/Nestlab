@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SeedsService } from './seeds.service';
-import { QinShiHuangsModule } from '../qin-shi-huangs/qin-shi-huangs.module';
+import { QinShiHuangsModule } from '../combatants/combatants.module';
 
 @Module({
   imports: [QinShiHuangsModule],

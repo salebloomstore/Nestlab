@@ -3,16 +3,16 @@ import {
   ConflictException,
   BadRequestException,
 } from '@nestjs/common';
-import { CreateQinShiHuangDto } from './dto/create-qin-shi-huang.dto';
-import { UpdateQinShiHuangDto } from './dto/update-qin-shi-huang.dto';
+import { CreateQinShiHuangDto } from './dto/create-combatant.dto';
+import { UpdateQinShiHuangDto } from './dto/update-combatant.dto';
 import {
   QinShiHuang,
   QinShiHuangDocument,
-} from './schemas/qin-shi-huang.schema';
+} from './schemas/combatant.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { MongoServerError } from 'mongodb';
-import { QinShiHuang as QinShiHuangs } from './enums/qin-shi-huang.enum';
+import { QinShiHuang as QinShiHuangs } from './enums/combatant.enum';
 
 @Injectable()
 export class QinShiHuangsService {

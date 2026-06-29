@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { QINSHIHUANGS_SEED } from './data/qin-shi-huang.seed';
-import { QinShiHuangsService } from '../qin-shi-huangs/qin-shi-huangs.service';
+import { QINSHIHUANGS_SEED } from './data/combatant.seed';
+import { QinShiHuangsService } from '../combatants/combatants.service';
 
 @Injectable()
 export class SeedsService {

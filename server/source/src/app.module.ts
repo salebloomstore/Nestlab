@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SeedsModule } from './seeds/seeds.module';
-import { QinShiHuangsModule } from './qin-shi-huangs/qin-shi-huangs.module';
+import { QinShiHuangsModule } from './combatants/combatants.module';
 
 @Module({
   imports: [

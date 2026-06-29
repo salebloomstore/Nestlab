@@ -1,6 +1,6 @@
 import { IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { QinShiHuang } from '../enums/qin-shi-huang.enum';
+import { QinShiHuang } from '../enums/combatant.enum';
 
 export class CreateQinShiHuangDto {
   @ApiProperty({

@@ -1,0 +1,36 @@
+server {
+    listen ${PORT_OF_NGINXE};
+
+    server_name _;
+
+    # =====================================================
+    # NESTJS API
+    # =====================================================
+    location / {
+        proxy_pass http://wizard-nestjs-webapi-io:${PORT_OF_NESTJS};
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    # =====================================================
+    # SWAGGER UI
+    # =====================================================
+    location /swagger {
+        proxy_pass http://wizard-nestjs-webapi-io:${PORT_OF_NESTJS}/swagger;
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

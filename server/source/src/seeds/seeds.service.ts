@@ -12,7 +12,13 @@ export class SeedsService {
     }
   }
 
+  async rundExample() {
+    await this.examplesService.enumEmpty();
+
+    await this.seedExample();
+  }
+
   async run() {
-    await Promise.all([this.seedExample()]);
+    await Promise.all([this.rundExample()]);
   }
 }

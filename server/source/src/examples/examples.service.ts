@@ -113,6 +113,10 @@ export class ExamplesService {
     }
   }
 
+  async enumEmpty() {
+    await Promise.all([this.exampleModel.deleteMany({})]);
+  }
+
   findByContainer(container: Examples) {
     const query = this.exampleModel.findOne({ container });
 

@@ -20,38 +20,39 @@ import { UpdateQinShiHuangDto } from './dto/update-qin-shi-huang.dto';
 import { Types } from 'mongoose';
 import { ParseObjectIdPipe } from '../common/pipes/parse-object-id.pipe';
 
-@ApiTags('EXAMPLE')
+@ApiTags('COMBATANT')
 @Controller('qin-shi-huangs')
 export class QinShiHuangsController {
   constructor(private readonly qinShiHuangsService: QinShiHuangsService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create EXAMPLE' })
+  @ApiOperation({ summary: 'Create COMBATANT' })
   async create(@Body() createQinShiHuangDto: CreateQinShiHuangDto) {
     const result = await this.qinShiHuangsService.create(createQinShiHuangDto);
 
     return {
-      message: 'Create EXAMPLE success',
+      message: 'Create COMBATANT success',
       result,
     };
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all EXAMPLEs' })
+  @ApiOperation({ summary: 'Get all COMBATANTs' })
   async findAll() {
     const result = await this.qinShiHuangsService.findAll();
 
-    if (!result?.length) throw new NotFoundException('EXAMPLEs does not exist');
+    if (!result?.length)
+      throw new NotFoundException('COMBATANTs does not exist');
 
     return {
-      message: 'Get all EXAMPLEs success',
+      message: 'Get all COMBATANTs success',
       result,
     };
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get EXAMPLE' })
-  @ApiCreatedResponse({ description: 'EXAMPLE geted successfully' })
+  @ApiOperation({ summary: 'Get COMBATANT' })
+  @ApiCreatedResponse({ description: 'COMBATANT geted successfully' })
   @ApiParam({
     name: 'id',
     type: String,
@@ -64,14 +65,14 @@ export class QinShiHuangsController {
     if (!result) throw new NotFoundException('CPU does not exist');
 
     return {
-      message: 'Get EXAMPLE success',
+      message: 'Get COMBATANT success',
       result,
     };
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update EXAMPLE' })
-  @ApiCreatedResponse({ description: 'EXAMPLE updated successfully' })
+  @ApiOperation({ summary: 'Update COMBATANT' })
+  @ApiCreatedResponse({ description: 'COMBATANT updated successfully' })
   @ApiParam({
     name: 'id',
     type: String,
@@ -88,14 +89,14 @@ export class QinShiHuangsController {
     );
 
     return {
-      message: 'Update EXAMPLE success',
+      message: 'Update COMBATANT success',
       result,
     };
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete EXAMPLE' })
-  @ApiCreatedResponse({ description: 'EXAMPLE deleted successfully' })
+  @ApiOperation({ summary: 'Delete COMBATANT' })
+  @ApiCreatedResponse({ description: 'COMBATANT deleted successfully' })
   @ApiParam({
     name: 'id',
     type: String,
@@ -108,7 +109,7 @@ export class QinShiHuangsController {
     if (!result) throw new NotFoundException('CPU does not exist');
 
     return {
-      message: 'Delete EXAMPLE success',
+      message: 'Delete COMBATANT success',
       result,
     };
   }

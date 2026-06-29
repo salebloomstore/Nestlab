@@ -37,6 +37,7 @@ npm ci
 
 echo "📦 Building project..."
 npm run build
+npm run seed
 
 # =========================
 # RUN

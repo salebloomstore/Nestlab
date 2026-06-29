@@ -26,6 +26,7 @@ export class QinShiHuangsController {
   constructor(private readonly qinShiHuangsService: QinShiHuangsService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create EXAMPLE' })
   async create(@Body() createQinShiHuangDto: CreateQinShiHuangDto) {
     const result = await this.qinShiHuangsService.create(createQinShiHuangDto);
 
@@ -36,6 +37,7 @@ export class QinShiHuangsController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all EXAMPLEs' })
   async findAll() {
     const result = await this.qinShiHuangsService.findAll();
 

@@ -6,7 +6,7 @@ export class CreateExampleDto {
   @ApiProperty({
     enum: Example,
     example: Example.TEST,
-    description: 'CPU base',
+    description: 'Example container',
   })
   @IsEnum(Example)
   container!: Example;

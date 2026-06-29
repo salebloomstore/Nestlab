@@ -40,12 +40,32 @@ export class ExamplesService {
     }
   }
 
-  findAll() {
-    return `This action returns all examples`;
+  async findAll() {
+    try {
+      const result = await this.exampleModel.find();
+
+      return result;
+    } catch (error: unknown) {
+      if (error instanceof MongoServerError) {
+        throw new BadRequestException(error.message);
+      }
+
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} example`;
+  async findOne(_id: Types.ObjectId) {
+    try {
+      const result = await this.exampleModel.findById(_id);
+
+      return result;
+    } catch (error: unknown) {
+      if (error instanceof MongoServerError) {
+        throw new BadRequestException(error.message);
+      }
+
+      throw error;
+    }
   }
 
   async update(_id: Types.ObjectId, updateExampleDto: UpdateExampleDto) {
@@ -79,8 +99,18 @@ export class ExamplesService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} example`;
+  async remove(_id: Types.ObjectId) {
+    try {
+      const result = await this.exampleModel.findByIdAndDelete(_id);
+
+      return result;
+    } catch (error: unknown) {
+      if (error instanceof MongoServerError) {
+        throw new BadRequestException(error.message);
+      }
+
+      throw error;
+    }
   }
 
   findByContainer(container: Examples) {

@@ -43,7 +43,7 @@ services:
       - ${NGINXE_SERVER_BE_PORT}:${PORT_OF_NGINXE}
     volumes:
       # Nginx configuration
-      - ../../nginx/default.conf.template:/etc/nginx/templates/default.conf.template
+      - ../nginx/default.conf.template:/etc/nginx/templates/default.conf.template
     env_file: ../../.env
     depends_on:
       - wizard-nestjs-webapi-io

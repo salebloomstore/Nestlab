@@ -11,6 +11,7 @@ export class Combatant {
   @Prop({
     required: true,
     unique: true,
+    type: String,
     enum: Combatants,
   })
   container!: Combatants;

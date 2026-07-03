@@ -36,12 +36,5 @@ echo "📦 Installing dependencies..."
 npm ci
 
 echo "📦 Building project..."
-npm run build
 npm run seed
-
-# =========================
-# RUN
-# =========================
-
-echo "🚀 Starting NestJS..."
-npm run start:prod
+npm run start:dev

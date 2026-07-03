@@ -61,5 +61,12 @@ find . -type f -name "*.sh" -exec chmod +x {} \;
 
 ```bash
 cp .env.example .env
-chmod +x driver/reboot/master.sh && sudo ./driver/reboot/master.sh
+chmod +x driver/master/reboot.sh && sudo ./driver/master/reboot.sh
+```
+
+### Dev
+
+```bash
+cp .env.example .env
+chmod +x driver/amateur/reboot.sh && sudo ./driver/amateur/reboot.sh
 ```

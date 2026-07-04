@@ -57,14 +57,14 @@ sudo chown 1000:1000 -R . && sudo chmod 777 -R .
 find . -type f -name "*.sh" -exec chmod +x {} \;
 ```
 
-### Build
+### Build as Deploy
 
 ```bash
 cp .env.example .env
 chmod +x driver/master/reboot.sh && sudo ./driver/master/reboot.sh
 ```
 
-### Dev
+### Dev on Localhost
 
 ```bash
 cp .env.example .env
